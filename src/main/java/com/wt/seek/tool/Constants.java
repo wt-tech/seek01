@@ -35,7 +35,9 @@ public class Constants {
 	//服务端存放相应表中图片的文件夹名称
 	public static final String SEEK_IMG = "seek-img";
 	public static final String BANNER_IMG = "banner-img";
+
 	public static final String AUTHENTICATION = "authentication-img";
+
 	
 	//DOCBASEPATH指Tomcat的server.xml配置文件中host下的context的docBase属性
 	public static final String IMGBASEPATH = "statics";
@@ -46,10 +48,11 @@ public class Constants {
 	//public static final String imgServerDomain = "https://www.qghls.com/statics/";
 	public static final String imgServerDomain = "http://192.168.0.101:8080/statics/";
 	
-	
-	
-	
 
+	public static final double REPEATPUBLISHTHRESHOLD = 80; 
 	
+	//相互匹配阈值
+	public static final double MATCHS = 40; 
+
 	
 }

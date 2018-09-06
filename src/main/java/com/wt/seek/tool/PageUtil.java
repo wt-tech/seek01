@@ -15,7 +15,9 @@ public class PageUtil {
 		if (currentPageNo < 1) {
 			currentPageNo = 1;
 		} else if (currentPageNo > totalPageCount) {
+
 			currentPageNo = totalPageCount+1;
+
 		}
 		return currentPageNo;
 	}

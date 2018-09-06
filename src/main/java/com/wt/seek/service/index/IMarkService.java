@@ -34,6 +34,7 @@ public interface IMarkService {
 	 * @return
 	 * @throws Exception
 	 */
+
 	boolean deleteMark(int customerId,int seekId) throws Exception;
 	
 	/**
@@ -45,6 +46,7 @@ public interface IMarkService {
 	 * @throws Exception
 	 */
 	Mark getMark(int customerId,int seekId) throws Exception;
+
 
 	/**
 	 * 查询表中所有的记录

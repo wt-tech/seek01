@@ -39,6 +39,7 @@ public class TopComentCtrl {
 
 	@RequestMapping("/savetopcoment")
 	public Map<String, Object> saveTopComent(@RequestBody() TopComent topComent) throws Exception {
+
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		boolean flag = topComentService.saveTopComent(topComent);
 		if (flag) {

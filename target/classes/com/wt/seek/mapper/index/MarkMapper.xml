@@ -33,6 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY mark_time desc
 		LIMIT ${(currentPageNo-1)*pageSize},${pageSize}
 	</select>
+<<<<<<< HEAD
 	
 	<select id="getMark" resultMap="mark">
 		SELECT
@@ -47,6 +48,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="deleteMark" parameterType="Integer">
 		delete from mark
 		where customer_id=#{customerId} and seek_id=#{seekId};
+=======
+
+	<select id="deleteMark" parameterType="Integer">
+		delete from mark
+		where id=#{id};
+>>>>>>> 06f5a94c13a68d1e5e3bb051d84090acd15de4a8
 	</select>
 
 	<insert id="saveMark" parameterType="Mark">

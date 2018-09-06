@@ -62,6 +62,7 @@ public class BannerServiceImpl implements IBannerService {
 						if (num > 0) {
 							flag = true;
 						}
+
 					}
 				}
 			}

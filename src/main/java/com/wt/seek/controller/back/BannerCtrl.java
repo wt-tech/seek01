@@ -19,7 +19,11 @@ import com.wt.seek.service.back.IBannerService;
 import com.wt.seek.tool.Constants;
 import com.wt.seek.tool.ContextUtil;
 import com.wt.seek.tool.MapUtils;
+
 import com.wt.seek.tool.AuthenticationImage;
+
+import com.wt.seek.tool.UploadImage;
+
 
 
 @RestController("")

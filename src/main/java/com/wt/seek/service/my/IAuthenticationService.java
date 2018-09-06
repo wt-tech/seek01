@@ -9,6 +9,7 @@ import com.wt.seek.entity.Authentication;
 
 public interface IAuthenticationService {
 
+
 	/**
 	 * 查询所有的认证记录
 	 * 
@@ -16,6 +17,7 @@ public interface IAuthenticationService {
 	 * @param pageSize
 	 * @return
 	 */
+
 	List<Authentication> listAuthentication(Integer currentPageNo, Integer pageSize);
 
 	/**
@@ -25,8 +27,10 @@ public interface IAuthenticationService {
 	 * @return
 	 * @throws Exception
 	 */
+
 	boolean saveAuthentication(Authentication authentication, MultipartFile negativIdentityUrl,
 			MultipartFile positiveIdentityUrl, String staticsPath) throws Exception;
+
 
 	/**
 	 * 查询每个用户的认证记录
@@ -44,8 +48,10 @@ public interface IAuthenticationService {
 	 * @return
 	 * @throws Exception
 	 */
+
 	boolean updateAuthentication(Authentication authentication, MultipartFile negativIdentityUrl,
 			MultipartFile positiveIdentityUrl, String staticsPath) throws Exception;
+
 
 	/**
 	 * 

@@ -46,6 +46,14 @@ public interface IMarkMapper {
 	 */
 	Mark getMark(@Param("customerId") int customerId,@Param("seekId") int seekId) throws Exception;
 
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	Integer deleteMark(@Param("id") int id) throws Exception;
+
+
 	/**
 	 * 查询表中所有的记录
 	 * 

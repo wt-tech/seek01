@@ -34,7 +34,9 @@ public interface IAuthenticationMapper {
 	 * @return
 	 * @throws Exception
 	 */
+
 	Authentication getAuthentication(@Param("customerId") int customerId) throws Exception;
+
 
 	/**
 	 * 修改用户的认证
@@ -43,7 +45,9 @@ public interface IAuthenticationMapper {
 	 * @return
 	 * @throws Exception
 	 */
+
 	Integer updateAuthentication(Authentication Authentication) throws Exception;
+
 
 	/**
 	 * 

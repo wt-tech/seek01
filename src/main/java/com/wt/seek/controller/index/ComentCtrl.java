@@ -35,7 +35,9 @@ public class ComentCtrl {
 	}
 
 	@RequestMapping("/savecoment")
+
 	public Map<String, Object> saveComent(@RequestBody() Coment coment) throws Exception {
+
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		boolean flag = comentService.saveComent(coment);
 		if (flag) {

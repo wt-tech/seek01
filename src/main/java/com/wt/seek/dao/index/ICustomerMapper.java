@@ -1,4 +1,6 @@
- package com.wt.seek.dao.index;
+
+package com.wt.seek.dao.index;
+
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;

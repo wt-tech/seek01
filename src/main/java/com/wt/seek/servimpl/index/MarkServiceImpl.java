@@ -33,10 +33,12 @@ public class MarkServiceImpl implements IMarkService {
 	}
 
 	@Override
+
 	public boolean deleteMark(int customerId,int seekId) throws Exception {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		int num = markMapper.deleteMark(customerId,seekId);
+
 		if (num > 0) {
 			flag = true;
 		}

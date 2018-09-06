@@ -4,14 +4,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import org.springframework.web.multipart.MultipartFile;
+
 
 import com.wt.seek.dao.my.IAuthenticationMapper;
 import com.wt.seek.entity.Authentication;
 import com.wt.seek.service.my.IAuthenticationService;
+
 import com.wt.seek.tool.AuthenticationImage;
 import com.wt.seek.tool.Constants;
 import com.wt.seek.tool.ImageUtils;
+
 
 @Service()
 public class AuthenticationServiceImpl implements IAuthenticationService {
@@ -26,6 +30,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	}
 
 	@Override
+
 	public boolean saveAuthentication(Authentication authentication, MultipartFile negativIdentityUrl,
 			MultipartFile positiveIdentityUrl, String staticsPath) throws Exception {
 		// TODO Auto-generated method stub
@@ -34,6 +39,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 		boolean flag = AuthenticationImage.authenticationImage(authenticationId, authentication, negativIdentityUrl,
 				positiveIdentityUrl, staticsPath, authenticationMapper);
 		return flag;
+
 
 	}
 
@@ -50,12 +56,14 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	}
 
 	@Override
+
 	public boolean updateAuthentication(Authentication authentication, MultipartFile negativIdentityUrl,
 			MultipartFile positiveIdentityUrl, String staticsPath) throws Exception {
 		// TODO Auto-generated method stub
 		boolean flag = AuthenticationImage.authenticationImage(authentication.getId(), authentication, negativIdentityUrl,
 				positiveIdentityUrl, staticsPath, authenticationMapper);
 		return flag;
+
 	}
 
 }

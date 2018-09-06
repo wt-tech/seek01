@@ -150,7 +150,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    miss_city_name,
 		miss_county_name
 	</select>
-     
+
      <select id="listSeekByCustomerId" parameterType="Integer" resultMap="seek">
 		SELECT 
 		seek.id,
@@ -215,7 +215,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    miss_city_name,
 		miss_county_name
 	</select>
-	
+
 	<insert id="saveSeek" useGeneratedKeys="true" keyProperty="id" parameterType="Seek">
 		insert into seek
 		(customer_id,sequence,birth_province_id,birth_city_id,
@@ -244,4 +244,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="countSeek" resultType="Integer">
 		SELECT COUNT(*) FROM seek;
 	</select>
+
+	
+	<select id="listSeekByCustomerIdAndSeekType" resultType="Seek">
+		SELECT * FROM seek WHERE customer_id = #{customerId} AND seek_type = #{seekType};
+	</select>
+	
+	<select id="listSimilarSeek" resultMap="seek">
+		SELECT 
+			seek.*,
+			bp.province_name AS birth_province_name,
+			bc.city_name AS birth_city_name,
+			boy.county_name AS birth_county_name,
+			mp.province_name AS miss_province_name,
+		    mc.city_name AS  miss_city_name,
+			my.county_name AS miss_county_name
+		FROM 
+			seek 
+		LEFT JOIN seek_img ON seek.id=seek_img.seek_id
+		LEFT JOIN province bp ON seek.birth_province_id=bp.id
+		LEFT JOIN city bc ON seek.birth_city_id=bc.id
+		LEFT JOIN county boy ON seek.birth_county_id=boy.id 
+		LEFT JOIN province mp ON seek.miss_province_id=mp.id
+		LEFT JOIN city mc ON seek.miss_city_id=mc.id
+		LEFT JOIN county my ON seek.miss_county_id=my.id
+		WHERE 1=1
+			AND seek.seek_type ! = #{seek.seekType}
+			AND (
+					seek.miss_province_id = #{seek.address.birthProvinceId}
+					OR 
+					seek.miss_province_id = #{seek.address.birthProvinceId}
+				);
+	</select>
+
 </mapper>

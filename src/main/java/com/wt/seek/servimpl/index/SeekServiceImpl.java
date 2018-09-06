@@ -26,6 +26,7 @@ public class SeekServiceImpl implements ISeekService {
 	}
 
 	@Override
+
 	public boolean saveSeek(Seek seek, MultipartFile file, String staticsPath) throws Exception {
 		// TODO Auto-generated method stub
 		boolean flag = false;
@@ -51,6 +52,7 @@ public class SeekServiceImpl implements ISeekService {
 					if (num > 0) {
 						flag = true;
 					}
+
 				}
 			}
 		}
@@ -68,5 +70,17 @@ public class SeekServiceImpl implements ISeekService {
 		// TODO Auto-generated method stub
 		return seekMapper.countSeek();
 	}
+
+
+	@Override
+	public List<Seek> listSeekByCustomerIdAndSeekType(Integer customerId, String seekType) {
+		return seekMapper.listSeekByCustomerIdAndSeekType(customerId, seekType);
+	}
+
+	@Override
+	public List<Seek> listSimilarSeek(Seek seek) {
+		return seekMapper.listSimilarSeek(seek);
+	}
+
 
 }

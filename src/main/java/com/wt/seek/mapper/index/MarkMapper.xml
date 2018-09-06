@@ -33,6 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY mark_time desc
 		LIMIT ${(currentPageNo-1)*pageSize},${pageSize}
 	</select>
+
 	
 	<select id="getMark" resultMap="mark">
 		SELECT

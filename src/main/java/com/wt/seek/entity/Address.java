@@ -2,6 +2,7 @@ package com.wt.seek.entity;
 
 public class Address {
 	private int id;
+
 	private Integer birthProvinceId;
 	private String birthProvinceName;// 出生省份
 	private Integer birthCityId;
@@ -13,6 +14,7 @@ public class Address {
 	private Integer missCityId;
 	private String missCityName;// 失踪城市
 	private Integer missCountyId;
+
 	private String missCountyName;// 失踪区县
 
 	public int getId() {
@@ -39,6 +41,7 @@ public class Address {
 		this.birthProvinceName = birthProvinceName;
 	}
 
+
 	public Integer getBirthCityId() {
 		return birthCityId;
 	}
@@ -55,11 +58,13 @@ public class Address {
 		this.birthCityName = birthCityName;
 	}
 
+
 	public Integer getBirthCountyId() {
 		return birthCountyId;
 	}
 
 	public void setBirthCountyId(Integer birthCountyId) {
+
 		this.birthCountyId = birthCountyId;
 	}
 
@@ -76,6 +81,7 @@ public class Address {
 	}
 
 	public void setMissProvinceId(Integer missProvinceId) {
+
 		this.missProvinceId = missProvinceId;
 	}
 
@@ -92,6 +98,7 @@ public class Address {
 	}
 
 	public void setMissCityId(Integer missCityId) {
+
 		this.missCityId = missCityId;
 	}
 
@@ -108,6 +115,7 @@ public class Address {
 	}
 
 	public void setMissCountyId(Integer missCountyId) {
+
 		this.missCountyId = missCountyId;
 	}
 

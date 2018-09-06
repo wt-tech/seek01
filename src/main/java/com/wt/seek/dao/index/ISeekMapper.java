@@ -46,6 +46,7 @@ public interface ISeekMapper {
 	 * @return
 	 */
 	Seek getSeek(@Param("id") int id);
+
 	
 	/**
 	 * 查询我的发布
@@ -61,4 +62,11 @@ public interface ISeekMapper {
 	 * @return
 	 */
 	Integer countSeek();
+
+	
+	List<Seek> listSeekByCustomerIdAndSeekType(
+			@Param("customerId")Integer customerId,@Param("seekType")String seekType);
+	
+	List<Seek> listSimilarSeek(@Param("seek") Seek seek);
+
 }
