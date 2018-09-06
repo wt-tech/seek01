@@ -150,8 +150,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    miss_city_name,
 		miss_county_name
 	</select>
-<<<<<<< HEAD
-     
+
      <select id="listSeekByCustomerId" parameterType="Integer" resultMap="seek">
 		SELECT 
 		seek.id,
@@ -216,10 +215,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    miss_city_name,
 		miss_county_name
 	</select>
-	
-=======
 
->>>>>>> 06f5a94c13a68d1e5e3bb051d84090acd15de4a8
 	<insert id="saveSeek" useGeneratedKeys="true" keyProperty="id" parameterType="Seek">
 		insert into seek
 		(customer_id,sequence,birth_province_id,birth_city_id,
@@ -248,10 +244,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="countSeek" resultType="Integer">
 		SELECT COUNT(*) FROM seek;
 	</select>
-<<<<<<< HEAD
-=======
+
 	
-	<select id="countSeek" resultType="Seek">
+	<select id="listSeekByCustomerIdAndSeekType" resultType="Seek">
 		SELECT * FROM seek WHERE customer_id = #{customerId} AND seek_type = #{seekType};
 	</select>
 	
@@ -281,5 +276,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					seek.miss_province_id = #{seek.address.birthProvinceId}
 				);
 	</select>
->>>>>>> 06f5a94c13a68d1e5e3bb051d84090acd15de4a8
+
 </mapper>

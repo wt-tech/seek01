@@ -23,11 +23,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT coment.id,nickname,coment.top_coment_id,coment.coment_id,coment.content,coment.coment_time FROM coment
 		LEFT JOIN customer ON coment.customer_id=customer.id
 		WHERE coment.seek_id=#{id} AND top_coment_id IN
-<<<<<<< HEAD
+
 		(SELECT sc.id FROM (SELECT id FROM top_coment WHERE top_coment.seek_id=#{id} ORDER BY top_coment.coment_time DESC LIMIT ${(currentPageNo-1)*pageSize},${pageSize}) AS sc)
-=======
-		(SELECT sc.id FROM (SELECT id FROM top_coment WHERE top_coment.seek_id=#{id} LIMIT ${(currentPageNo-1)*pageSize},${pageSize}) AS sc)
->>>>>>> 06f5a94c13a68d1e5e3bb051d84090acd15de4a8
+
 		ORDER BY coment.coment_time
 	</select>
 

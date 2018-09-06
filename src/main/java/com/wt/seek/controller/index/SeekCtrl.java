@@ -112,7 +112,6 @@ public class SeekCtrl {
 		boolean flag = seekService.saveSeek(seek, file,staticsPath);
 		resultMap.put(Constants.STATUS, flag ? Constants.SUCCESS : Constants.FAIL);
 
-		return resultMap;
 	
 
 

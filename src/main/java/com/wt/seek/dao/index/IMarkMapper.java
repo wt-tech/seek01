@@ -46,7 +46,7 @@ public interface IMarkMapper {
 	 */
 	Mark getMark(@Param("customerId") int customerId,@Param("seekId") int seekId) throws Exception;
 
-	 * 
+	/* * 
 	 * @param id
 	 * @return
 	 * @throws Exception

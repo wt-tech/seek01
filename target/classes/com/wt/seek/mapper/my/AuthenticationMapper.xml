@@ -37,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="getAuthentication" parameterType="Integer">
-<<<<<<< HEAD
+
 		select * from
 		authentication
 		where customer_id=#{id};
@@ -77,29 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into authentication
 		(customer_name,identityNO,address,tel,auth_result)
 		values(#{customerName},#{identityNO},#{address},#{tel},等待认证);
-=======
-		select * from authentication
-		where customer_id=#{id};
-	</select>
 
-	<update id="updateAuthentication" parameterType="Integer">
-		update
-		authentication set
-		customer_name=#{customerName},
-		identityNO=#{identityNO},
-		negative_identity_url=#{negativIdentityUrl},
-		positive_identity_url=#{positiveIdentityUrl},
-		address=#{address},
-		tel=#{tel},
-		auth_result=#{authResult}
-		where id=#{id};
-	</update>
-
-	<insert id="saveAuthentication" parameterType="Authentication">
-		insert into authentication
-		(customer_name,identityNO,negative_identity_url,positive_identity_url,address,tel,auth_result)
-		values(#{customerName},#{identityNO},#{negativIdentityUrl},#{positiveIdentityUrl},#{address},#{tel},等待认证);
->>>>>>> 06f5a94c13a68d1e5e3bb051d84090acd15de4a8
 	</insert>
 
 	<select id="countAuthentication" resultType="Integer">
