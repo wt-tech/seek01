@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace指向mapper接口 -->
+<mapper namespace="com.wt.seek.dao.back.IBannersMapper">
+	<select id="listBanner" resultType="Banner">
+		SELECT
+		id,
+		img_name,
+		on_use,
+		upload_time,
+		url
+		FROM banner
+		where on_use = true order by
+		upload_time desc 
+	</select>
+
+	<select id="getBanner" parameterType="Integer"
+		resultType="Banner">
+		SELECT
+		id,
+		img_name,
+		on_use,
+		upload_time,
+		url
+		FROM banner
+		where id=#{id};
+	</select>
+
+	<update id="updateBanner" parameterType="Banner">
+		UPDATE banner
+		SET
+		on_use = #{onUse}
+		WHERE id = #{id};
+	</update>
+
+	<insert id="saveBanner" parameterType="Banner">
+		insert into banner
+		(img_name,url,on_use,upload_time)
+		values(#{imgName},#{url},#{onUse},NOW());
+	</insert>
+
+	<delete id="removeBanner" parameterType="Integer">
+		delete from banner where id=#{id};
+	</delete>
+	
+</mapper>

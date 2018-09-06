@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace指向mapper接口 -->
+<mapper namespace="com.wt.seek.dao.index.ISeekMapper">
+
+ <resultMap type="com.wt.seek.entity.Seek" id="seek">
+		<id column="id" property="id" />
+		<result column="sequence" property="sequence" />
+		<result column="seek_type" property="seekType" />
+		<result column="miss_name" property="missName" />
+		<result column="gender" property="gender" />
+		<result column="birthdate" property="birthdate" />
+		<result column="miss_date" property="missDate" />
+		<result column="miss_detail_place" property="missDetailPlace" />
+		<result column="feature" property="feature" />
+		<result column="plot" property="plot" />
+		<result column="seek_subtype" property="seekSubtype" />
+		<result column="contact_name" property="contactName" />
+		<result column="relationship" property="relationship" />
+		<result column="contact_tel" property="contactTel" />
+		<result column="contact_wechat" property="contactWechat" />
+		<result column="contact_QQ" property="contactQQ" />
+		<result column="contact_address" property="contactAddress" />
+		<result column="extra_tel" property="extraTel" />
+		<result column="title" property="title" />
+		<result column="pubdate" property="pubdate" />
+	
+	  <association javaType="com.wt.seek.entity.Address" property="address">
+		<result column="birth_province_name" property="birthProvinceName" />
+		<result column="birth_city_name" property="birthCityName" />
+		<result column="birth_county_name" property="birthCountyName" />
+		<result column="miss_province_name" property="missProvinceName" />
+		<result column="miss_city_name" property="missCityName" />
+		<result column="miss_county_name" property="missCountyName" />
+	  </association>
+	  
+	</resultMap> 
+	
+	<select id="listSeek" resultType="Seek">
+		SELECT
+		seek.id,miss_name,gender,birthdate,miss_date,miss_detail_place,GROUP_CONCAT(seek_img.url SEPARATOR ',') AS seekimgs FROM
+		seek
+		LEFT JOIN seek_img ON seek.id=seek_img.seek_id
+		WHERE 1=1
+		<if
+			test="seek.missName != '' and seek.missName != null and seek.missName != 'null'">
+			AND miss_name =#{seek.missName}
+		</if>
+		<if
+			test="seek.gender != '' and seek.gender != null and seek.gender != 'null'">
+			AND gender =#{seek.gender}
+		</if>
+		<if
+			test="seek.seekSubtype != '' and seek.seekSubtype != null and seek.seekSubtype != 'null'">
+			AND seek_type =#{seek.seekSubtype}
+		</if>
+		<if
+			test="seek.birthdate != '' and seek.birthdate != null and seek.birthdate != 'null'">
+			AND birthdate =#{seek.birthdate}
+		</if>
+		<if
+			test="seek.missDate != '' and seek.missDate != null and seek.missDate != 'null'">
+			AND miss_date =#{seek.missDate}
+		</if>
+		<if test="seek.address.missProvinceId != null and seek.address.missProvinceId != 0">
+			AND miss_province_id =#{seek.address.missProvinceId}
+		</if>
+		<if test="seek.address.missCityId != null and seek.address.missCityId != 0">
+			AND miss_city_id =#{seek.address.missCityId}
+		</if>
+		<if test="seek.address.missCountyId != null and seek.address.missCountyId != 0">
+			AND miss_county_id =#{seek.address.missCountyId}
+		</if>
+		<choose>
+			<when test="hadBrowsed =='true'">
+				AND id NOT IN(SELECT seek_id FROM browse_history WHERE
+				customer_id=#{seek.customer.id})
+			</when>
+			<otherwise></otherwise>
+		</choose>
+		GROUP BY seek.id,miss_name,gender,birthdate,miss_date,miss_detail_place
+		ORDER BY pubdate desc
+		LIMIT ${(currentPageNo-1)*pageSize},${pageSize}
+	</select>
+
+	<select id="getSeek" parameterType="Integer" resultMap="seek">
+		SELECT 
+		seek.id,
+        sequence,
+		seek_type,
+		miss_name,
+		gender,
+		birthdate,
+		miss_date,
+		miss_detail_place,
+		feature,
+		plot,
+		seek_subtype,
+		contact_name,
+		relationship,
+		contact_tel,
+		contact_wechat,
+		contact_QQ,
+		contact_address,
+		extra_tel,
+		title,
+		pubdate,
+		GROUP_CONCAT(seek_img.url SEPARATOR ',') AS seekimgs,
+	    bp.province_name AS birth_province_name,
+		bc.city_name AS birth_city_name,
+		boy.county_name AS birth_county_name,
+		mp.province_name AS miss_province_name,
+	    mc.city_name AS  miss_city_name,
+		my.county_name AS miss_county_name
+		FROM seek 
+		LEFT JOIN seek_img ON seek.id=seek_img.seek_id
+		LEFT JOIN province bp ON seek.birth_province_id=bp.id
+		LEFT JOIN city bc ON seek.birth_city_id=bc.id
+		LEFT JOIN county boy ON seek.birth_county_id=boy.id 
+		LEFT JOIN province mp ON seek.miss_province_id=mp.id
+		LEFT JOIN city mc ON seek.miss_city_id=mc.id
+		LEFT JOIN county my ON seek.miss_county_id=my.id
+		where seek.id=#{id}
+		GROUP BY seek.id,
+        sequence,
+		seek_type,
+		miss_name,
+		gender,
+		birthdate,
+		miss_date,
+		miss_detail_place,
+		feature,
+		plot,
+		seek_subtype,
+		contact_name,
+		relationship,
+		contact_tel,
+		contact_wechat,
+		contact_QQ,
+		contact_address,
+		extra_tel,
+		title,
+		pubdate, birth_province_name,
+		birth_city_name,
+	    birth_county_name,
+		miss_province_name,
+	    miss_city_name,
+		miss_county_name
+	</select>
+     
+     <select id="listSeekByCustomerId" parameterType="Integer" resultMap="seek">
+		SELECT 
+		seek.id,
+        sequence,
+		seek_type,
+		miss_name,
+		gender,
+		birthdate,
+		miss_date,
+		miss_detail_place,
+		feature,
+		plot,
+		seek_subtype,
+		contact_name,
+		relationship,
+		contact_tel,
+		contact_wechat,
+		contact_QQ,
+		contact_address,
+		extra_tel,
+		title,
+		pubdate,
+		GROUP_CONCAT(seek_img.url SEPARATOR ',') AS seekimgs,
+	    bp.province_name AS birth_province_name,
+		bc.city_name AS birth_city_name,
+		boy.county_name AS birth_county_name,
+		mp.province_name AS miss_province_name,
+	    mc.city_name AS  miss_city_name,
+		my.county_name AS miss_county_name
+		FROM seek 
+		LEFT JOIN seek_img ON seek.id=seek_img.seek_id
+		LEFT JOIN province bp ON seek.birth_province_id=bp.id
+		LEFT JOIN city bc ON seek.birth_city_id=bc.id
+		LEFT JOIN county boy ON seek.birth_county_id=boy.id 
+		LEFT JOIN province mp ON seek.miss_province_id=mp.id
+		LEFT JOIN city mc ON seek.miss_city_id=mc.id
+		LEFT JOIN county my ON seek.miss_county_id=my.id
+		where seek.customer_id=#{customerId}
+		GROUP BY seek.id,
+        sequence,
+		seek_type,
+		miss_name,
+		gender,
+		birthdate,
+		miss_date,
+		miss_detail_place,
+		feature,
+		plot,
+		seek_subtype,
+		contact_name,
+		relationship,
+		contact_tel,
+		contact_wechat,
+		contact_QQ,
+		contact_address,
+		extra_tel,
+		title,
+		pubdate, birth_province_name,
+		birth_city_name,
+	    birth_county_name,
+		miss_province_name,
+	    miss_city_name,
+		miss_county_name
+	</select>
+	
+	<insert id="saveSeek" useGeneratedKeys="true" keyProperty="id" parameterType="Seek">
+		insert into seek
+		(customer_id,sequence,birth_province_id,birth_city_id,
+		birth_county_id,miss_province_id,miss_city_id,
+		miss_county_id,seek_type,miss_name,gender,
+		birthdate,miss_date,miss_detail_place,feature,plot,
+		seek_subtype,contact_name,relationship,contact_tel,
+		contact_wechat,contact_QQ,contact_address,extra_tel,
+		title,pubdate)
+		values(#{customer.id},#{sequence},
+		#{address.birthProvinceId},#{address.birthCityId},#{address.birthCountyId},
+		#{address.missProvinceId},#{address.missCityId},#{address.missCountyId},
+		#{seekType},#{missName},#{gender},
+		#{birthdate},#{missDate},#{missDetailPlace},#{feature},#{plot},
+		#{seekSubtype},#{contactName},#{relationship},#{contactTel},
+		#{contactWechat},#{contactQQ},#{contactAddress},#{extraTel},
+		#{title},NOW());
+	</insert>
+	
+	<insert id="saveSeekImg" parameterType="SeekImg">
+		insert into seek_img
+		(seek_id,url)
+		values(#{seek.id},#{url});
+	</insert>
+
+	<select id="countSeek" resultType="Integer">
+		SELECT COUNT(*) FROM seek;
+	</select>
+</mapper>

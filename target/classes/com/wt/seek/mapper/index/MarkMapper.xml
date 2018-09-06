@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace指向mapper接口 -->
+<mapper namespace="com.wt.seek.dao.index.IMarkMapper">
+
+ <resultMap type="com.wt.seek.entity.Mark" id="mark">
+		<id column="id" property="id" />
+		<result column="mark_time" property="markTime" />
+	
+	  <association javaType="com.wt.seek.entity.Seek" property="seek">
+		<result column="ids" property="id" />
+		<result column="miss_name" property="missName" />
+		<result column="gender" property="gender" />
+		<result column="birthdate" property="birthdate" />
+		<result column="miss_date" property="missDate" />
+		<result column="miss_detail_place" property="missDetailPlace" />
+		<result column="seekimgs" property="seekimgs" />
+	  </association>
+	  
+	</resultMap> 
+	
+	<select id="listMark" resultMap="mark">
+		SELECT
+		mark.id,seek.id AS ids,miss_name,gender,birthdate,miss_date,miss_detail_place,GROUP_CONCAT(seek_img.url SEPARATOR ',') AS seekimgs,mark_time FROM
+		mark
+		LEFT JOIN seek ON seek.id=mark.seek_id
+		LEFT JOIN seek_img ON seek.id=seek_img.seek_id
+		WHERE customer_id=#{customerId}
+		GROUP BY mark.id,seek.id,miss_name,gender,birthdate,miss_date,miss_detail_place,mark_time
+		ORDER BY mark_time desc
+		LIMIT ${(currentPageNo-1)*pageSize},${pageSize}
+	</select>
+	
+	<select id="getMark" resultMap="mark">
+		SELECT
+		mark.id,seek.id AS ids,miss_name,gender,birthdate,miss_date,miss_detail_place,GROUP_CONCAT(seek_img.url SEPARATOR ',') AS seekimgs,mark_time FROM
+		mark
+		LEFT JOIN seek ON seek.id=mark.seek_id
+		LEFT JOIN seek_img ON seek.id=seek_img.seek_id
+		WHERE customer_id=#{customerId} and seek_id=#{seekId};
+		GROUP BY mark.id,seek.id,miss_name,gender,birthdate,miss_date,miss_detail_place,mark_time
+	</select>
+
+	<select id="deleteMark" parameterType="Integer">
+		delete from mark
+		where customer_id=#{customerId} and seek_id=#{seekId};
+	</select>
+
+	<insert id="saveMark" parameterType="Mark">
+		insert into mark
+		(customer_id,seek_id,mark_time)
+		values(#{customer.id},#{seek.id},NOW());
+	</insert>
+
+	<select id="countMark" resultType="Integer">
+		SELECT COUNT(*) FROM mark;
+	</select>
+</mapper>
