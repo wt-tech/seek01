@@ -53,4 +53,9 @@ public interface ISeekMapper {
 	 * @return
 	 */
 	Integer countSeek();
+	
+	List<Seek> listSeekByCustomerIdAndSeekType(
+			@Param("customerId")Integer customerId,@Param("seekType")String seekType);
+	
+	List<Seek> listSimilarSeek(@Param("seek") Seek seek);
 }

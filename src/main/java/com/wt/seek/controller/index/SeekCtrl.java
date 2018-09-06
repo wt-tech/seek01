@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wt.seek.entity.Address;
 import com.wt.seek.entity.Coment;
+import com.wt.seek.entity.Customer;
 import com.wt.seek.entity.Seek;
 import com.wt.seek.entity.TopComent;
 import com.wt.seek.service.index.IComentService;
@@ -25,6 +28,7 @@ import com.wt.seek.tool.Constants;
 import com.wt.seek.tool.ContextUtil;
 import com.wt.seek.tool.MapUtils;
 import com.wt.seek.tool.PageUtil;
+import com.wt.seek.tool.SeekSimilarityCalculation;
 
 @RestController("")
 @RequestMapping("/seek")
@@ -86,13 +90,31 @@ public class SeekCtrl {
 	public Map<String, Object> saveSeek(HttpServletRequest request, Seek seek,
 			@RequestParam(value = "seekImg", required = false) MultipartFile file) throws Exception {
 		Map<String, Object> resultMap = MapUtils.getHashMapInstance();
+		
+		resultMap.put(Constants.STATUS,Constants.FAIL);
+		
+		//检测是否重复发布
+		List<Seek> list = seekService.listSeekByCustomerIdAndSeekType(seek.getCustomer().getId(), seek.getSeekType());
+		if(SeekSimilarityCalculation.hadPublishedSameInfoBefore(seek, list)) {//重复发布
+			resultMap.put(Constants.SYS_MESSAGE, "请勿重复发布信息.");
+			return resultMap;
+		}
+		
 		//获取图片的公共存储路径（例如：D:\ApacheTomcat7\apache-tomcat-7.0.53\webapps\statics）
 		String staticsPath = ContextUtil.getStaticResourceAbsolutePath(request);
 		boolean flag = seekService.saveSeek(seek, file,staticsPath);
 		resultMap.put(Constants.STATUS, flag ? Constants.SUCCESS : Constants.FAIL);
+		
+		if(!flag) {//插入失败
+			return resultMap;
+		}
+		//插入成功
+		list = seekService.listSimilarSeek(seek);
+		resultMap.put("similarSeeks", SeekSimilarityCalculation.similarSeekInfoFilter(seek, list));
+		
 		return resultMap;
 	}
-
+	
 	/**
 	 * 查询单条寻亲记录
 	 * 

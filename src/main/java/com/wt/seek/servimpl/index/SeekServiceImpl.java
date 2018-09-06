@@ -67,4 +67,14 @@ public class SeekServiceImpl implements ISeekService {
 		return seekMapper.countSeek();
 	}
 
+	@Override
+	public List<Seek> listSeekByCustomerIdAndSeekType(Integer customerId, String seekType) {
+		return seekMapper.listSeekByCustomerIdAndSeekType(customerId, seekType);
+	}
+
+	@Override
+	public List<Seek> listSimilarSeek(Seek seek) {
+		return seekMapper.listSimilarSeek(seek);
+	}
+
 }

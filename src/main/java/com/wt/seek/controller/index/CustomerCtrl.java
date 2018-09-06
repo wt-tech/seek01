@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,18 +61,26 @@ public class CustomerCtrl {
 	}
 	
 	@RequestMapping(value="customer",method = RequestMethod.PUT)
-	public Map<String,Object> updateCustomer(@RequestParam(required=true) Customer customer){
+	public Map<String,Object> updateCustomer(@ModelAttribute("customer") Customer customer){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constants.STATUS, Constants.FAIL);
-		if(customer.getId() < 0) {
+		if(customer == null || customer.getId() < 0) {
 			map.put(Constants.SYS_MESSAGE, "未传入用户id");
 			return map;
 		}
-		Customer user = customerServImpl.getCustomerById(customer.getId());
-		if(customerServImpl.updateCustomer(user)) {
+		if(customerServImpl.updateCustomer(customer)) {
 			map.put(Constants.STATUS, Constants.SUCCESS);
 		}
 		return map;
+	}
+	
+	@ModelAttribute
+	public void prepareCustomer(@RequestParam(value="id",required=false)
+			Integer id,Map<String,Object> map){
+		if(null != id) {
+			Customer customer = customerServImpl.getCustomerById(id);
+			map.put("customer",customer);
+		}
 	}
 	
 	@RequestMapping(value = "authentication",method = RequestMethod.POST)

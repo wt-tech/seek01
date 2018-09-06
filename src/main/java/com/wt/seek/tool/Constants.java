@@ -45,9 +45,11 @@ public class Constants {
 	//public static final String imgServerDomain = "https://www.qghls.com/statics/";
 	public static final String imgServerDomain = "http://192.168.0.101:8080/statics/";
 	
+	//重复发布的阈值
+	public static final double REPEATPUBLISHTHRESHOLD = 80; 
 	
-	
-	
+	//相互匹配阈值
+	public static final double MATCHS = 40; 
 
 	
 	
