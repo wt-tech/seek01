@@ -11,8 +11,8 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
-	<!-- 扫描service bean -->
-	<context:component-scan base-package="com.wt.seek.servimpl"></context:component-scan>
+	<!-- 扫描service bean,GlobalExceptionHandler -->
+	<context:component-scan base-package="com.wt.seek.servimpl,com.wt.seek.exception.handler"></context:component-scan>
 
 	<!-- 数据库配置文件-->
 	

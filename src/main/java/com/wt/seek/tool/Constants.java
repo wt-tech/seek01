@@ -6,6 +6,8 @@ public class Constants {
 	public final static String SUCCESS = "success";
 	public final static String STATUS = "status";
 	public final static String FAIL = "fail";
+	public final static String TIPS = "tips";
+	
 	
 	//申请的腾讯地图的KEY
 	public final static String KEY1 = "D6SBZ-XVRCQ-46E5A-GWHL4-4V7P2-A5FOS";

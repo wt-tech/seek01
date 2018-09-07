@@ -5,9 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.ModelAttribute;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +35,7 @@ public class CustomerCtrl {
 	private IVisitRecordServ visitRecordServImpl;
 	
 	@RequestMapping(value="authorization/{code}")
-	public Map<String,Object> getCustomerId(@PathVariable("code") String code,HttpServletRequest request) {
+	public Map<String,Object> getCustomerId(@PathVariable("code") String code,HttpServletRequest request) throws Exception {
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		//1.获取openID
@@ -63,28 +61,27 @@ public class CustomerCtrl {
 	}
 	
 	@RequestMapping(value="customer",method = RequestMethod.PUT)
-
-	public Map<String,Object> updateCustomer(@ModelAttribute("customer") Customer customer){
+	public Map<String,Object> updateCustomer(/*@ModelAttribute("customer") */@RequestParam Customer customer){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constants.STATUS, Constants.FAIL);
-		if(customer == null || customer.getId() < 0) {
+		/*if(customer == null || customer.getId() < 0) {
 			map.put(Constants.SYS_MESSAGE, "未传入用户id");
 			return map;
-		}
+		}*/
 		if(customerServImpl.updateCustomer(customer)) {
 			map.put(Constants.STATUS, Constants.SUCCESS);
 		}
 		return map;
 	}
 
-	@ModelAttribute
-	public void prepareCustomer(@RequestParam(value="id",required=false)
-			Integer id,Map<String,Object> map){
-		if(null != id) {
-			Customer customer = customerServImpl.getCustomerById(id);
-			map.put("customer",customer);
-		}
-	}
+//	@ModelAttribute
+//	public void prepareCustomer(@RequestParam(value="id",required=false)
+//			Integer id,Map<String,Object> map){
+//		if(null != id) {
+//			Customer customer = customerServImpl.getCustomerById(id);
+//			map.put("customer",customer);
+//		}
+//	}
 	
 	@RequestMapping(value = "authentication",method = RequestMethod.POST)
 	public Map<String,Object> saveVisitRecord(Authentication authentication){
@@ -96,7 +93,7 @@ public class CustomerCtrl {
 	@RequestMapping(value = "visitrecord",method = RequestMethod.POST)
 	public Map<String,Object> saveVisitRecord(@RequestBody VisitRecord record){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		map.put(Constants.STATUS, Constants.SUCCESS);
+		map.put(Constants.STATUS, Constants.FAIL);
 		if(visitRecordServImpl.saveVisitRecord(record))
 			map.put(Constants.STATUS, Constants.SUCCESS);
 		return map;
