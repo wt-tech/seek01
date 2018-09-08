@@ -13,15 +13,15 @@ import com.wt.seek.inface.Update;
 
 public class Customer {
 	
-//	@Min(1)//id必须大于等于1
+	@Min(value=1,message="{customer.id}",groups= {Update.class})//id必须大于等于1
 	private int id;
-//	@NotEmpty(message="openID未找到",groups= {Save.class,Update.class})
+	@NotEmpty(message="{customer.openid}",groups= {Save.class,Update.class})
 	private String openid;// 用户
-//	@NotEmpty(message="昵称不能为空",groups= {Update.class})
+	@NotEmpty(message="{customer.nickname}",groups= {Update.class})
 	private String nickname;// 昵称
-//	@Pattern(message="性别输入有误",regexp = "[男女]{1}",groups= {Update.class})
+	@Pattern(message="{customer.gender}",regexp = "[男女]{1}",groups= {Update.class})
 	private String gender;// 性别
-//	@URL(groups= {Update.class})
+	@URL(message="{customer.url}",groups= {Update.class})
 	private String avatarurl;// 头像地址
 	private Date firstVisitTime;// 首次访问时间
 	private String realname;//真实姓名
@@ -90,5 +90,13 @@ public class Customer {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
+
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", openid=" + openid + ", nickname=" + nickname + ", gender=" + gender
+				+ ", avatarurl=" + avatarurl + ", firstVisitTime=" + firstVisitTime + ", realname=" + realname
+				+ ", tel=" + tel + "]";
+	}
  
+	
 }

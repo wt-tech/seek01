@@ -6,7 +6,18 @@ public class Constants {
 	public final static String SUCCESS = "success";
 	public final static String STATUS = "status";
 	public final static String FAIL = "fail";
+
+	
+	//异常同一处理相关
+	public final static String EXCEPTION_CLASS = "exception";
+	public final static String ERRORS = "errors";
 	public final static String TIPS = "tips";
+	public final static String DATA_ACCESS_DESCRIPTION = "数据处理异常";
+	public final static String EXCEPTION_DESCRIPTION = "未知错误";
+	public final static String BUSINESS_DESCRIPTION = "业务逻辑错误";
+	public final static String ARGUMENT_ILLEGAL = "参数不合法";
+	
+	
 	
 	
 	//申请的腾讯地图的KEY

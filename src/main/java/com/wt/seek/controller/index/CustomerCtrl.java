@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wt.seek.entity.Authentication;
 import com.wt.seek.entity.Customer;
 import com.wt.seek.entity.VisitRecord;
+import com.wt.seek.inface.Update;
 import com.wt.seek.service.index.ICode2OpenIdServ;
 import com.wt.seek.service.index.ICustomerServ;
 import com.wt.seek.service.index.IVisitRecordServ;
@@ -60,28 +62,27 @@ public class CustomerCtrl {
 		return map;
 	}
 	
-	@RequestMapping(value="customer",method = RequestMethod.PUT)
-	public Map<String,Object> updateCustomer(/*@ModelAttribute("customer") */@RequestParam Customer customer){
+	@RequestMapping(value="customer",method = RequestMethod.POST)
+	public Map<String,Object> updateCustomer(	
+												@ModelAttribute("customer")
+												@Validated(value=Update.class) 
+												Customer customer){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constants.STATUS, Constants.FAIL);
-		/*if(customer == null || customer.getId() < 0) {
-			map.put(Constants.SYS_MESSAGE, "未传入用户id");
-			return map;
-		}*/
 		if(customerServImpl.updateCustomer(customer)) {
 			map.put(Constants.STATUS, Constants.SUCCESS);
 		}
 		return map;
 	}
 
-//	@ModelAttribute
-//	public void prepareCustomer(@RequestParam(value="id",required=false)
-//			Integer id,Map<String,Object> map){
-//		if(null != id) {
-//			Customer customer = customerServImpl.getCustomerById(id);
-//			map.put("customer",customer);
-//		}
-//	}
+	@ModelAttribute
+	public void prepareCustomer(@RequestParam(value="id",required=false)
+			Integer id,Map<String,Object> map){
+		if(null != id) {
+			Customer customer = customerServImpl.getCustomerById(id);
+			map.put("customer",customer);
+		}
+	}
 	
 	@RequestMapping(value = "authentication",method = RequestMethod.POST)
 	public Map<String,Object> saveVisitRecord(Authentication authentication){
