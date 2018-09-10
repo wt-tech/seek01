@@ -43,7 +43,7 @@ public interface IBrowseHistoryMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	Integer getBrowseHistory(@Param("id") int id) throws Exception;
+	BrowseHistory getBrowseHistory(@Param("customerId") Integer customerId,@Param("seekId") int seekId) throws Exception;
 
 	/**
 	 * 如果存在浏览记录，更新时间为最后一次浏览时间
@@ -59,5 +59,5 @@ public interface IBrowseHistoryMapper {
 	 * 
 	 * @return
 	 */
-	Integer countBrowseHistory();
+	Integer countBrowseHistory(@Param("customerId") int customerId);
 }

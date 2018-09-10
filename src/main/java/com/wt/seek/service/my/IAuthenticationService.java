@@ -28,9 +28,7 @@ public interface IAuthenticationService {
 	 * @throws Exception
 	 */
 
-	boolean saveAuthentication(Authentication authentication, MultipartFile negativIdentityUrl,
-			MultipartFile positiveIdentityUrl, String staticsPath) throws Exception;
-
+	Integer saveAuthentication(Authentication authentication) throws Exception;
 
 	/**
 	 * 查询每个用户的认证记录

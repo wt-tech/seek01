@@ -54,7 +54,7 @@ public interface ISeekMapper {
 	 * @param id
 	 * @return
 	 */
-	List<Seek> listSeekByCustomerId(@Param("customerId") Integer customerId);
+	List<Seek> listSeekByCustomerId(@Param("customerId") Integer customerId,@Param("currentPageNo") Integer currentPageNo, @Param("pageSize") Integer pageSize);
 
 	/**
 	 * 查询表中所有的记录
@@ -62,6 +62,13 @@ public interface ISeekMapper {
 	 * @return
 	 */
 	Integer countSeek();
+	
+	/**
+	 * 查询某个用户发布所有的记录
+	 * 
+	 * @return
+	 */
+	Integer countSeekByCustomerId(@Param("customerId") Integer customerId);
 
 	
 	List<Seek> listSeekByCustomerIdAndSeekType(

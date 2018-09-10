@@ -33,11 +33,11 @@ public interface IBrowseHistoryService {
 	 * @throws Exception
 	 */
 	boolean deleteBrowseHistory(int id) throws Exception;
-
+	
 	/**
 	 * 查询表中所有的记录
 	 * 
 	 * @return
 	 */
-	Integer countBrowseHistory();
+	Integer countBrowseHistory(int customerId);
 }

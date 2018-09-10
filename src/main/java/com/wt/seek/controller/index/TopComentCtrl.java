@@ -36,7 +36,43 @@ public class TopComentCtrl {
 		map.put("TopComents", topComents);
 		return map;
 	}
-
+	
+    /**
+     * 我的评论
+     * @param customerId
+     * @param currentPageNo
+     * @return
+     * @throws Exception
+     */
+	@RequestMapping("/listtopcomentbycustomerid")
+	public Map<String, Object> listTopComentByCustomerId(@RequestParam("customerId") Integer customerId,@RequestParam("currentPageNo") Integer currentPageNo) throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		int totalCount = topComentService.countTopComentByCustomerId(customerId);
+		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
+		List<TopComent> allComents = topComentService.listTopComentByCustomerId(customerId, currentPageNos, Constants.pageSize);
+		map.put(Constants.STATUS, Constants.SUCCESS);
+		map.put("mycoment", allComents);
+		return map;
+	}
+	
+	/**
+     * 谁评论我
+     * @param customerId
+     * @param currentPageNo
+     * @return
+     * @throws Exception
+     */
+	@RequestMapping("/listcomentbycustomerid")
+	public Map<String, Object> listComentByCustomerId(@RequestParam("customerId") Integer customerId,@RequestParam("currentPageNo") Integer currentPageNo) throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		int totalCount = topComentService.countComentByCustomerId(customerId);
+		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
+		List<TopComent> allComents = topComentService.listComentByCustomerId(customerId, currentPageNos, Constants.pageSize);
+		map.put(Constants.STATUS, Constants.SUCCESS);
+		map.put("comentwho", allComents);
+		return map;
+	}
+	
 	@RequestMapping("/savetopcoment")
 	public Map<String, Object> saveTopComent(@RequestBody() TopComent topComent) throws Exception {
 

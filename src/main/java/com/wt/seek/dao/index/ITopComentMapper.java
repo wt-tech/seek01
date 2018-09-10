@@ -15,7 +15,25 @@ public interface ITopComentMapper {
 	 * @return
 	 */
 	List<TopComent> listTopComent(@Param("id") Integer id,@Param("currentPageNo") Integer currentPageNo, @Param("pageSize") Integer pageSize);
-
+    
+	/**
+	 * 我的评论
+	 * @param customerId
+	 * @param currentPageNo
+	 * @param pageSize
+	 * @return
+	 */
+	List<TopComent> listTopComentByCustomerId(@Param("customerId") Integer customerId,@Param("currentPageNo") Integer currentPageNo, @Param("pageSize") Integer pageSize);
+	
+	/**
+	 * 谁评论我
+	 * @param customerId
+	 * @param currentPageNo
+	 * @param pageSize
+	 * @return
+	 */
+	List<TopComent> listComentByCustomerId(@Param("customerId") Integer customerId,@Param("currentPageNo") Integer currentPageNo, @Param("pageSize") Integer pageSize);
+	
 	/**
 	 * 保存第一级评论
 	 * @param topComent
@@ -30,4 +48,18 @@ public interface ITopComentMapper {
 	 * @return
 	 */
 	Integer countTopComent(Seek seek);
+	
+	/**
+	 * 查询我的评论所有的记录
+	 * 
+	 * @return
+	 */
+	Integer countTopComentByCustomerId(@Param("customerId") Integer customerId);
+	
+	/**
+	 * 查询谁评论我的所有的记录
+	 * 
+	 * @return
+	 */
+	Integer countComentByCustomerId(@Param("customerId") Integer customerId);
 }

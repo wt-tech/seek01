@@ -30,9 +30,9 @@ public class BrowseHistoryCtrl {
 			@RequestParam("currentPageNo") Integer currentPageNo) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		// 总数量（表）
-		int totalCount = browsehistoryService.countBrowseHistory();
+		int totalCount = browsehistoryService.countBrowseHistory(customerId);
 		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
-		List<BrowseHistory> browsehistorys = browsehistoryService.listBrowseHistory(customerId, currentPageNos, Constants.pageSize);
+		List<BrowseHistory> browsehistorys = browsehistoryService.listBrowseHistory(customerId, currentPageNos, Constants.pageSizes);
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("browsehistorys", browsehistorys);
 		map.put("totalCount", totalCount);

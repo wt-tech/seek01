@@ -15,6 +15,7 @@ public class Seek {
 	private String missDetailPlace;// 详细地址
 	private String feature;// 相貌特征
 	private String plot;// 失踪经过
+	private String seekimgs;//图片
 	private String seekSubtype;// 失踪类别
 	private String contactName;// 联系人姓名
 	private String relationship;// 与失踪人关系
@@ -24,8 +25,8 @@ public class Seek {
 	private String contactAddress;// 联系人住址
 	private String extraTel;// 备用手机号码
 	private String title;// 标题
-	private String seekimgs;// 图片
 	private Date pubdate;// 发布时间
+	private String otherInformation;//其它信息
 
 	public int getId() {
 		return id;
@@ -115,6 +116,14 @@ public class Seek {
 		this.feature = feature;
 	}
 
+	public String getSeekimgs() {
+		return seekimgs;
+	}
+
+	public void setSeekimgs(String seekimgs) {
+		this.seekimgs = seekimgs;
+	}
+
 	public String getPlot() {
 		return plot;
 	}
@@ -195,14 +204,6 @@ public class Seek {
 		this.title = title;
 	}
 
-	public String getSeekimgs() {
-		return seekimgs;
-	}
-
-	public void setSeekimgs(String seekimgs) {
-		this.seekimgs = seekimgs;
-	}
-
 	public Date getPubdate() {
 		return pubdate;
 	}
@@ -210,4 +211,13 @@ public class Seek {
 	public void setPubdate(Date pubdate) {
 		this.pubdate = pubdate;
 	}
+
+	public String getOtherInformation() {
+		return otherInformation;
+	}
+
+	public void setOtherInformation(String otherInformation) {
+		this.otherInformation = otherInformation;
+	}
+	
 }

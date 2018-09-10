@@ -30,6 +30,7 @@ public class Constants {
 			+ "&js_code=";//参数js_code每次从前台传入
 	
 	public final static int pageSize = 3;
+	public final static int pageSizes = 6;
 	public static final String DOT = ".";
 	
 	//服务端存放相应表中图片的文件夹名称
@@ -37,12 +38,14 @@ public class Constants {
 	public static final String BANNER_IMG = "banner-img";
 
 	public static final String AUTHENTICATION = "authentication-img";
+	
+	public static final String VOLUNTEER = "volunteer-img";
 
 	
 	//DOCBASEPATH指Tomcat的server.xml配置文件中host下的context的docBase属性
 	public static final String IMGBASEPATH = "statics";
 	//ContextPath指当前Web应用的名称
-	public static final String ContextPath = "seek";
+	public static final String ContextPath = "seek01";
 	
 	//等部署到服务器上后,再修改
 	//public static final String imgServerDomain = "https://www.qghls.com/statics/";

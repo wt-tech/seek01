@@ -21,6 +21,18 @@ public class TopComentServiceImpl implements ITopComentService {
 		// TODO Auto-generated method stub
 		return topComentMapper.listTopComent(id,currentPageNo,pageSize);
 	}
+	
+	@Override
+	public List<TopComent> listTopComentByCustomerId(Integer customerId,Integer currentPageNo,Integer pageSize) {
+		// TODO Auto-generated method stub
+		return topComentMapper.listTopComentByCustomerId(customerId,currentPageNo,pageSize);
+	}
+	
+	@Override
+	public List<TopComent> listComentByCustomerId(Integer customerId,Integer currentPageNo,Integer pageSize) {
+		// TODO Auto-generated method stub
+		return topComentMapper.listComentByCustomerId(customerId,currentPageNo,pageSize);
+	}
 
 	@Override
 	public boolean saveTopComent(TopComent topComent) throws Exception {
@@ -37,6 +49,18 @@ public class TopComentServiceImpl implements ITopComentService {
 	public Integer countTopComent(Seek seek) {
 		// TODO Auto-generated method stub
 		return topComentMapper.countTopComent(seek);
+	}
+	
+	@Override
+	public Integer countTopComentByCustomerId(Integer customerId) {
+		// TODO Auto-generated method stub
+		return topComentMapper.countTopComentByCustomerId(customerId);
+	}
+	
+	@Override
+	public Integer countComentByCustomerId(Integer customerId) {
+		// TODO Auto-generated method stub
+		return topComentMapper.countComentByCustomerId(customerId);
 	}
 
 }

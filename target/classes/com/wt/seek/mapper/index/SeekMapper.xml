@@ -25,8 +25,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="contact_QQ" property="contactQQ" />
 		<result column="contact_address" property="contactAddress" />
 		<result column="extra_tel" property="extraTel" />
+		<result column="seekimgs" property="seekimgs" />
 		<result column="title" property="title" />
 		<result column="pubdate" property="pubdate" />
+		<result column="other_information" property="otherInformation" />
 	
 	  <association javaType="com.wt.seek.entity.Address" property="address">
 		<result column="birth_province_name" property="birthProvinceName" />
@@ -76,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 		<choose>
 			<when test="hadBrowsed =='true'">
-				AND id NOT IN(SELECT seek_id FROM browse_history WHERE
+				AND seek.id NOT IN(SELECT seek_id FROM browse_history WHERE
 				customer_id=#{seek.customer.id})
 			</when>
 			<otherwise></otherwise>
@@ -106,6 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		contact_QQ,
 		contact_address,
 		extra_tel,
+		other_information,
 		title,
 		pubdate,
 		GROUP_CONCAT(seek_img.url SEPARATOR ',') AS seekimgs,
@@ -172,6 +175,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		contact_address,
 		extra_tel,
 		title,
+		other_information,
 		pubdate,
 		GROUP_CONCAT(seek_img.url SEPARATOR ',') AS seekimgs,
 	    bp.province_name AS birth_province_name,
@@ -214,9 +218,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		miss_province_name,
 	    miss_city_name,
 		miss_county_name
+		LIMIT ${(currentPageNo-1)*pageSize},${pageSize}
 	</select>
 
-	<insert id="saveSeek" useGeneratedKeys="true" keyProperty="id" parameterType="Seek">
+	<insert id="saveSeek" parameterType="Seek" useGeneratedKeys="true" keyProperty="id">
 		insert into seek
 		(customer_id,sequence,birth_province_id,birth_city_id,
 		birth_county_id,miss_province_id,miss_city_id,
@@ -224,7 +229,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		birthdate,miss_date,miss_detail_place,feature,plot,
 		seek_subtype,contact_name,relationship,contact_tel,
 		contact_wechat,contact_QQ,contact_address,extra_tel,
-		title,pubdate)
+		title,pubdate,other_information)
 		values(#{customer.id},#{sequence},
 		#{address.birthProvinceId},#{address.birthCityId},#{address.birthCountyId},
 		#{address.missProvinceId},#{address.missCityId},#{address.missCountyId},
@@ -232,7 +237,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{birthdate},#{missDate},#{missDetailPlace},#{feature},#{plot},
 		#{seekSubtype},#{contactName},#{relationship},#{contactTel},
 		#{contactWechat},#{contactQQ},#{contactAddress},#{extraTel},
-		#{title},NOW());
+		#{title},NOW(),#{otherInformation});
 	</insert>
 	
 	<insert id="saveSeekImg" parameterType="SeekImg">
@@ -241,6 +246,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values(#{seek.id},#{url});
 	</insert>
 
+    <select id="countSeekByCustomerId" resultType="Integer">
+		SELECT COUNT(*) FROM seek where customer_id=#{customerId};
+	</select>
+	
 	<select id="countSeek" resultType="Integer">
 		SELECT COUNT(*) FROM seek;
 	</select>
@@ -253,6 +262,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listSimilarSeek" resultMap="seek">
 		SELECT 
 			seek.*,
+			GROUP_CONCAT(seek_img.url SEPARATOR ',') AS seekimgs,
 			bp.province_name AS birth_province_name,
 			bc.city_name AS birth_city_name,
 			boy.county_name AS birth_county_name,
@@ -269,12 +279,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LEFT JOIN city mc ON seek.miss_city_id=mc.id
 		LEFT JOIN county my ON seek.miss_county_id=my.id
 		WHERE 1=1
-			AND seek.seek_type ! = #{seek.seekType}
+			AND seek.seek_type != #{seek.seekType}
 			AND (
 					seek.miss_province_id = #{seek.address.birthProvinceId}
 					OR 
 					seek.miss_province_id = #{seek.address.birthProvinceId}
-				);
+				)
+		GROUP BY seek.id,
+        sequence,
+		seek_type,
+		miss_name,
+		gender,
+		birthdate,
+		miss_date,
+		miss_detail_place,
+		feature,
+		plot,
+		seek_subtype,
+		contact_name,
+		relationship,
+		contact_tel,
+		contact_wechat,
+		contact_QQ,
+		contact_address,
+		extra_tel,
+		title,
+		pubdate, birth_province_name,
+		birth_city_name,
+	    birth_county_name,
+		miss_province_name,
+	    miss_city_name,
+		miss_county_name
 	</select>
 
 </mapper>

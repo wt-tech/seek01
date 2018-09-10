@@ -10,11 +10,17 @@ public interface ISeekService {
 	
 	List<Seek> listSeek(Seek seek,String hadBrowsed,Integer currentPageNo,Integer pageSize);
 	
-	boolean saveSeek(Seek seek, MultipartFile file,String staticsPath) throws Exception;
+	Integer saveSeek(Seek seek) throws Exception;
+	
+	boolean saveSeekImg(Integer seekId, MultipartFile file,String staticsPath) throws Exception;
 	
 	Seek getSeek(int id);
 	
+	List<Seek> listSeekByCustomerId(Integer customerId,Integer currentPageNo, Integer pageSize);
+	
 	Integer countSeek();
+	
+	Integer countSeekByCustomerId(Integer customerId);
 
 	
 	/**

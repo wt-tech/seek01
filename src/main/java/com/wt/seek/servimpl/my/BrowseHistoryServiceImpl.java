@@ -27,10 +27,11 @@ public class BrowseHistoryServiceImpl implements IBrowseHistoryService {
 		boolean flag = false;
 		int num = 0;
 		// 通过传递过来的id查询是否有浏览记录
-		int browsehistoryId = browsehistoryMapper.getBrowseHistory(browseHistory.getSeek().getId());
-		if (browsehistoryId > 0) {
+		BrowseHistory isbrowsehistory = browsehistoryMapper.getBrowseHistory(browseHistory.getCustomer().getId(),
+				browseHistory.getSeek().getId());
+		if (null != isbrowsehistory) {
 			// 如果id大于0也就是有记录，直接修改最后一次浏览时间
-			num = browsehistoryMapper.updateBrowseHistory(browsehistoryId);
+			num = browsehistoryMapper.updateBrowseHistory(isbrowsehistory.getId());
 		} else {
 			// 否则添加一条浏览记录
 			num = browsehistoryMapper.saveBrowseHistory(browseHistory);
@@ -53,9 +54,9 @@ public class BrowseHistoryServiceImpl implements IBrowseHistoryService {
 	}
 
 	@Override
-	public Integer countBrowseHistory() {
+	public Integer countBrowseHistory(int customerId) {
 		// TODO Auto-generated method stub
-		return browsehistoryMapper.countBrowseHistory();
+		return browsehistoryMapper.countBrowseHistory(customerId);
 	}
 
 }

@@ -32,7 +32,7 @@ public class MarkCtrl {
 		// 总数量（表）
 		int totalCount = markService.countMark();
 		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
-		List<Mark> marks = markService.listMark(customerId, currentPageNos, Constants.pageSize);
+		List<Mark> marks = markService.listMark(customerId, currentPageNos, Constants.pageSizes);
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("marks", marks);
 		map.put("totalCount", totalCount);
@@ -68,17 +68,14 @@ public class MarkCtrl {
 	 * @throws Exception
 	 */
 	@RequestMapping("/deletemark")
-
 	public Map<String, Object> deleteMark(@RequestParam("customerId") Integer customerId,@RequestParam("seekId") Integer seekId) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		boolean flag = markService.deleteMark(customerId,seekId);
-
 		if (flag) {
 			map.put(Constants.STATUS, Constants.SUCCESS);
 		} else {
 			map.put(Constants.STATUS, Constants.FAIL);
 		}
-		map.put(Constants.STATUS, Constants.SUCCESS);
 		return map;
 	}
 	
