@@ -53,8 +53,8 @@ public class LocatePositionController {
 			}
 			
 			map.put("address", address);
-			return map;
 		}
+		return map;
 		
 	}
 	

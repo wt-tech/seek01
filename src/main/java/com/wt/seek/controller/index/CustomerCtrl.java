@@ -5,9 +5,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wt.seek.entity.Authentication;
 import com.wt.seek.entity.Customer;
 import com.wt.seek.entity.VisitRecord;
+import com.wt.seek.inface.Update;
 import com.wt.seek.service.index.ICode2OpenIdServ;
 import com.wt.seek.service.index.ICustomerServ;
 import com.wt.seek.service.index.IVisitRecordServ;
@@ -37,7 +37,7 @@ public class CustomerCtrl {
 	private IVisitRecordServ visitRecordServImpl;
 	
 	@RequestMapping(value="authorization/{code}")
-	public Map<String,Object> getCustomerId(@PathVariable("code") String code,HttpServletRequest request) {
+	public Map<String,Object> getCustomerId(@PathVariable("code") String code,HttpServletRequest request) throws Exception {
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		//1.获取openID
@@ -62,15 +62,13 @@ public class CustomerCtrl {
 		return map;
 	}
 	
-	@RequestMapping(value="customer",method = RequestMethod.PUT)
-
-	public Map<String,Object> updateCustomer(@ModelAttribute("customer") Customer customer){
+	@RequestMapping(value="customer",method = RequestMethod.POST)
+	public Map<String,Object> updateCustomer(	
+												@ModelAttribute("customer")
+												@Validated(value=Update.class) 
+												Customer customer){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constants.STATUS, Constants.FAIL);
-		if(customer == null || customer.getId() < 0) {
-			map.put(Constants.SYS_MESSAGE, "未传入用户id");
-			return map;
-		}
 		if(customerServImpl.updateCustomer(customer)) {
 			map.put(Constants.STATUS, Constants.SUCCESS);
 		}
@@ -96,7 +94,7 @@ public class CustomerCtrl {
 	@RequestMapping(value = "visitrecord",method = RequestMethod.POST)
 	public Map<String,Object> saveVisitRecord(@RequestBody VisitRecord record){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		map.put(Constants.STATUS, Constants.SUCCESS);
+		map.put(Constants.STATUS, Constants.FAIL);
 		if(visitRecordServImpl.saveVisitRecord(record))
 			map.put(Constants.STATUS, Constants.SUCCESS);
 		return map;
