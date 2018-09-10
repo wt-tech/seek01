@@ -3,6 +3,8 @@ package com.wt.seek.exception.handler;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -27,7 +29,8 @@ import com.wt.seek.tool.MapUtils;
  */
 @ControllerAdvice
 public class GloblalExceptionHandler {
-
+	
+	private Logger logger = LogManager.getLogger(GloblalExceptionHandler.class);
 	
 	/**
 	 * SQL语句执行错误,会被此Handler处理
@@ -41,6 +44,7 @@ public class GloblalExceptionHandler {
 		this.commonInfoAssemble(map, e);
 		map.put(Constants.ERRORS, e.getMessage());
 		map.put(Constants.TIPS, Constants.DATA_ACCESS_DESCRIPTION);
+		logger.error(Constants.DATA_ACCESS_DESCRIPTION + ":" +e.getMessage());
 		return map;
 	}
 	
@@ -56,6 +60,7 @@ public class GloblalExceptionHandler {
 		this.commonInfoAssemble(map, e);
 		map.put(Constants.ERRORS, e.getMessage());
 		map.put(Constants.TIPS, Constants.EXCEPTION_DESCRIPTION);
+		logger.error(Constants.EXCEPTION_DESCRIPTION + ":" +e.getMessage());
 		return map;
 	}
 	
@@ -71,6 +76,7 @@ public class GloblalExceptionHandler {
 		this.commonInfoAssemble(map, e);
 		map.put(Constants.ERRORS, e.getMessage());
 		map.put(Constants.TIPS, Constants.BUSINESS_DESCRIPTION);
+		logger.error(Constants.BUSINESS_DESCRIPTION + ":" +e.getMessage());
 		return map;
 	}
 	
@@ -88,6 +94,7 @@ public class GloblalExceptionHandler {
 		this.commonInfoAssemble(map, e);
 		map.put(Constants.ERRORS, this.errorInfoAssemble(e.getBindingResult()));
 		map.put(Constants.TIPS, Constants.ARGUMENT_ILLEGAL);
+		logger.error(Constants.ARGUMENT_ILLEGAL + ":" +e.getMessage());
 		return map;
     }
     
@@ -106,6 +113,7 @@ public class GloblalExceptionHandler {
     	this.commonInfoAssemble(map, e);
 		map.put(Constants.ERRORS, this.errorInfoAssemble(e.getBindingResult()));
 		map.put(Constants.TIPS, Constants.ARGUMENT_ILLEGAL);
+		logger.error(Constants.ARGUMENT_ILLEGAL + ":" +e.getMessage());
 		return map;
     }
     
@@ -135,7 +143,6 @@ public class GloblalExceptionHandler {
     private void commonInfoAssemble(Map<String,Object> map,Exception e) {
     	map.put(Constants.STATUS, Constants.FAIL);
 		map.put(Constants.EXCEPTION_CLASS, e.getClass().toString());
-		//TODO 后续还可以将错误信息写入日志
 		e.printStackTrace();
     }
 }
