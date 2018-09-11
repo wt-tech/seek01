@@ -1,5 +1,6 @@
 package com.wt.seek.tool;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -90,30 +91,27 @@ public class SeekSimilarityCalculation {
 		score = score/2;
 		double finalScore = 0;
 		
-		if(add1.getBirthProvinceName() == null || add2.getBirthProvinceName() == null)
+		if(add1.getBirthProvinceId() == null || add2.getBirthProvinceId() == null)
 			finalScore = score/5;
 		else {
-			if(add1.getBirthProvinceId() == add2.getBirthProvinceId())//省份相同
+			if(add1.getBirthProvinceId().equals(add2.getBirthProvinceId()))//省份相同
 				finalScore += score/4;
-			if(add1.getBirthCityId() == add2.getBirthCityId())//城市相同,到这里已经很不容易了,所以加了一半的分.
+			if(add1.getBirthCityId() != null && add1.getBirthCityId().equals(add2.getBirthCityId()))//城市相同,到这里已经很不容易了,所以加了一半的分.
 				finalScore += score/2;
-			if(add1.getBirthCountyId() == add2.getBirthCountyId())//区县相同
+			if(add1.getBirthCountyId() != null && add1.getBirthCountyId().equals(add2.getBirthCountyId()))//区县相同
 				finalScore += score/4;
 		}
-			
-		
 		//失踪地:
-		if(add1.getMissProvinceName() == null || add2.getMissProvinceName() == null)
-			finalScore = score/5;
+		if(add1.getMissProvinceId() == null || add2.getMissProvinceId() == null)
+			finalScore += score/5;
 		else {
-			if(add1.getMissProvinceId() == add2.getMissProvinceId())
+			if(add1.getMissProvinceId().equals(add2.getMissProvinceId()))
 				finalScore += score/4;
-			if(add1.getMissCityId() == add2.getMissCityId()) 
+			if(add1.getMissCityId() != null && add1.getMissCityId().equals(add2.getMissCityId())) 
 				finalScore += score/2;
-			if(add1.getMissCountyId() == add2.getMissCountyId()) 
+			if(add1.getMissCountyId() != null && add1.getMissCountyId().equals(add2.getMissCountyId())) 
 				finalScore += score/4;
 		}
-		
 		return finalScore;
 	}
 	
@@ -133,14 +131,26 @@ public class SeekSimilarityCalculation {
 	private static double calDate(Date date1,Date date2,double score) {
 		if(date1 == null || date2 == null)
 			return score/2.0;
+		System.err.println(new SimpleDateFormat("yyyy-MM-dd").format(date1));
+		System.err.println(new SimpleDateFormat("yyyy-MM-dd").format(date2));
 		int diffDays1 =(int)((new Date().getTime() - date1.getTime())/(1000*3600*24));
 		int diffDays2 =(int)((new Date().getTime() - date2.getTime())/(1000*3600*24));
 		int maxDiff = Math.max(diffDays1, diffDays2);
+		int minDiff = Math.min(diffDays1, diffDays2);
 		
-		return maxDiff==0?score : score*(Math.abs(diffDays2-diffDays1)*1.0/maxDiff);
+		double finalScore = 0;
+		if(maxDiff == 0) {
+			finalScore = score;
+		}else if(maxDiff < Constants.DAYS_30)//当距离今日天数小于30天时,返回的分数最小为0,不会出现负值
+			finalScore = score*((maxDiff-Math.abs(diffDays2-diffDays1))*1.0/maxDiff);
+		else {//返回的分数会出现负值,最小为 -score
+			double times = 1.0*(maxDiff-minDiff)/maxDiff;
+			if(times <= Constants.ONE_THIRD)//线性函数   当 0<times<1/3,score是正数
+				finalScore = (Constants.BELOW_ZERO_3*score)*times + score;
+			else // 1/3<score<1   score是负数
+				finalScore = (-1.5*score)*times + 0.5*score;
+		}
+		return finalScore;
 	}
 
-	
-	
-	
 }
