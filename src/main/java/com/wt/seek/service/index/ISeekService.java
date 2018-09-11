@@ -2,6 +2,7 @@ package com.wt.seek.service.index;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wt.seek.entity.Seek;
@@ -17,6 +18,10 @@ public interface ISeekService {
 	Seek getSeek(int id);
 	
 	List<Seek> listSeekByCustomerId(Integer customerId,Integer currentPageNo, Integer pageSize);
+	
+	boolean deleteSeek(int id);
+
+	boolean updateSeek(Seek seek);
 	
 	Integer countSeek();
 	

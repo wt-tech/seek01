@@ -18,6 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			property="positiveIdentityUrl" />
 		<result column="address" property="address" />
 		<result column="tel" property="tel" />
+		<result column="vol_result" property="volResult" />
 
 		<association javaType="com.wt.seek.entity.Customer"
 			property="customer">
@@ -28,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="listVolunteer" resultMap="volunteer">
 		SELECT
-		volunteer.id,sequence,nickname,customer_name,identityNO,negative_identity_url,positive_identity_url,address,volunteer.tel
+		volunteer.id,sequence,nickname,customer_name,identityNO,negative_identity_url,positive_identity_url,address,volunteer.tel,vol_result
 		FROM volunteer LEFT JOIN customer ON
 		volunteer.customer_id=customer.id
 		ORDER BY volunteer.id desc
@@ -65,7 +66,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				address=#{address},
 			</if>
 			<if test="tel != null">
-				tel=#{tel}
+				tel=#{tel},
+			</if>
+			<if test="volResult == 1">
+				vol_result=1,
+			</if>
+			<if test="volResult != 1">
+				vol_result=0
 			</if>
 		</set>
 		where id=#{id};
@@ -75,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		keyProperty="id" parameterType="Volunteer">
 		insert into volunteer
 		(customer_id,customer_name,identityNO,address,tel,sequence)
-		values(#{customerId},#{customerName},#{identityNO},#{address},#{tel},#{sequence});
+		values(#{customer.id},#{customerName},#{identityNO},#{address},#{tel},#{sequence});
 
 	</insert>
 

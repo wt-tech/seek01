@@ -27,8 +27,7 @@ public interface IVolunteerService {
 	 * @throws Exception
 	 */
 
-	boolean saveVolunteer(Volunteer volunteer, MultipartFile negativIdentityUrl,
-			MultipartFile positiveIdentityUrl, String staticsPath) throws Exception;
+	Integer saveVolunteer(Volunteer volunteer) throws Exception;
 
 
 	/**

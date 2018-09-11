@@ -83,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)LIST
 	</select>
 	
-	<select id="listComentByCustomerId" resultType="Integer">
+	<select id="listComentByCustomerId" resultMap="topcoment">
 		SELECT * FROM (
 		SELECT coment2.content AS content , coment1.content title ,coment1.id
 		AS id,nickname,coment2.coment_time FROM coment coment1

@@ -101,5 +101,17 @@ public class SeekServiceImpl implements ISeekService {
 		return seekMapper.listSeekByCustomerId(customerId,currentPageNo,pageSize);
 	}
 
+	@Override
+	public boolean deleteSeek(int id) {
+		// TODO Auto-generated method stub
+		return seekMapper.deleteSeek(id)>0;
+	}
+
+	@Override
+	public boolean updateSeek(Seek seek) {
+		// TODO Auto-generated method stub
+		return seekMapper.updateSeek(seek)>0;
+	}
+
 
 }

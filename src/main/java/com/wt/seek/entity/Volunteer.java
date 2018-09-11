@@ -10,6 +10,7 @@ public class Volunteer {
 	private String identityNO;// 身份证号
 	private String address;// 住址
 	private String tel;// 手机号
+	private int volResult;//判断是否通过
 
 	public int getId() {
 		return id;
@@ -81,6 +82,14 @@ public class Volunteer {
 
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+
+	public int getVolResult() {
+		return volResult;
+	}
+
+	public void setVolResult(int volResult) {
+		this.volResult = volResult;
 	}
 
 }

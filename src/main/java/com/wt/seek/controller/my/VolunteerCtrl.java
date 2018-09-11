@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.wt.seek.entity.Authentication;
 import com.wt.seek.entity.Volunteer;
 import com.wt.seek.service.my.IVolunteerService;
 import com.wt.seek.tool.Constants;
@@ -53,14 +54,37 @@ public class VolunteerCtrl {
 	 * @throws Exception
 	 */
 	@RequestMapping("/savevolunteer")
-	public Map<String, Object> saveVolunteer(HttpServletRequest request,
-			@RequestBody() Volunteer volunteer,
+	public Map<String, Object> saveVolunteer(@RequestBody() Volunteer volunteer)
+			throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		Integer volunteerId = volunteerService.saveVolunteer(volunteer);
+		if (volunteerId > 0) {
+			map.put(Constants.STATUS, Constants.SUCCESS);
+		} else {
+			map.put(Constants.STATUS, Constants.FAIL);
+		}
+		map.put("volunteerId", volunteerId);
+		return map;
+	}
+	
+	/**
+	 * 志愿者加入图片
+	 * 
+	 * @param volunteer
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/savevolunteerImage")
+	public Map<String, Object> saveVolunteerImage(HttpServletRequest request,
+			@RequestParam Integer volunteerId,
 			@RequestParam(value = "negativIdentityUrl", required = false) MultipartFile negativIdentityUrl,
 			@RequestParam(value = "positiveIdentityUrl", required = false) MultipartFile positiveIdentityUrl)
 			throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		String staticsPath = ContextUtil.getStaticResourceAbsolutePath(request);
-		boolean flag = volunteerService.saveVolunteer(volunteer, negativIdentityUrl, positiveIdentityUrl,
+		Volunteer volunteer=new Volunteer();
+		volunteer.setId(volunteerId);
+		boolean flag = volunteerService.updateVolunteer(volunteer,negativIdentityUrl, positiveIdentityUrl,
 				staticsPath);
 		map.put(Constants.STATUS, flag ? Constants.SUCCESS : Constants.FAIL);
 		return map;

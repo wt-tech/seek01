@@ -203,4 +203,34 @@ public class SeekCtrl {
 		map.put("seeks", seeks);
 		return map;
 	}
+	
+	/**
+	 * 修改发布
+	 * 
+	 * @param seek
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/updateseek")
+	public Map<String, Object> updateSeek(Seek seek) throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		boolean flag = seekService.updateSeek(seek);
+		map.put(Constants.STATUS, flag?Constants.SUCCESS:Constants.FAIL);
+		return map;
+	}
+	
+	/**
+	 * 删除发布
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/deleteseek")
+	public Map<String, Object> deleteSeek(@RequestParam("id") Integer id) throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		boolean flag = seekService.deleteSeek(id);
+		map.put(Constants.STATUS, flag?Constants.SUCCESS:Constants.FAIL);
+		return map;
+	}
 }
