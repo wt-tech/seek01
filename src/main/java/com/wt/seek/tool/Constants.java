@@ -70,6 +70,11 @@ public class Constants {
 	
 	//相互匹配阈值
 	public static final double MATCHS = 40; 
-
+	
+	public static final int DAYS_30 = 30;
+	
+	public static final int BELOW_ZERO_3 = -3;
+	public static final double ONE_THIRD = 1.0/3;
+	
 	
 }
