@@ -5,12 +5,12 @@ public class Volunteer {
 	private String sequence;// 志愿者编号
 	private Customer customer;//
 	private String customerName;// 姓名
-	private String negativIdentityUrl;// 反面照
+	private String negativeIdentityUrl;// 反面照
 	private String positiveIdentityUrl;// 正面照
 	private String identityNO;// 身份证号
 	private String address;// 住址
 	private String tel;// 手机号
-	private int volResult;//判断是否通过
+	private String volResult;//判断是否通过
 
 	public int getId() {
 		return id;
@@ -44,12 +44,12 @@ public class Volunteer {
 		this.customerName = customerName;
 	}
 
-	public String getNegativIdentityUrl() {
-		return negativIdentityUrl;
+	public String getNegativeIdentityUrl() {
+		return negativeIdentityUrl;
 	}
 
-	public void setNegativIdentityUrl(String negativIdentityUrl) {
-		this.negativIdentityUrl = negativIdentityUrl;
+	public void setNegativeIdentityUrl(String negativeIdentityUrl) {
+		this.negativeIdentityUrl = negativeIdentityUrl;
 	}
 
 	public String getPositiveIdentityUrl() {
@@ -84,11 +84,11 @@ public class Volunteer {
 		this.tel = tel;
 	}
 
-	public int getVolResult() {
+	public String getVolResult() {
 		return volResult;
 	}
 
-	public void setVolResult(int volResult) {
+	public void setVolResult(String volResult) {
 		this.volResult = volResult;
 	}
 

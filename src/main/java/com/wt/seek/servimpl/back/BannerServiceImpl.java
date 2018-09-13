@@ -25,12 +25,24 @@ public class BannerServiceImpl implements IBannerService {
 	}
 
 	@Override
-	public boolean updateBanner(Banner banner) throws Exception {
+	public boolean updateBanner(Banner banner, MultipartFile file, String staticsPath) throws Exception {
 		// TODO Auto-generated method stub
 		boolean flag = false;
-		int num = bannerMapper.updateBanner(banner);
-		if (num > 0) {
-			flag = true;
+		if (null != file && !file.isEmpty()) {
+			// 获取文件名
+			String suffix = ImageUtils.getImageTypeWithDot(file);
+			// 根据传递的公共路径（前半部分）+表名+id+文件名生成存储路径
+			String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.BANNER_IMG, 1, suffix);
+			// 上传图片
+			flag = ImageUtils.saveImage(file, absolutePath);
+			// 生成网络访问的路径
+			String url = ImageUtils.genrateVirtualImgPath(Constants.BANNER_IMG, 1, suffix);
+			if (flag) {
+				banner.setUrl(url);
+				flag = bannerMapper.updateBanner(banner)>0;
+			}
+		} else {
+			flag = bannerMapper.updateBanner(banner) > 0;
 		}
 		return flag;
 	}
@@ -57,12 +69,7 @@ public class BannerServiceImpl implements IBannerService {
 						banner.setImgName(suffix);
 						banner.setUrl(url);
 						banner.setOnUse(true);
-						int num = bannerMapper.saveBanner(banner);
-						flag=false;
-						if (num > 0) {
-							flag = true;
-						}
-
+						flag = bannerMapper.saveBanner(banner)>0;
 					}
 				}
 			}

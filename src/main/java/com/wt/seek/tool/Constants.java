@@ -44,6 +44,7 @@ public class Constants {
 	
 	public final static int pageSize = 3;
 	public final static int pageSizes = 6;
+	public final static int pageSizess = 12;
 	public static final String DOT = ".";
 	
 	//服务端存放相应表中图片的文件夹名称

@@ -69,7 +69,7 @@ public class VolunteerServiceImpl implements IVolunteerService {
 						String url = ImageUtils.genrateVirtualImgPath(Constants.VOLUNTEER, volunteer.getId(), suffix);
 						if (flag) {// 图片存储成功
 							if (null != negativIdentityUrl)
-								volunteer.setNegativIdentityUrl(url);
+								volunteer.setNegativeIdentityUrl(url);
 							if (null != positiveIdentityUrl)
 								volunteer.setPositiveIdentityUrl(url);
 							// 更新认证的图片

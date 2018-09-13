@@ -97,9 +97,16 @@ public class AuthenticationCtrl {
 	 * @throws Exception
 	 */
 	@RequestMapping("/getAuthentication")
-	public Authentication getAuthentication(@RequestParam("customerId") Integer customerId) throws Exception {
-		return authenticationService.getAuthentication(customerId);
-
+	public Map<String, Object> getAuthentication(@RequestParam("customerId") Integer customerId) throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		Authentication authentication=authenticationService.getAuthentication(customerId);
+		if (null !=authentication) {
+			map.put(Constants.STATUS, Constants.SUCCESS);
+			map.put("authentication", authentication);
+		} else {
+			map.put(Constants.STATUS, Constants.FAIL);
+		}
+		return map;
 	}
 
 	/**

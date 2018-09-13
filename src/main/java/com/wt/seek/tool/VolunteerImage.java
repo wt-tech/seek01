@@ -27,7 +27,7 @@ public class VolunteerImage {
 						volunteer.setId(id);
 						// 如果file的值为negativIdentityUrl，则把url赋值给negativIdentity
 						if (file[i] == negativIdentityUrl) {
-							volunteer.setNegativIdentityUrl(url);
+							volunteer.setNegativeIdentityUrl(url);
 						} else {
 							volunteer.setPositiveIdentityUrl(url);
 						}

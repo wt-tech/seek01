@@ -49,7 +49,7 @@ public class TopComentCtrl {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		int totalCount = topComentService.countTopComentByCustomerId(customerId);
 		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
-		List<TopComent> allComents = topComentService.listTopComentByCustomerId(customerId, currentPageNos, Constants.pageSize);
+		List<TopComent> allComents = topComentService.listTopComentByCustomerId(customerId, currentPageNos, Constants.pageSizess);
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("mycoment", allComents);
 		return map;
@@ -67,7 +67,7 @@ public class TopComentCtrl {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		int totalCount = topComentService.countComentByCustomerId(customerId);
 		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
-		List<TopComent> allComents = topComentService.listComentByCustomerId(customerId, currentPageNos, Constants.pageSize);
+		List<TopComent> allComents = topComentService.listComentByCustomerId(customerId, currentPageNos, Constants.pageSizess);
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("comentwho", allComents);
 		return map;

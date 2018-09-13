@@ -1,13 +1,16 @@
 package com.wt.seek.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class TopComent {
 	private int id;
+	private int seekId;
 	private Seek seek;
 	private Customer customer;
 	private String content;// 评论内容
 	private Date comentTime;// 评论时间
+	private List<Coment> coment;// 子评论
 
 	public int getId() {
 		return id;
@@ -15,6 +18,14 @@ public class TopComent {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getSeekId() {
+		return seekId;
+	}
+
+	public void setSeekId(int seekId) {
+		this.seekId = seekId;
 	}
 
 	public Seek getSeek() {
@@ -47,6 +58,14 @@ public class TopComent {
 
 	public void setComentTime(Date comentTime) {
 		this.comentTime = comentTime;
+	}
+
+	public List<Coment> getComent() {
+		return coment;
+	}
+
+	public void setComent(List<Coment> coment) {
+		this.coment = coment;
 	}
 
 }

@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="identityNO" property="identityNO" />
 		<result column="sequence" property="sequence" />
 		<result column="negative_identity_url"
-			property="negativIdentityUrl" />
+			property="negativeIdentityUrl" />
 		<result column="positive_identity_url"
 			property="positiveIdentityUrl" />
 		<result column="address" property="address" />
@@ -37,10 +37,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		${(currentPageNo-1)*pageSize},${pageSize}
 	</select>
 
-	<select id="getVolunteer" parameterType="Integer">
+	<select id="getVolunteer" resultType="Volunteer">
 		select * from
 		volunteer
-		where customer_id=#{id};
+		where customer_id=#{customerId};
 	</select>
 
 	<update id="updateVolunteer" parameterType="Volunteer">
@@ -56,8 +56,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="identityNO != null">
 				identityNO=#{identityNO},
 			</if>
-			<if test="negativIdentityUrl != null">
-				negative_identity_url=#{negativIdentityUrl},
+			<if test="negativeIdentityUrl != null">
+				negative_identity_url=#{negativeIdentityUrl},
 			</if>
 			<if test="positiveIdentityUrl != null">
 				positive_identity_url=#{positiveIdentityUrl},
@@ -68,11 +68,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="tel != null">
 				tel=#{tel},
 			</if>
-			<if test="volResult == 1">
-				vol_result=1,
-			</if>
-			<if test="volResult != 1">
-				vol_result=0
+			<if test="volResult != null">
+				vol_result=#{volResult}
 			</if>
 		</set>
 		where id=#{id};

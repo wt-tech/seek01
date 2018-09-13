@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -97,10 +98,17 @@ public class VolunteerCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/getvolunteer")
-	public Volunteer getVolunteer(@RequestParam("customerId") Integer customerId) throws Exception {
-		return volunteerService.getVolunteer(customerId);
-
+	@RequestMapping(value = "/getvolunteer",method=RequestMethod.GET)
+	public Map<String, Object> getVolunteer(@RequestParam("customerId") Integer customerId) throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		Volunteer volunteer=volunteerService.getVolunteer(customerId);
+		if(null !=volunteer) {
+			map.put(Constants.STATUS, Constants.SUCCESS);
+			map.put("volunteer", volunteer);
+		}else {
+			map.put(Constants.STATUS, Constants.FAIL);
+		}
+		return map;
 	}
 
 	/**

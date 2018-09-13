@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.annotations.Param;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wt.seek.entity.Coment;
 import com.wt.seek.entity.Seek;
 import com.wt.seek.entity.TopComent;
 import com.wt.seek.service.index.IComentService;
@@ -36,9 +34,6 @@ public class SeekCtrl {
 
 	@Autowired
 	private ITopComentService topComentService;
-
-	@Autowired
-	private IComentService comentService;
 
 	private Logger logger = LogManager.getLogger();
 
@@ -69,7 +64,7 @@ public class SeekCtrl {
 		int totalCount = seekService.countSeek();
 //		List<Seek> seklist = new ArrayList<Seek>();
 		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
-		List<Seek> seeks = seekService.listSeek(seekObj, hadBrowsed, currentPageNos, Constants.pageSize);
+		List<Seek> seeks = seekService.listSeek(seekObj, hadBrowsed, currentPageNos, Constants.pageSizes);
 		for (Seek sek : seeks) {
 			String img = sek.getSeekimgs()==null?"":sek.getSeekimgs();
 			String firstImg = img;
@@ -82,7 +77,7 @@ public class SeekCtrl {
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("Seeks", seeks);
 		map.put("totalCount", totalCount);
-		map.put("pageSize", Constants.pageSize);
+		map.put("pageSize", Constants.pageSizes);
 		return map;
 	}
 
@@ -177,11 +172,11 @@ public class SeekCtrl {
 		// 根据传递的id查询单条寻亲记录的第一级评论内容（包括分页）
 		List<TopComent> topComents = topComentService.listTopComent(seek.getId(), currentPageNos, Constants.pageSize);
 		// 根据查询出来的第一级评论内容，查询下面所有的子评论
-		List<Coment> coments = comentService.listComent(seek.getId(), currentPageNo, Constants.pageSize);
+		//List<Coment> coments = comentService.listComent(seek.getId(), currentPageNo, Constants.pageSize);
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("seekcontent", seekcontent);
 		map.put("topComents", topComents);
-		map.put("coments", coments);
+		//map.put("coments", coments);
 		map.put("totalCount", totalCount);
 		return map;
 	}
