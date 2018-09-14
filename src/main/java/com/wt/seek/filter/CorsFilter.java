@@ -2,6 +2,7 @@ package com.wt.seek.filter;
 
 import java.io.IOException;
 
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -24,7 +25,9 @@ public class CorsFilter implements Filter{
 		HttpServletResponse httpresponse = (HttpServletResponse)response;
 		httpresponse.setHeader("Access-Control-Allow-Origin","http://127.0.0.1:8848");
 		httpresponse.setHeader("Access-Control-Allow-Credentials","true"); 
+
 		chain.doFilter(request, httpresponse);
+
 	}
 
 	@Override

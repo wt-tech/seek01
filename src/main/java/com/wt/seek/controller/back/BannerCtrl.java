@@ -20,11 +20,6 @@ import com.wt.seek.tool.Constants;
 import com.wt.seek.tool.ContextUtil;
 import com.wt.seek.tool.MapUtils;
 
-import com.wt.seek.tool.AuthenticationImage;
-
-import com.wt.seek.tool.UploadImage;
-
-
 
 @RestController("")
 @RequestMapping("/banner")
@@ -34,7 +29,7 @@ public class BannerCtrl {
 
 	private Logger logger = LogManager.getLogger();
 
-	@RequestMapping("/listbanner")
+	@RequestMapping(value={"/listbanner","/back/listbanner"})
 	public Map<String, Object> listBanner() throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		List<Banner> banners = bannerService.listBanner();
@@ -43,19 +38,18 @@ public class BannerCtrl {
 		return map;
 	}
 
-	@RequestMapping("/updatebanner")
-	public HashMap<String, String> updateBanner(Banner banner) throws Exception {
-		HashMap<String, String> resultMap = new HashMap<String, String>();
-		boolean flag = bannerService.updateBanner(banner);
-		if (flag) {
-			resultMap.put(Constants.STATUS, Constants.SUCCESS);
-		} else {
-			resultMap.put(Constants.STATUS, Constants.FAIL);
-		}
-		return resultMap;
+	@RequestMapping("/back/updatebanner")
+		public Map<String, Object> updateBanner(HttpServletRequest request,
+				@RequestParam(value = "bannerImg", required = false) MultipartFile file,Banner banner) throws Exception {
+			Map<String, Object> resultMap = MapUtils.getHashMapInstance();
+			String staticsPath = ContextUtil.getStaticResourceAbsolutePath(request);
+			boolean flag = bannerService.updateBanner(banner,file,staticsPath);
+			resultMap.put(Constants.STATUS, flag ? Constants.SUCCESS : Constants.FAIL);
+			return resultMap;
 	}
 
-	@RequestMapping("/savebanner")
+	
+	@RequestMapping("/back/savebanner")
 	public Map<String, Object> saveBanner(HttpServletRequest request,
 			@RequestParam(value = "bannerImg", required = false) MultipartFile[] file) throws Exception {
 		Map<String, Object> resultMap = MapUtils.getHashMapInstance();
@@ -66,7 +60,7 @@ public class BannerCtrl {
 		return resultMap;
 	}
 
-	@RequestMapping("/removebanner")
+	@RequestMapping("/back/removebanner")
 	public HashMap<String, String> removeBanner(@RequestParam("id") Integer id) throws Exception {
 		HashMap<String, String> resultMap = new HashMap<String, String>();
 		boolean flag = bannerService.removeBanner(id);
@@ -78,7 +72,7 @@ public class BannerCtrl {
 		return resultMap;
 	}
 
-	@RequestMapping("/getbanner")
+	@RequestMapping("/back/getbanner")
 	public Banner getBanner(@RequestParam("id") Integer id) {
 		return bannerService.getBanner(id);
 	}

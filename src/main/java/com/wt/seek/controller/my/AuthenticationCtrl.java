@@ -29,7 +29,7 @@ public class AuthenticationCtrl {
 
 	private Logger logger = LogManager.getLogger();
 
-	@RequestMapping("/listauthentication")
+	@RequestMapping(value={"/listauthentication","/back/listauthentication"})
 	public Map<String, Object> listAuthentication(@RequestParam("currentPageNo") Integer currentPageNo)
 			throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
@@ -96,10 +96,17 @@ public class AuthenticationCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/getAuthentication")
-	public Authentication getAuthentication(@RequestParam("customerId") Integer customerId) throws Exception {
-		return authenticationService.getAuthentication(customerId);
-
+	@RequestMapping(value={"/getAuthentication","/back/getAuthentication"})
+	public Map<String, Object> getAuthentication(@RequestParam("customerId") Integer customerId) throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		Authentication authentication=authenticationService.getAuthentication(customerId);
+		if (null !=authentication) {
+			map.put(Constants.STATUS, Constants.SUCCESS);
+			map.put("authentication", authentication);
+		} else {
+			map.put(Constants.STATUS, Constants.FAIL);
+		}
+		return map;
 	}
 
 	/**
@@ -109,9 +116,9 @@ public class AuthenticationCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/updateAuthentication")
+	@RequestMapping(value={"/updateAuthentication","/back/updateAuthentication"})
 	public Map<String, Object> updateAuthentication(HttpServletRequest request,
-			@RequestBody() Authentication authentication,
+			/*@RequestBody()*/ Authentication authentication,
 			@RequestParam(value = "negativIdentityUrl", required = false) MultipartFile negativIdentityUrl,
 			@RequestParam(value = "positiveIdentityUrl", required = false) MultipartFile positiveIdentityUrl)
 			throws Exception {

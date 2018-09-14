@@ -32,6 +32,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateBanner" parameterType="Banner">
 		UPDATE banner
 		SET
+		img_name=#{imgName},
+		url=#{url},
 		on_use = #{onUse}
 		WHERE id = #{id};
 	</update>

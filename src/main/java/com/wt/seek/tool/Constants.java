@@ -44,6 +44,7 @@ public class Constants {
 	
 	public final static int pageSize = 3;
 	public final static int pageSizes = 6;
+	public final static int pageSizess = 12;
 	public static final String DOT = ".";
 	
 	//服务端存放相应表中图片的文件夹名称
@@ -62,7 +63,7 @@ public class Constants {
 	
 	//等部署到服务器上后,再修改
 	//public static final String imgServerDomain = "https://www.qghls.com/statics/";
-	public static final String imgServerDomain = "http://192.168.0.101:8080/statics/";
+	public static final String imgServerDomain = "http://192.168.0.102:8080/statics/";
 	
 
 	public static final double REPEATPUBLISHTHRESHOLD = 80; 

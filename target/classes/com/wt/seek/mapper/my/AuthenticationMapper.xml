@@ -36,11 +36,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		${(currentPageNo-1)*pageSize},${pageSize}
 	</select>
 
-	<select id="getAuthentication" parameterType="Integer">
-
+	<select id="getAuthentication" resultType="Authentication">
 		select * from
 		authentication
-		where customer_id=#{id};
+		where customer_id=#{customerId};
 	</select>
 
 	<update id="updateAuthentication" parameterType="Authentication">

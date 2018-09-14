@@ -26,6 +26,7 @@ public class Customer {
 	private Date firstVisitTime;// 首次访问时间
 	private String realname;//真实姓名
 	private String tel;//联系方式
+	private String replyname;//评论的回复人
 
 	public int getId() {
 		return id;
@@ -89,6 +90,14 @@ public class Customer {
 
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+
+	public String getReplyname() {
+		return replyname;
+	}
+
+	public void setReplyname(String replyname) {
+		this.replyname = replyname;
 	}
 
 	@Override
