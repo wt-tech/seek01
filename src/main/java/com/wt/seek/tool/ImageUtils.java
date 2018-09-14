@@ -26,8 +26,8 @@ public class ImageUtils {
 	 * 
 	 * @return
 	 */
-	public static String generateAbsoluteImgPath(String realStaticsPath, String tableName, int id, String suffix) {
-		String absolutePath = realStaticsPath + Constants.ContextPath + File.separator + tableName + File.separator + id
+	public static String generateAbsoluteImgPath(String absoluteStaticsDirectory, String tableName, int id, String suffix) {
+		String absolutePath = absoluteStaticsDirectory + Constants.ContextPath + File.separator + tableName + File.separator + id
 				+ suffix;
 		return absolutePath;
 	}

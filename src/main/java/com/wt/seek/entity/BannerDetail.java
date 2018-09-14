@@ -4,19 +4,22 @@ import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.wt.seek.inface.Save;
+import com.wt.seek.inface.Update;
+
 /**
  * 轮播图的详情页
  * @author Daryl
  */
 public class BannerDetail {
 	
-	@Min(value=1,message="{bannerDetail.id}")
+	@Min(value=1,message="{bannerDetail.id}",groups = {Update.class})
 	private Integer id;
 	
-	@Min(value=1,message="{bannerDetail.bannerId}")
+	@Min(value=1,message="{bannerDetail.bannerId}",groups= {Update.class,Save.class})
 	private Integer bannerId;
 	
-	@NotEmpty(message="{bannerDetail.content}")
+	@NotEmpty(message="{bannerDetail.content}",groups= {Update.class,Save.class})
 	private String content;
 
 	public Integer getId() {
