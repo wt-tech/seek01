@@ -29,7 +29,7 @@ public class BannerCtrl {
 
 	private Logger logger = LogManager.getLogger();
 
-	@RequestMapping("/listbanner")
+	@RequestMapping(value={"/listbanner","/back/listbanner"})
 	public Map<String, Object> listBanner() throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		List<Banner> banners = bannerService.listBanner();
@@ -38,9 +38,9 @@ public class BannerCtrl {
 		return map;
 	}
 
-	@RequestMapping("/updatebanner")
+	@RequestMapping("/back/updatebanner")
 		public Map<String, Object> updateBanner(HttpServletRequest request,
-				@RequestParam(value = "bannerImg", required = true) MultipartFile file,Banner banner) throws Exception {
+				@RequestParam(value = "bannerImg", required = false) MultipartFile file,Banner banner) throws Exception {
 			Map<String, Object> resultMap = MapUtils.getHashMapInstance();
 			String staticsPath = ContextUtil.getStaticResourceAbsolutePath(request);
 			boolean flag = bannerService.updateBanner(banner,file,staticsPath);
@@ -49,7 +49,7 @@ public class BannerCtrl {
 	}
 
 	
-	@RequestMapping("/savebanner")
+	@RequestMapping("/back/savebanner")
 	public Map<String, Object> saveBanner(HttpServletRequest request,
 			@RequestParam(value = "bannerImg", required = false) MultipartFile[] file) throws Exception {
 		Map<String, Object> resultMap = MapUtils.getHashMapInstance();
@@ -60,7 +60,7 @@ public class BannerCtrl {
 		return resultMap;
 	}
 
-	@RequestMapping("/removebanner")
+	@RequestMapping("/back/removebanner")
 	public HashMap<String, String> removeBanner(@RequestParam("id") Integer id) throws Exception {
 		HashMap<String, String> resultMap = new HashMap<String, String>();
 		boolean flag = bannerService.removeBanner(id);
@@ -72,7 +72,7 @@ public class BannerCtrl {
 		return resultMap;
 	}
 
-	@RequestMapping("/getbanner")
+	@RequestMapping("/back/getbanner")
 	public Banner getBanner(@RequestParam("id") Integer id) {
 		return bannerService.getBanner(id);
 	}

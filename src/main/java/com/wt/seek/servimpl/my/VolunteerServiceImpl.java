@@ -49,35 +49,34 @@ public class VolunteerServiceImpl implements IVolunteerService {
 			MultipartFile positiveIdentityUrl, String staticsPath) throws Exception {
 		// TODO Auto-generated method stub
 				boolean flag = false;
-				MultipartFile file = null;
-				if (null != negativIdentityUrl)
-					file = negativIdentityUrl;
-				if (null != positiveIdentityUrl)
-					file = positiveIdentityUrl;
-				// 把两张图片放到一个数组里
-				// MultipartFile[] file = { negativIdentityUrl, positiveIdentityUrl };
-				if (volunteer.getId() > 0) { // 保存成功
-					if (null != file) {
-						// for (int i = 0; i < file.length; i++) {
-						// 存储图片
-						String suffix = ImageUtils.getImageTypeWithDot(file);
-						// 根据传递的公共路径（前半部分）+表名+id+文件名生成存储路径
-						String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.VOLUNTEER, volunteer.getId(),
-								suffix);
-						// 上传图片
-						flag= ImageUtils.saveImage(file, absolutePath);
-						String url = ImageUtils.genrateVirtualImgPath(Constants.VOLUNTEER, volunteer.getId(), suffix);
-						if (flag) {// 图片存储成功
-							if (null != negativIdentityUrl)
-								volunteer.setNegativeIdentityUrl(url);
-							if (null != positiveIdentityUrl)
-								volunteer.setPositiveIdentityUrl(url);
-							// 更新认证的图片
+//				MultipartFile file = null;
+//				if (null != negativIdentityUrl)
+//					file = negativIdentityUrl;
+//				if (null != positiveIdentityUrl)
+//					file = positiveIdentityUrl;
+//				// 把两张图片放到一个数组里
+//				// MultipartFile[] file = { negativIdentityUrl, positiveIdentityUrl };
+//				if (volunteer.getId() > 0) { // 保存成功
+//					if (null != file) {
+//						// for (int i = 0; i < file.length; i++) {
+//						// 存储图片
+//						String suffix = ImageUtils.getImageTypeWithDot(file);
+//						// 根据传递的公共路径（前半部分）+表名+id+文件名生成存储路径
+//						String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.VOLUNTEER, volunteer.getId(),
+//								suffix);
+//						// 上传图片
+//						flag= ImageUtils.saveImage(file, absolutePath);
+//						String url = ImageUtils.genrateVirtualImgPath(Constants.VOLUNTEER, volunteer.getId(), suffix);
+//						if (flag) {// 图片存储成功
+//							if (null != negativIdentityUrl)
+//								volunteer.setNegativeIdentityUrl(url);
+//							if (null != positiveIdentityUrl)
+//								volunteer.setPositiveIdentityUrl(url);
+//							// 更新认证的图片
 							flag = volunteerMapper.updateVolunteer(volunteer) > 0;
-							if(flag) flag=true;
-						}
-					}
-				}
+//						}
+//					}
+//				}
 
 				return flag;
 			}

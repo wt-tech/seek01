@@ -46,7 +46,7 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/listseek")
+	@RequestMapping(value= {"/listseek","/back/listseek"})
 	public Map<String, Object> listSeek(@RequestBody Object seek/*,@RequestBody String hadBrowsed,@RequestBody Integer currentPageNo*/) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		// System.err.println(seek);
@@ -160,7 +160,7 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/getseek")
+	@RequestMapping(value={"/getseek","/back/getseek"})
 	public Map<String, Object> getSeek(Seek seek, @RequestParam("currentPageNo") Integer currentPageNo)
 			throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
@@ -206,7 +206,7 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/updateseek")
+	@RequestMapping(value={"/updateseek","/back/updateseek"})
 	public Map<String, Object> updateSeek(Seek seek) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		boolean flag = seekService.updateSeek(seek);
@@ -221,7 +221,7 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/deleteseek")
+	@RequestMapping(value={"/deleteseek","/back/deleteseek"})
 	public Map<String, Object> deleteSeek(@RequestParam("id") Integer id) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		boolean flag = seekService.deleteSeek(id);

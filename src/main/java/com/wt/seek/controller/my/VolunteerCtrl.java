@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.wt.seek.entity.Authentication;
 import com.wt.seek.entity.Volunteer;
 import com.wt.seek.service.my.IVolunteerService;
 import com.wt.seek.tool.Constants;
@@ -31,7 +30,7 @@ public class VolunteerCtrl {
 
 	private Logger logger = LogManager.getLogger();
 
-	@RequestMapping("/listvolunteer")
+	@RequestMapping(value= {"/listvolunteer","/back/listvolunteer"})
 	public Map<String, Object> listVolunteer(@RequestParam("currentPageNo") Integer currentPageNo)
 			throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
@@ -118,9 +117,9 @@ public class VolunteerCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/updatevolunteer")
+	@RequestMapping(value= {"/updatevolunteer","/back/updatevolunteer"})
 	public Map<String, Object> updateVolunteer(HttpServletRequest request,
-			@RequestBody() Volunteer volunteer,
+			/*@RequestBody()*/ Volunteer volunteer,
 			@RequestParam(value = "negativIdentityUrl", required = false) MultipartFile negativIdentityUrl,
 			@RequestParam(value = "positiveIdentityUrl", required = false) MultipartFile positiveIdentityUrl)
 			throws Exception {
