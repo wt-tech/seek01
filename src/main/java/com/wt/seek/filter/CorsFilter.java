@@ -31,6 +31,9 @@ public class CorsFilter implements Filter{
 		httpresponse.setHeader("Access-Control-Allow-Methods","GET,POST,DELETE,PUT"); 
 		httpresponse.setHeader("Access-Control-Allow-Headers","Content-Type"); 
 
+		httpresponse.setHeader("Access-Control-Allow-Methods","GET,POST,DELETE,PUT"); 
+		httpresponse.setHeader("Access-Control-Allow-Headers","Content-Type"); 
+
 		chain.doFilter(request, httpresponse);
 
 	}

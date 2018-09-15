@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSONObject;
 import com.wt.seek.entity.Seek;
 import com.wt.seek.entity.TopComent;
-import com.wt.seek.service.index.IComentService;
 import com.wt.seek.service.index.ISeekService;
 import com.wt.seek.service.index.ITopComentService;
 import com.wt.seek.tool.Constants;
@@ -75,7 +74,7 @@ public class SeekCtrl {
 //			seklist.add(sek);
 		}
 		map.put(Constants.STATUS, Constants.SUCCESS);
-		map.put("Seeks", seeks);
+		map.put("seeks", seeks);
 		map.put("totalCount", totalCount);
 		map.put("pageSize", Constants.pageSizes);
 		return map;
@@ -221,11 +220,21 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value={"/deleteseek","/back/deleteseek"})
-	public Map<String, Object> deleteSeek(@RequestParam("id") Integer id) throws Exception {
+	@RequestMapping(value={"/removeseek","/back/removeseek"})
+	public Map<String, Object> removeSeek(@RequestParam("id") Integer id) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		boolean flag = seekService.deleteSeek(id);
 		map.put(Constants.STATUS, flag?Constants.SUCCESS:Constants.FAIL);
 		return map;
 	}
+	
+	@RequestMapping(value={"/countseek","/back/countseek"})
+	public Map<String, Object> countSeek() throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		int totalCount = seekService.countSeek();
+		map.put("totalCount",totalCount);
+		map.put(Constants.STATUS,Constants.SUCCESS);
+		return map;
+	}
+	
 }
