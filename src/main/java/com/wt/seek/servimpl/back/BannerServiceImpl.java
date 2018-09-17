@@ -70,6 +70,7 @@ public class BannerServiceImpl implements IBannerService {
 						banner.setUrl(url);
 						banner.setOnUse(true);
 						flag = bannerMapper.saveBanner(banner)>0;
+						if(flag) continue;
 					}
 				}
 			}
