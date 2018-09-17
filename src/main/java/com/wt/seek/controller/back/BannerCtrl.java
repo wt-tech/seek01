@@ -51,11 +51,12 @@ public class BannerCtrl {
 	
 	@RequestMapping("/back/savebanner")
 	public Map<String, Object> saveBanner(HttpServletRequest request,
+			@RequestParam(value = "imgName",required=false) String imgName,
 			@RequestParam(value = "bannerImg", required = false) MultipartFile[] file) throws Exception {
 		Map<String, Object> resultMap = MapUtils.getHashMapInstance();
 		//获取图片的公共存储路径（例如：D:\ApacheTomcat7\apache-tomcat-7.0.53\webapps\statics）
 		String staticsPath = ContextUtil.getStaticResourceAbsolutePath(request);
-		boolean flag = bannerService.saveBanner(file,staticsPath);
+		boolean flag = bannerService.saveBanner(file,staticsPath,imgName);
 		resultMap.put(Constants.STATUS, flag ? Constants.SUCCESS : Constants.FAIL);
 		return resultMap;
 	}

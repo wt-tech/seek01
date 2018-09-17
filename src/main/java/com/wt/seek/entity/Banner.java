@@ -29,6 +29,7 @@ public class Banner {
 	}
 
 	public void setUrl(String url) {
+		System.err.println(url);
 		this.url = url;
 	}
 

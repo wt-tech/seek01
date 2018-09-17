@@ -48,7 +48,7 @@ public class BannerServiceImpl implements IBannerService {
 	}
 
 	@Override
-	public boolean saveBanner(MultipartFile[] file, String staticsPath) throws Exception {
+	public boolean saveBanner(MultipartFile[] file, String staticsPath,String imgName) throws Exception {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		if (null != file && file.length > 0) {
@@ -66,7 +66,7 @@ public class BannerServiceImpl implements IBannerService {
 					String url = ImageUtils.genrateVirtualImgPath(Constants.BANNER_IMG, 1, suffix);
 					if (flag) {
 						Banner banner = new Banner();
-						banner.setImgName(suffix);
+						banner.setImgName(imgName);
 						banner.setUrl(url);
 						banner.setOnUse(true);
 						flag = bannerMapper.saveBanner(banner)>0;
