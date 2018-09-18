@@ -36,7 +36,8 @@ public interface IAuthenticationMapper {
 	 */
 
 	Authentication getAuthentication(@Param("customerId") int customerId) throws Exception;
-
+    
+	Authentication getBackAuthentication(@Param("id") int id) throws Exception;
 
 	/**
 	 * 修改用户的认证

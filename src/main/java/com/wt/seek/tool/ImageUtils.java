@@ -2,6 +2,7 @@ package com.wt.seek.tool;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,12 +27,12 @@ public class ImageUtils {
 	 * 
 	 * @return
 	 */
-	public static String generateAbsoluteImgPath(String realStaticsPath, String tableName, int id, String suffix) {
-		String absolutePath = realStaticsPath + Constants.ContextPath + File.separator + tableName + File.separator + id
+	public static String generateAbsoluteImgPath(String absoluteStaticsDirectory, String tableName, int id, String suffix) {
+		String absolutePath = absoluteStaticsDirectory + Constants.ContextPath + File.separator + tableName + File.separator + id
 				+ suffix;
 		return absolutePath;
 	}
-
+	
 	/**
 	 * 生成图片的网络访问路径<br/>
 	 * eg:<br/>

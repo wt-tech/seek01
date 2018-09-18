@@ -41,6 +41,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		authentication
 		where customer_id=#{customerId};
 	</select>
+	
+	<select id="getBackAuthentication" resultType="Authentication">
+		select * from
+		authentication
+		where id=#{id};
+	</select>
 
 	<update id="updateAuthentication" parameterType="Authentication">
 		update

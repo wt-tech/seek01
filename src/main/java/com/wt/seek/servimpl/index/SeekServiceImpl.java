@@ -39,22 +39,25 @@ public class SeekServiceImpl implements ISeekService {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		SeekImg seekimg = new SeekImg();
-		Seek seek=new Seek();
+		Seek seek = new Seek();
+		seek.setId(seekId);
+		seekimg.setSeek(seek);
 		if (file!=null && !file.isEmpty() ) {
+			seekMapper.saveSeekImg(seekimg);
+			//System.err.println(seekimg.getId());
 			// 获取文件名
 			String suffix = ImageUtils.getImageTypeWithDot(file);
 			// 根据传递的公共路径（前半部分）+表名+id+文件名生成存储路径
-			String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.SEEK_IMG, seekId, suffix);
+			String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.SEEK_IMG, seekimg.getId(), suffix);
 			if (seekId > 0) { // 保存成功
 				// 上传图片
 				flag = ImageUtils.saveImage(file, absolutePath);
 				// 生成网络访问的路径
 				if (flag) {
-					String url = ImageUtils.genrateVirtualImgPath(Constants.SEEK_IMG, seekId, suffix);
-					seek.setId(seekId);
-					seekimg.setSeek(seek);
+					String url = ImageUtils.genrateVirtualImgPath(Constants.SEEK_IMG, seekimg.getId(), suffix);
+					seekimg.setId(seekimg.getId());
 					seekimg.setUrl(url);
-					int num = seekMapper.saveSeekImg(seekimg);
+					int num = seekMapper.updateSeekImg(seekimg);
 					flag = false;
 					if (num > 0) {
 						flag = true;

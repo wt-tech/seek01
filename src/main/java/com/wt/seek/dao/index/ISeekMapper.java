@@ -35,11 +35,13 @@ public interface ISeekMapper {
 	/**
 	 * 插入寻亲的图片
 	 * 
-	 * @param seekimg
+	 * @param seekId
 	 * @return
 	 * @throws Exception
 	 */
 	Integer saveSeekImg(SeekImg seekimg) throws Exception;
+	
+	Integer updateSeekImg(SeekImg seekimg) throws Exception;
 
 	/**
 	 * 查询单条寻亲记录

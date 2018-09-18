@@ -35,6 +35,8 @@ public interface IVolunteerMapper {
 	 */
 
 	Volunteer getVolunteer(@Param("customerId") int customerId) throws Exception;
+	
+	Volunteer getBackVolunteer(@Param("id") int id) throws Exception;
 
 	/**
 	 * 修改用户的志愿者信息

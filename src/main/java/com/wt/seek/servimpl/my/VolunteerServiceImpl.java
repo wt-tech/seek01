@@ -43,7 +43,12 @@ public class VolunteerServiceImpl implements IVolunteerService {
 		// TODO Auto-generated method stub
 		return volunteerMapper.getVolunteer(customerId);
 	}
-
+	
+	@Override
+	public Volunteer getBackVolunteer(int id) throws Exception {
+		// TODO Auto-generated method stub
+		return volunteerMapper.getBackVolunteer(id);
+	}
 	@Override
 	public boolean updateVolunteer(Volunteer volunteer, MultipartFile negativIdentityUrl,
 			MultipartFile positiveIdentityUrl, String staticsPath) throws Exception {

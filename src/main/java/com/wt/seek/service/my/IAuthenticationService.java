@@ -38,6 +38,8 @@ public interface IAuthenticationService {
 	 * @throws Exception
 	 */
 	Authentication getAuthentication(int customerId) throws Exception;
+	
+	Authentication getBackAuthentication(int id) throws Exception;
 
 	/**
 	 * 修改用户的认证

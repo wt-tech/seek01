@@ -342,11 +342,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{title},NOW(),#{otherInformation});
 	</insert>
 
-	<insert id="saveSeekImg" parameterType="SeekImg">
+	<insert id="saveSeekImg" useGeneratedKeys="true" keyProperty="id" parameterType="SeekImg">
 		insert into seek_img
-		(seek_id,url)
-		values(#{seek.id},#{url});
+		(seek_id)
+		values(#{seek.id});
 	</insert>
+	
+	<update id="updateSeekImg" parameterType="SeekImg">
+		update seek_img set
+		url=#{url}
+		where id=#{id};
+	</update>
 
 	<select id="countSeekByCustomerId" resultType="Integer">
 		SELECT COUNT(*)
