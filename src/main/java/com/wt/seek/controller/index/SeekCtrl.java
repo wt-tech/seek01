@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSONObject;
 import com.wt.seek.entity.City;
 import com.wt.seek.entity.County;
+import com.wt.seek.entity.Province;
 import com.wt.seek.entity.Seek;
 import com.wt.seek.entity.TopComent;
 import com.wt.seek.service.index.ISeekService;
@@ -188,8 +189,10 @@ public class SeekCtrl {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		// 根据传递的id查询单条寻亲记录的详情内容
 		Seek seekcontent = seekService.getSeek(id);
+		List<Province> listprovince=seekService.listProvince();
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("seekcontent", seekcontent);
+		map.put("listprovince", listprovince);
 		return map;
 	}
 	
