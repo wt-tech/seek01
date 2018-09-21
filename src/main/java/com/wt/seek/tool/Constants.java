@@ -31,9 +31,9 @@ public class Constants {
 	public final static int KEYNUMBERS = 5;
 	
 	//小程序APPID
-	private final static String APPID = "wx9de6ddb653af7d42";
+	private final static String APPID = "wx28e3c37b96cf1939";
 	//小程序SECRET
-	private final static String SECRET = "ee68f59176b3508763f4d62f04aa62d3";
+	private final static String SECRET = "f5d09d752f39521508ee34cec8d2abb8";
 	
 	//小程序官方提供的code转openID接口
 	public final static String CODE2OPENIDURL = "https://api.weixin.qq.com/sns/jscode2session"
