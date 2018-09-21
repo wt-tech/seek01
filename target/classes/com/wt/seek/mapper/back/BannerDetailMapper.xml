@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace指向mapper接口 -->
+<mapper namespace="com.wt.seek.dao.back.IBannerDetailMapper">
+	
+	<select id="getById" resultType="BannerDetail">
+		select * from banner_detail where id=#{id};
+	</select>
+	<select id="getByBannerId" resultType="BannerDetail">
+		select * from banner_detail where banner_id=#{bannerId};
+	</select>
+	
+	<insert id="saveBannerDetail" useGeneratedKeys="true" keyProperty="id" parameterType="BannerDetail">
+		insert into banner_detail(banner_id,content)
+		values(#{bannerDetail.bannerId},#{bannerDetail.content});
+	</insert>
+	
+	<update id="updateBannerDetail">
+		update banner_detail
+		set content = #{bannerDetail.content}
+		where id = #{bannerDetail.id};
+	</update>
+	
+	<delete id="removeBannerDetail">
+		delete from banner_detail
+		where id = #{id};
+	</delete>
+
+</mapper>

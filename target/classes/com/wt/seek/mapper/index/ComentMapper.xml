@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace指向mapper接口 -->
+<mapper namespace="com.wt.seek.dao.index.IComentMapper">
+
+<resultMap type="com.wt.seek.entity.Coment" id="coment">
+		<id column="id" property="id" />
+		<result column="top_coment_id" property="topComentId" />
+		<result column="coment_id" property="comentId" />
+		<result column="content" property="content" />
+		<result column="coment_time" property="comentTime" />
+
+	  <association javaType="com.wt.seek.entity.Customer" property="customer">
+		<result column="nickname" property="nickname" />
+	  </association>
+	  
+</resultMap> 
+	
+	<select id="listComent" resultMap="coment">
+		SELECT coment.id,nickname,coment.top_coment_id,coment.coment_id,coment.content,coment.coment_time FROM coment
+		LEFT JOIN customer ON coment.customer_id=customer.id
+		WHERE coment.seek_id=#{id} AND top_coment_id IN
+
+		(SELECT sc.id FROM (SELECT id FROM top_coment WHERE top_coment.seek_id=#{id} ORDER BY top_coment.coment_time DESC LIMIT ${(currentPageNo-1)*pageSize},${pageSize}) AS sc)
+
+		ORDER BY coment.coment_time
+	</select>
+
+	<insert id="saveComent" parameterType="Coment">
+		insert into coment
+		(customer_id,seek_id,top_coment_id,coment_id,content,coment_time)
+		values(#{customer.id},#{seek.id},#{topComent.id},#{coment.id},#{content},NOW());
+	</insert>
+</mapper>
