@@ -437,6 +437,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		OR
 		seek.miss_province_id = #{seek.address.missProvinceId}
 		)
+		AND seek.seek_status = ${@com.wt.seek.tool.Constants@NOT_SOLVED}
 		GROUP BY seek.id,
 		sequence,
 		seek_type,

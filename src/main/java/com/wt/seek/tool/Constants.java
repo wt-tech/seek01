@@ -66,10 +66,11 @@ public class Constants {
 	public static final String imgServerDomain = "https://www.qghls.com/statics/";
 	//public static final String imgServerDomain = "http://192.168.0.102:8080/statics/";
 //	public static final String imgServerDomain = "http://192.168.0.177:8888/statics/";
-//	public static final String LOGIN_URL = "http://www.qghls.com/seek-back/login.html";
-//	public static final String LOGIN_URL = "http://192.168.0.177:8848/seek-back/login.html";
 
 	public static final double REPEATPUBLISHTHRESHOLD = 80; 
+	public static final String NOT_SOLVED = "未结案";
+	public static final String HAS_SOLVED = "已结案";
+	
 	
 	//相互匹配阈值
 	public static final double MATCHS = 40; 
