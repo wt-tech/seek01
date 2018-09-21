@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.wt.seek.entity.City;
+import com.wt.seek.entity.County;
+import com.wt.seek.entity.Province;
 import com.wt.seek.entity.Seek;
 import com.wt.seek.entity.SeekImg;
 
@@ -79,7 +82,7 @@ public interface ISeekMapper {
 	 * 
 	 * @return
 	 */
-	Integer countSeek();
+	Integer countSeek(@Param("seek") Seek seek, @Param("hadBrowsed") String hadBrowsed);
 
 	/**
 	 * 查询某个用户发布所有的记录
@@ -92,5 +95,28 @@ public interface ISeekMapper {
 			@Param("seekType") String seekType);
 
 	List<Seek> listSimilarSeek(@Param("seek") Seek seek);
+    
+	/**
+	 * 查询省份
+	 * 
+	 * @return
+	 */
+	public List<Province> listProvince();
+
+	/**
+	 * 查询城市
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public List<City> listCity(@Param("id") Integer id);
+
+	/**
+	 * 查询县区
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public List<County> listCounty(@Param("id") Integer id);
 
 }

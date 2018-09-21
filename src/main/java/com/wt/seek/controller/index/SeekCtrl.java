@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wt.seek.entity.City;
+import com.wt.seek.entity.County;
 import com.wt.seek.entity.Seek;
 import com.wt.seek.entity.TopComent;
 import com.wt.seek.service.index.ISeekService;
@@ -60,7 +62,7 @@ public class SeekCtrl {
 
 		// System.err.println(hadBrowsed);
 		// 总数量（表）
-		int totalCount = seekService.countSeek();
+		int totalCount = seekService.countSeek(seekObj,hadBrowsed);
 //		List<Seek> seklist = new ArrayList<Seek>();
 		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
 		List<Seek> seeks = seekService.listSeek(seekObj, hadBrowsed, currentPageNos, Constants.pageSizes);
@@ -159,7 +161,7 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value={"/getseek","/back/getseek"})
+	@RequestMapping("/getseek")
 	public Map<String, Object> getSeek(Seek seek, @RequestParam("currentPageNo") Integer currentPageNo)
 			throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
@@ -180,6 +182,17 @@ public class SeekCtrl {
 		return map;
 	}
 
+	@RequestMapping("/back/getseek")
+	public Map<String, Object> getBackSeek(@RequestParam("id") Integer id)
+			throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		// 根据传递的id查询单条寻亲记录的详情内容
+		Seek seekcontent = seekService.getSeek(id);
+		map.put(Constants.STATUS, Constants.SUCCESS);
+		map.put("seekcontent", seekcontent);
+		return map;
+	}
+	
 	/**
 	 * 查询我的发布
 	 * 
@@ -206,7 +219,8 @@ public class SeekCtrl {
 	 * @throws Exception
 	 */
 	@RequestMapping(value={"/updateseek","/back/updateseek"})
-	public Map<String, Object> updateSeek(Seek seek) throws Exception {
+	public Map<String, Object> updateSeek(Seek seek,HttpServletRequest request,
+			@RequestParam(value = "seekImg", required = false) MultipartFile[] file) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		boolean flag = seekService.updateSeek(seek);
 		map.put(Constants.STATUS, flag?Constants.SUCCESS:Constants.FAIL);
@@ -229,12 +243,28 @@ public class SeekCtrl {
 	}
 	
 	@RequestMapping(value={"/countseek","/back/countseek"})
-	public Map<String, Object> countSeek() throws Exception {
+	public Map<String, Object> countSeek(@RequestParam(value = "seek", required = false) Seek seek,
+			@RequestParam(value = "hadBrowsed", required = false) String hadBrowsed) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
-		int totalCount = seekService.countSeek();
+		int totalCount = seekService.countSeek(seek,hadBrowsed);
 		map.put("totalCount",totalCount);
 		map.put(Constants.STATUS,Constants.SUCCESS);
 		return map;
 	}
 	
+	@RequestMapping("/back/city")
+	public Map<String, Object> listCityByProvinceID(@RequestParam("id") int id) {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		List<City> citylist = seekService.listCity(id);
+		map.put("citylist", citylist);
+		return map;
+	}
+
+	@RequestMapping("/back/county")
+	public Map<String, Object> listCountyByCityID(@RequestParam("id") int id) {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		List<County> countylist = seekService.listCounty(id);
+		map.put("countylist", countylist);
+		return map;
+	}
 }

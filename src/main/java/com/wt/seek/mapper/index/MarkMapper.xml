@@ -18,13 +18,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="miss_date" property="missDate" />
 		<result column="miss_detail_place" property="missDetailPlace" />
 		<result column="seekimgs" property="seekimgs" />
+		<result column="seek_type" property="seekType" />
+		<result column="seek_status" property="seekStatus" />
 	  </association>
 	  
 	</resultMap> 
 	
 	<select id="listMark" resultMap="mark">
 		SELECT
-		mark.id,seek.id AS ids,miss_name,gender,birthdate,miss_date,miss_detail_place,GROUP_CONCAT(seek_img.url SEPARATOR ',') AS seekimgs,mark_time FROM
+		mark.id,seek.id AS ids,miss_name,seek_type,seek_status,gender,birthdate,miss_date,miss_detail_place,GROUP_CONCAT(seek_img.url SEPARATOR ',') AS seekimgs,mark_time FROM
 		mark
 		LEFT JOIN seek ON seek.id=mark.seek_id
 		LEFT JOIN seek_img ON seek.id=seek_img.seek_id

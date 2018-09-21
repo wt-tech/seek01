@@ -29,6 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="title" property="title" />
 		<result column="pubdate" property="pubdate" />
 		<result column="other_information" property="otherInformation" />
+		<result column="seek_status" property="seekStatus" />
 
 		<association javaType="com.wt.seek.entity.Address"
 			property="address">
@@ -63,6 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		miss_date,
 		miss_detail_place,
 		feature,
+		seek_status,
 		plot,
 		seek_subtype,
 		contact_name,
@@ -108,7 +110,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 		<if
 			test="seek.seekSubtype != '' and seek.seekSubtype != null and seek.seekSubtype != 'null'">
-			AND seek_type =#{seek.seekSubtype}
+			AND seek_subtype =#{seek.seekSubtype}
+		</if>
+		<if
+			test="seek.seekType != '' and seek.seekType != null and seek.seekType != 'null'">
+			AND seek_type =#{seek.seekType}
 		</if>
 		<if
 			test="seek.birthdate != '' and seek.birthdate != null and seek.birthdate != 'null'">
@@ -117,6 +123,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if
 			test="seek.missDate != '' and seek.missDate != null and seek.missDate != 'null'">
 			AND miss_date =#{seek.missDate}
+		</if>
+		<if
+			test="seek.seekStatus != '' and seek.seekStatus != null and seek.seekStatus != 'null'">
+			AND seek_status =#{seek.seekStatus}
 		</if>
 		<if
 			test="seek.address!= null">
@@ -128,7 +138,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			test="seek.address.missCityId != null and seek.address.missCityId != 0">
 			AND miss_city_id =#{seek.address.missCityId}
 		</if>
-		
 		<if
 			test="seek.address.missCountyId != null and seek.address.missCountyId != 0">
 			AND miss_county_id =#{seek.address.missCountyId}
@@ -160,6 +169,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		contact_QQ,
 		contact_address,
 		extra_tel,
+		seek_status,
 		title,
 		pubdate, birth_province_name,
 		birth_city_name,
@@ -195,6 +205,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		other_information,
 		title,
 		pubdate,
+		seek_status,
 		GROUP_CONCAT(seek_img.url SEPARATOR
 		',') AS seekimgs,
 		bp.province_name AS birth_province_name,
@@ -228,6 +239,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		miss_detail_place,
 		feature,
 		plot,
+		seek_status,
 		seek_subtype,
 		contact_name,
 		relationship,
@@ -258,6 +270,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		miss_detail_place,
 		feature,
 		plot,
+		seek_status,
 		seek_subtype,
 		contact_name,
 		relationship,
@@ -303,6 +316,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		miss_detail_place,
 		feature,
 		plot,
+		seek_status,
 		seek_subtype,
 		contact_name,
 		relationship,
@@ -351,7 +365,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateSeekImg" parameterType="SeekImg">
 		update seek_img set
 		url=#{url}
-		where id=#{id};
+		where 
+		<!-- <choose>
+		
+		<when test="seek.id !=null and seek.id !=0">
+		seek_id=#{seek.id};
+		</when>
+		<otherwise> -->
+		id=#{id};
+		<!-- </otherwise>
+		</choose> -->
 	</update>
 
 	<select id="countSeekByCustomerId" resultType="Integer">
@@ -364,33 +387,146 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<update id="updateSeek" parameterType="Seek">
-	update seek set
-	    sequence=#{sequence},
+	update seek 
+	<set>
+     <if
+		test="seekType != null">
 		seek_type=#{seekType},
+	</if>
+	 <if
+		test="missName != null">
 		miss_name=#{missName},
+	</if>
+	 <if
+		test="gender != null">
 		gender=#{gender},
+	</if>
+	<if
+		test="birthdate != null">
 		birthdate=#{birthdate},
+	</if>
+	 <if
+		test="missDate != null">
 		miss_date=#{missDate},
+	</if>
+	 <if
+		test="missDetailPlace != null">
 		miss_detail_place=#{missDetailPlace},
+	</if>
+	 <if
+		test="feature != null">
 		feature=#{feature},
+	</if>
+	 <if
+		test="plot != null">
 		plot=#{plot},
+	</if>
+	 <if
+		test="seekSubtype != null">
 		seek_subtype=#{seekSubtype},
+	</if>
+	 <if
+		test="contactName != null">
 		contact_name=#{contactName},
+	</if>
+	<if
+		test="relationship != null">
 		relationship=#{relationship},
+	</if>
+	<if
+		test="contactTel != null">
 		contact_tel=#{contactTel},
+	</if>
+	<if
+		test="contactWechat != null">
 		contact_wechat=#{contactWechat},
+	</if>
+	<if
+		test="contactQQ != null">
 		contact_QQ=#{contactQQ},
+	</if>
+	 <if
+		test="contactAddress != null">
 		contact_address=#{contactAddress},
+	</if>
+	<if
+		test="extraTel != null">
 		extra_tel=#{extraTel},
-		seekimgs=#{seekimgs},
+	</if>
+	 <if
+		test="title != null">
 		title=#{title},
+	</if>
+	 <if
+		test="pubdate != null">
 		pubdate=#{pubdate},
-		other_information=#{otherInformation}
-	where id=#{id}
+	</if>
+	<if
+		test="otherInformation != null">
+		other_information=#{otherInformation},
+	</if>
+	 <if
+		test="seekStatus != null">
+		seek_status=#{seekStatus}
+	</if>
+		</set>
+	    where id=#{id}
 	</update>
 	
 	<select id="countSeek" resultType="Integer">
-		SELECT COUNT(*) FROM seek;
+		SELECT COUNT(*) FROM seek
+		WHERE 1=1
+		<if
+			test="seek.missName != '' and seek.missName != null and seek.missName != 'null'">
+			AND miss_name =#{seek.missName}
+		</if>
+		<if
+			test="seek.gender != '' and seek.gender != null and seek.gender != 'null'">
+			AND gender =#{seek.gender}
+		</if>
+		<if
+			test="seek.seekSubtype != '' and seek.seekSubtype != null and seek.seekSubtype != 'null'">
+			AND seek_subtype =#{seek.seekSubtype}
+		</if>
+		<if
+			test="seek.seekType != '' and seek.seekType != null and seek.seekType != 'null'">
+			AND seek_type =#{seek.seekType}
+		</if>
+		<if
+			test="seek.birthdate != '' and seek.birthdate != null and seek.birthdate != 'null'">
+			AND birthdate =#{seek.birthdate}
+		</if>
+		<if
+			test="seek.missDate != '' and seek.missDate != null and seek.missDate != 'null'">
+			AND miss_date =#{seek.missDate}
+		</if>
+		<if
+			test="seek.seekStatus != '' and seek.seekStatus != null and seek.seekStatus != 'null'">
+			AND seek_status =#{seek.seekStatus}
+		</if>
+		<if
+			test="seek.address!= null">
+		<if
+			test="seek.address.missProvinceId != null and seek.address.missProvinceId != 0">
+			AND miss_province_id =#{seek.address.missProvinceId}
+		</if>
+		<if
+			test="seek.address.missCityId != null and seek.address.missCityId != 0">
+			AND miss_city_id =#{seek.address.missCityId}
+		</if>
+		<if
+			test="seek.address.missCountyId != null and seek.address.missCountyId != 0">
+			AND miss_county_id =#{seek.address.missCountyId}
+		</if>
+		</if>
+		<choose>
+			<when test="hadBrowsed =='true'">
+				AND seek.id NOT IN(SELECT seek_id FROM browse_history
+				WHERE
+				customer_id=#{seek.customer.id})
+			</when>
+			<otherwise></otherwise>
+		</choose>
 	</select>
 
 	<select id="listSeekByCustomerIdAndSeekType" resultMap="seek">
@@ -470,5 +606,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		miss_city_name,
 		miss_county_name
 	</select>
-
+    <select id="listProvince" resultType="Province">
+		SELECT
+		province.id,province_name AS NAME FROM `province` ORDER BY id ;
+	</select>
+	<select id="listCity" parameterType="Integer" resultType="City">
+		SELECT city.id,city_name AS NAME FROM `city` WHERE province_id=#{id} ORDER
+		BY id ;
+	</select>
+	<select id="listCounty" parameterType="Integer" resultType="County">
+		SELECT county.id,county_name AS NAME FROM `county` WHERE city_id=#{id}
+		ORDER BY id ;
+	</select>
 </mapper>

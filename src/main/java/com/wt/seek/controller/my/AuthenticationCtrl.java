@@ -39,7 +39,7 @@ public class AuthenticationCtrl {
 		List<Authentication> authentications = authenticationService.listAuthentication(currentPageNos,
 				Constants.pageSize);
 		map.put(Constants.STATUS, Constants.SUCCESS);
-		map.put("Authentications", authentications);
+		map.put("authentications", authentications);
 		map.put("totalCount", totalCount);
 		map.put("pageSize", Constants.pageSize);
 		return map;
