@@ -57,16 +57,12 @@
  	</bean>
  
      <!-- 配置interceptors -->
-	 <!-- <mvc:interceptors> 
+	 <mvc:interceptors> 
 		<mvc:interceptor>
-			<mvc:mapping path="/back/**"/>
+			<mvc:mapping path="/**/back/**"/>
 			<bean class="com.wt.seek.interceptor.DataAccessInterceptor"/>
 		</mvc:interceptor> 
-		<mvc:interceptor>
-			<mvc:mapping path="/seek-back/*.html"/>
-			<bean class="com.wt.seek.interceptor.HtmlAccessInterceptor"/>
-		</mvc:interceptor> 
-	</mvc:interceptors>  -->
+	</mvc:interceptors>
 
 	<!-- 上传文件支持 配置MultipartResolver -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -75,6 +71,8 @@
 	</bean>
 
 	<!-- 配置静态资源访问 -->
-	<!-- <mvc:resources location="/seek-back/" mapping="/seek-back/**"></mvc:resources>
+<!-- 	<mvc:resources location="/seek-back/" mapping="/seek-back/**"></mvc:resources>
 	<mvc:resources location="/login/" mapping="/login/**"></mvc:resources> -->
+	<!-- 配置404错误页面 -->
+	<mvc:resources location="/" mapping="404.html"></mvc:resources>
 </beans>

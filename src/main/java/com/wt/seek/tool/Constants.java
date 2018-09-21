@@ -54,6 +54,7 @@ public class Constants {
 	public static final String AUTHENTICATION = "authentication-img";
 	
 	public static final String VOLUNTEER = "volunteer-img";
+	public static final String DETAIL_IMG = "banner-detail-img";
 
 	
 	//DOCBASEPATH指Tomcat的server.xml配置文件中host下的context的docBase属性
@@ -63,8 +64,10 @@ public class Constants {
 	
 	//等部署到服务器上后,再修改
 	//public static final String imgServerDomain = "https://www.qghls.com/statics/";
-	public static final String imgServerDomain = "http://192.168.0.102:8080/statics/";
-	
+	//public static final String imgServerDomain = "http://192.168.0.102:8080/statics/";
+	public static final String imgServerDomain = "http://192.168.0.177:8888/statics/";
+//	public static final String LOGIN_URL = "http://www.qghls.com/seek-back/login.html";
+	public static final String LOGIN_URL = "http://192.168.0.177:8848/seek-back/login.html";
 
 	public static final double REPEATPUBLISHTHRESHOLD = 80; 
 	
