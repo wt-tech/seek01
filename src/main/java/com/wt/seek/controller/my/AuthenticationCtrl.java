@@ -39,7 +39,7 @@ public class AuthenticationCtrl {
 		List<Authentication> authentications = authenticationService.listAuthentication(currentPageNos,
 				Constants.pageSize);
 		map.put(Constants.STATUS, Constants.SUCCESS);
-		map.put("Authentications", authentications);
+		map.put("authentications", authentications);
 		map.put("totalCount", totalCount);
 		map.put("pageSize", Constants.pageSize);
 		return map;
@@ -96,10 +96,23 @@ public class AuthenticationCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value={"/getAuthentication","/back/getAuthentication"})
+	@RequestMapping("/getAuthentication")
 	public Map<String, Object> getAuthentication(@RequestParam("customerId") Integer customerId) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		Authentication authentication=authenticationService.getAuthentication(customerId);
+		if (null !=authentication) {
+			map.put(Constants.STATUS, Constants.SUCCESS);
+			map.put("authentication", authentication);
+		} else {
+			map.put(Constants.STATUS, Constants.FAIL);
+		}
+		return map;
+	}
+	
+	@RequestMapping("/back/getbackauthentication")
+	public Map<String, Object> getBackAuthentication(@RequestParam("id") Integer id) throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		Authentication authentication=authenticationService.getBackAuthentication(id);
 		if (null !=authentication) {
 			map.put(Constants.STATUS, Constants.SUCCESS);
 			map.put("authentication", authentication);

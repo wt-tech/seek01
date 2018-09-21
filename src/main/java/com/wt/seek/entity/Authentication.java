@@ -5,7 +5,7 @@ public class Authentication {
 	private Customer customer;// 用户
 	private String customerName;// 姓名
 	private String identityNO;// 身份证号
-	private String negativIdentityUrl;// 反面照
+	private String negativeIdentityUrl;// 反面照
 	private String positiveIdentityUrl;// 正面照
 	private String address;// 住址
 	private String tel;// 手机号
@@ -43,12 +43,12 @@ public class Authentication {
 		this.identityNO = identityNO;
 	}
 
-	public String getNegativIdentityUrl() {
-		return negativIdentityUrl;
+	public String getNegativeIdentityUrl() {
+		return negativeIdentityUrl;
 	}
 
-	public void setNegativIdentityUrl(String negativIdentityUrl) {
-		this.negativIdentityUrl = negativIdentityUrl;
+	public void setNegativeIdentityUrl(String negativeIdentityUrl) {
+		this.negativeIdentityUrl = negativeIdentityUrl;
 	}
 
 	public String getPositiveIdentityUrl() {

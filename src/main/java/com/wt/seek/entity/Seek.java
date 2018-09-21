@@ -27,6 +27,7 @@ public class Seek {
 	private String title;// 标题
 	private Date pubdate;// 发布时间
 	private String otherInformation;//其它信息
+	private String seekStatus;//其它信息
 
 	public int getId() {
 		return id;
@@ -218,6 +219,14 @@ public class Seek {
 
 	public void setOtherInformation(String otherInformation) {
 		this.otherInformation = otherInformation;
+	}
+
+	public String getSeekStatus() {
+		return seekStatus;
+	}
+
+	public void setSeekStatus(String seekStatus) {
+		this.seekStatus = seekStatus;
 	}
 	
 }

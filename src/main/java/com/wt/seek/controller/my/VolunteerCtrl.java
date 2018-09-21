@@ -110,6 +110,19 @@ public class VolunteerCtrl {
 		return map;
 	}
 
+	@RequestMapping(value = "/back/getvolunteer",method=RequestMethod.GET)
+	public Map<String, Object> getBackVolunteer(@RequestParam("id") Integer id) throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		Volunteer volunteer=volunteerService.getBackVolunteer(id);
+		if(null !=volunteer) {
+			map.put(Constants.STATUS, Constants.SUCCESS);
+			map.put("volunteer", volunteer);
+		}else {
+			map.put(Constants.STATUS, Constants.FAIL);
+		}
+		return map;
+	}
+	
 	/**
 	 * 修改志愿者的记录
 	 * 

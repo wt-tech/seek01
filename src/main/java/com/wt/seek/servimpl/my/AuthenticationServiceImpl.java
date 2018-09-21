@@ -41,6 +41,12 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 		// TODO Auto-generated method stub
 		return authenticationMapper.getAuthentication(customerId);
 	}
+	
+	@Override
+	public Authentication getBackAuthentication(int id) throws Exception {
+		// TODO Auto-generated method stub
+		return authenticationMapper.getBackAuthentication(id);
+	}
 
 	@Override
 	public boolean updateAuthentication(Authentication authentication, MultipartFile negativIdentityUrl,

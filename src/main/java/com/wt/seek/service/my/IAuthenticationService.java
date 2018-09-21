@@ -2,7 +2,6 @@ package com.wt.seek.service.my;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wt.seek.entity.Authentication;
@@ -38,6 +37,8 @@ public interface IAuthenticationService {
 	 * @throws Exception
 	 */
 	Authentication getAuthentication(int customerId) throws Exception;
+	
+	Authentication getBackAuthentication(int id) throws Exception;
 
 	/**
 	 * 修改用户的认证

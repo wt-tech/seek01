@@ -42,6 +42,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		volunteer
 		where customer_id=#{customerId};
 	</select>
+	
+	<select id="getBackVolunteer" resultType="Volunteer">
+		select * from
+		volunteer
+		where id=#{id};
+	</select>
 
 	<update id="updateVolunteer" parameterType="Volunteer">
 		update

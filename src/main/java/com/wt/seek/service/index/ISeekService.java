@@ -5,6 +5,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.wt.seek.entity.City;
+import com.wt.seek.entity.County;
+import com.wt.seek.entity.Province;
 import com.wt.seek.entity.Seek;
 
 public interface ISeekService {
@@ -23,7 +26,7 @@ public interface ISeekService {
 
 	boolean updateSeek(Seek seek);
 	
-	Integer countSeek();
+	Integer countSeek(Seek seek,String hadBrowsed);
 	
 	Integer countSeekByCustomerId(Integer customerId);
 
@@ -41,5 +44,22 @@ public interface ISeekService {
 	 * 主要从出生省份,失踪省份,寻亲类型匹配
 	 */
 	List<Seek> listSimilarSeek(Seek seek);
-
+    
+	/**
+	 * 查询省份
+	 * @return
+	 */
+	public List<Province> listProvince();
+	/**
+	 * 查询城市
+	 * @param id
+	 * @return
+	 */
+	public List<City> listCity(Integer id);
+	/**
+	 * 查询县区
+	 * @param id
+	 * @return
+	 */
+	public List<County> listCounty(Integer id);
 }

@@ -38,6 +38,8 @@ public interface IVolunteerService {
 	 * @throws Exception
 	 */
 	Volunteer getVolunteer(int customerId) throws Exception;
+	
+	Volunteer getBackVolunteer(int id) throws Exception;
 
 	/**
 	 * 修改用户的志愿者信息

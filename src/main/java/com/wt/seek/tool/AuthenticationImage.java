@@ -31,7 +31,7 @@ public class AuthenticationImage {
 				if (flag) {// 图片存储成功
 					authentication.setId(id);
 					if (null != negativIdentityUrl)
-						authentication.setNegativIdentityUrl(url);
+						authentication.setNegativeIdentityUrl(url);
 					if (null != positiveIdentityUrl)
 						authentication.setPositiveIdentityUrl(url);
 					// 更新认证的图片
