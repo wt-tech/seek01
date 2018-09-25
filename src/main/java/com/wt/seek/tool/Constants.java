@@ -60,7 +60,7 @@ public class Constants {
 	//DOCBASEPATH指Tomcat的server.xml配置文件中host下的context的docBase属性
 	public static final String IMGBASEPATH = "statics";
 	//ContextPath指当前Web应用的名称
-	public static final String ContextPath = "seek01";
+	public static final String ContextPath = "seek";
 	
 	//等部署到服务器上后,再修改
 	public static final String imgServerDomain = "https://www.qghls.com/statics/";
@@ -68,8 +68,8 @@ public class Constants {
 //	public static final String imgServerDomain = "http://192.168.0.177:8888/statics/";
 
 	public static final double REPEATPUBLISHTHRESHOLD = 80; 
-	public static final String NOT_SOLVED = "未结案";
-	public static final String HAS_SOLVED = "已结案";
+	public static final String NOT_SOLVED = "'未结案'";
+	public static final String HAS_SOLVED = "'已结案'";
 	
 	
 	//相互匹配阈值
