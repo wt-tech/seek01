@@ -1,5 +1,6 @@
 package com.wt.seek.servimpl.my;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,15 +71,16 @@ public class VolunteerServiceImpl implements IVolunteerService {
 		// MultipartFile[] file = { negativIdentityUrl, positiveIdentityUrl };
 		if (volunteer.getId() > 0) { // 保存成功
 			if (null != file) {
+				int id=(int)new Date().getTime();
 				// for (int i = 0; i < file.length; i++) {
 				// 存储图片
 				String suffix = ImageUtils.getImageTypeWithDot(file);
 				// 根据传递的公共路径（前半部分）+表名+id+文件名生成存储路径
 				String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.VOLUNTEER,
-						volunteer.getId(), suffix);
+						id, suffix);
 				// 上传图片
 				flag = ImageUtils.saveImage(file, absolutePath);
-				String url = ImageUtils.genrateVirtualImgPath(Constants.VOLUNTEER, volunteer.getId(), suffix);
+				String url = ImageUtils.genrateVirtualImgPath(Constants.VOLUNTEER, id, suffix);
 				if (flag) {// 图片存储成功
 					if (null != negativIdentityUrl)
 						volunteer.setNegativeIdentityUrl(url);
