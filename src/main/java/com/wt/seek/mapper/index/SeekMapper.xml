@@ -103,6 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if
 			test="seek.missName != '' and seek.missName != null and seek.missName != 'null'">
 			AND miss_name =#{seek.missName}
+			AND miss_name like %${seek.missName}%
 		</if>
 		<if
 			test="seek.gender != '' and seek.gender != null and seek.gender != 'null'">
@@ -177,8 +178,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		miss_province_name,
 		miss_city_name,
 		miss_county_name
-		ORDER BY
-		pubdate desc
+		<!-- <if test="seek.pubdate !=null"> -->
+		ORDER BY pubdate desc
+		<!-- </if>
+		<if test="seek.sequence !=null">
+		ORDER BY sequence desc
+		</if> -->
 		LIMIT ${(currentPageNo-1)*pageSize},${pageSize}
 	</select>
 
@@ -405,7 +410,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		test="birthdate != null">
 		birthdate=#{birthdate},
 	</if>
-	 <if
+	<if
 		test="missDate != null">
 		miss_date=#{missDate},
 	</if>
@@ -456,10 +461,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <if
 		test="title != null">
 		title=#{title},
-	</if>
-	 <if
-		test="pubdate != null">
-		pubdate=#{pubdate},
 	</if>
 	<if
 		test="otherInformation != null">

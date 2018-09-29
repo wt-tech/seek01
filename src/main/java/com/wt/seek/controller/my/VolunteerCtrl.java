@@ -54,7 +54,7 @@ public class VolunteerCtrl {
 	 * @throws Exception
 	 */
 	@RequestMapping("/savevolunteer")
-	public Map<String, Object> saveVolunteer(@RequestBody() Volunteer volunteer)
+	public Map<String, Object> saveVolunteer(@RequestBody Volunteer volunteer)
 			throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		Integer volunteerId = volunteerService.saveVolunteer(volunteer);

@@ -9,6 +9,7 @@ public class Volunteer {
 	private String positiveIdentityUrl;// 正面照
 	private String identityNO;// 身份证号
 	private String address;// 住址
+	private VolunteerArea volunteerarea;
 	private String tel;// 手机号
 	private String volResult;//判断是否通过
 
@@ -90,6 +91,14 @@ public class Volunteer {
 
 	public void setVolResult(String volResult) {
 		this.volResult = volResult;
+	}
+
+	public VolunteerArea getVolunteerarea() {
+		return volunteerarea;
+	}
+
+	public void setVolunteerarea(VolunteerArea volunteerarea) {
+		this.volunteerarea = volunteerarea;
 	}
 
 }

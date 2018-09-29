@@ -63,4 +63,10 @@ public class TopComentServiceImpl implements ITopComentService {
 		return topComentMapper.countComentByCustomerId(customerId);
 	}
 
+	@Override
+	public boolean deleteTopComent(Integer id) {
+		// TODO Auto-generated method stub
+		return topComentMapper.deleteTopComent(id)>0;
+	}
+
 }

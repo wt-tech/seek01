@@ -28,8 +28,7 @@ public interface IVolunteerService {
 	 */
 
 	Integer saveVolunteer(Volunteer volunteer) throws Exception;
-
-
+	
 	/**
 	 * 查询每个用户的志愿者记录
 	 * 

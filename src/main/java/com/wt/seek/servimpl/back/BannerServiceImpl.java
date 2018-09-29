@@ -1,6 +1,8 @@
 package com.wt.seek.servimpl.back;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,14 +31,15 @@ public class BannerServiceImpl implements IBannerService {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		if (null != file && !file.isEmpty()) {
+			int id=(int)new Date().getTime();
 			// 获取文件名
 			String suffix = ImageUtils.getImageTypeWithDot(file);
 			// 根据传递的公共路径（前半部分）+表名+id+文件名生成存储路径
-			String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.BANNER_IMG, 1, suffix);
+			String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.BANNER_IMG, id, suffix);
 			// 上传图片
 			flag = ImageUtils.saveImage(file, absolutePath);
 			// 生成网络访问的路径
-			String url = ImageUtils.genrateVirtualImgPath(Constants.BANNER_IMG, 1, suffix);
+			String url = ImageUtils.genrateVirtualImgPath(Constants.BANNER_IMG, id, suffix);
 			if (flag) {
 				banner.setUrl(url);
 				flag = bannerMapper.updateBanner(banner)>0;
@@ -55,15 +58,16 @@ public class BannerServiceImpl implements IBannerService {
 			for (int i = 0; i < file.length; i++) {
 				MultipartFile attach = file[i];
 				if (!attach.isEmpty()) {
+					int id=(int)new Date().getTime();
 					// 获取文件名
 					String suffix = ImageUtils.getImageTypeWithDot(attach);
 					// 根据传递的公共路径（前半部分）+表名+id+文件名生成存储路径
-					String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.BANNER_IMG, 1,
+					String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.BANNER_IMG, id,
 							suffix);
 					// 上传图片
 					flag = ImageUtils.saveImage(attach, absolutePath);
 					// 生成网络访问的路径
-					String url = ImageUtils.genrateVirtualImgPath(Constants.BANNER_IMG, 1, suffix);
+					String url = ImageUtils.genrateVirtualImgPath(Constants.BANNER_IMG, id, suffix);
 					if (flag) {
 						Banner banner = new Banner();
 						banner.setImgName(suffix);
