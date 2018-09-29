@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace指向mapper接口 -->
+<mapper namespace="com.wt.seek.dao.index.ITopComentMapper">
+
+	<resultMap type="com.wt.seek.entity.TopComent" id="topcoment">
+		<id column="id" property="id" />
+		<result column="seekId" property="seekId" />
+		<result column="content" property="content" />
+		<result column="coment_time" property="comentTime" />
+
+		<association javaType="com.wt.seek.entity.Customer"
+			property="customer">
+			<result property="nickname" column="nickname" />
+		</association>
+
+		<association javaType="com.wt.seek.entity.Seek"
+			property="seek">
+			<result property="title" column="title" />
+		</association>
+		
+		<collection property="coment" ofType="Coment" column="id">
+			<id column="coment_id" property="id"/>
+			<result column="reply_content" property="content"/>
+			
+			<association javaType="com.wt.seek.entity.Customer" property="customer">
+				<id property="id" column="customer2_id"/>
+				<result property="replyname" column="replyname" />
+				<result property="nickname" column="nickname" />
+			</association>
+		</collection>
+		
+	</resultMap>
+
+	<select id="listTopComent" resultMap="topcoment">
+		SELECT
+	customer.nickname,
+	customer.id AS customer1_id,
+	top.content,
+	top.id AS id,
+	customer2.nickname AS replyname,
+	customer2.id AS customer2_id,
+	coment2.content AS reply_content,
+	coment2.id AS coment_id
+	
+	FROM
+		seek 
+	LEFT JOIN (SELECT * FROM top_coment WHERE seek_id = #{id} ORDER BY top_coment.coment_time desc LIMIT ${(currentPageNo-1)*pageSize},${pageSize}) AS top ON seek.id = top.seek_id
+	LEFT JOIN coment ON top.id = coment.top_coment_id
+	LEFT JOIN coment coment2 ON coment.id = coment2.coment_id 
+	LEFT JOIN customer ON coment.customer_id = customer.id -- 在后
+	LEFT JOIN customer customer2 ON coment2.customer_id = customer2.id -- 在前
+	WHERE
+		 top.seek_id=#{id}
+	</select>
+
+	<select id="listTopComentByCustomerId" resultMap="topcoment">
+		SELECT * FROM (
+		SELECT seek.id AS seekId,coment1.content AS content , coment2.content title ,coment1.id
+		AS id,coment1.coment_time FROM coment coment1
+		INNER JOIN coment coment2 ON coment1.coment_id = coment2.id
+		INNER JOIN seek ON coment1.seek_id = seek.id WHERE
+		coment1.customer_id=#{customerId}
+		UNION ALL
+		SELECT seek.id AS seekId,coment.content,top_coment.content AS title ,coment.id AS
+		id,coment.coment_time FROM coment INNER JOIN top_coment ON
+		top_coment_id =
+		top_coment.id 
+		INNER JOIN seek ON
+		top_coment.seek_id =
+		seek.id WHERE coment.coment_id IS NULL AND coment.customer_id=#{customerId}
+		UNION ALL
+		SELECT seek.id AS seekId,content,title ,top_coment.id AS id,top_coment.coment_time FROM
+		top_coment LEFT JOIN seek ON seek_id = seek.id WHERE
+		top_coment.customer_id=#{customerId}
+		)LIST ORDER BY coment_time DESC
+		LIMIT
+		${(currentPageNo-1)*pageSize},${pageSize}
+	</select>
+
+	<insert id="saveTopComent" parameterType="TopComent">
+		insert into top_coment
+		(customer_id,seek_id,content,coment_time)
+		values(#{customer.id},#{seek.id},#{content},NOW());
+	</insert>
+
+	<select id="countTopComent" resultType="Integer">
+		SELECT COUNT(*) FROM
+		top_coment WHERE seek_id=#{id};
+	</select>
+
+	<select id="countTopComentByCustomerId" resultType="Integer">
+		SELECT
+		COUNT(*) FROM (
+		SELECT coment1.content AS content , coment2.content title ,coment1.id
+		AS id,coment1.coment_time FROM coment coment1
+		INNER JOIN coment coment2 ON coment1.coment_id = coment2.id WHERE
+		coment1.customer_id=#{customerId}
+		UNION ALL
+		SELECT coment.content,top_coment.content AS title ,coment.id AS
+		id,coment.coment_time FROM coment INNER JOIN top_coment ON
+		top_coment_id =
+		top_coment.id WHERE coment.coment_id IS NULL AND coment.customer_id=#{customerId}
+		UNION ALL
+		SELECT content,title ,top_coment.id AS id,top_coment.coment_time FROM
+		top_coment LEFT JOIN seek ON seek_id = seek.id WHERE
+		top_coment.customer_id=#{customerId}
+		)LIST
+	</select>
+	
+	<select id="listComentByCustomerId" resultMap="topcoment">
+		SELECT * FROM (
+		SELECT coment2.content AS content , coment1.content title ,coment1.id
+		AS id,nickname,coment2.coment_time FROM coment coment1
+		INNER JOIN coment coment2 ON coment1.coment_id = coment2.id 
+		INNER JOIN customer ON coment2.customer_id =customer.id WHERE
+		coment1.customer_id=#{customerId}
+		UNION ALL
+		SELECT coment.content,top_coment.content AS title ,coment.id AS
+		id,nickname,coment.coment_time FROM coment 
+		INNER JOIN top_coment ON
+		top_coment_id =top_coment.id 
+		INNER JOIN customer ON
+		coment.customer_id =customer.id 
+		WHERE coment.coment_id IS NULL AND top_coment.customer_id=#{customerId}
+		UNION ALL
+		SELECT content,title ,top_coment.id AS id,nickname,top_coment.coment_time FROM
+		top_coment LEFT JOIN seek ON seek_id = seek.id 
+		LEFT JOIN customer ON
+		top_coment.customer_id =customer.id 
+		WHERE
+		seek.customer_id=#{customerId}
+		UNION ALL
+		SELECT content,title ,coment.id AS id,nickname,coment.coment_time FROM
+		coment LEFT JOIN seek ON seek_id = seek.id 
+		LEFT JOIN customer ON
+		coment.customer_id =customer.id 
+		WHERE
+		seek.customer_id=#{customerId}
+		)LIST ORDER BY coment_time DESC
+		LIMIT
+		${(currentPageNo-1)*pageSize},${pageSize}
+	</select>
+	
+	<select id="countComentByCustomerId" resultType="Integer">
+		SELECT
+		COUNT(*) FROM (
+		SELECT coment2.content AS content , coment1.content title ,coment1.id
+		AS id,nickname,coment2.coment_time FROM coment coment1
+		INNER JOIN coment coment2 ON coment1.coment_id = coment2.id 
+		INNER JOIN customer ON coment2.customer_id =customer.id WHERE
+		coment1.customer_id=#{customerId}
+		UNION ALL
+		SELECT coment.content,top_coment.content AS title ,coment.id AS
+		id,nickname,coment.coment_time FROM coment 
+		INNER JOIN top_coment ON
+		top_coment_id =top_coment.id 
+		INNER JOIN customer ON
+		coment.customer_id =customer.id 
+		WHERE coment.coment_id IS NULL AND top_coment.customer_id=#{customerId}
+		UNION ALL
+		SELECT content,title ,top_coment.id AS id,nickname,top_coment.coment_time FROM
+		top_coment LEFT JOIN seek ON seek_id = seek.id 
+		LEFT JOIN customer ON
+		top_coment.customer_id =customer.id 
+		WHERE
+		seek.customer_id=#{customerId}
+		UNION ALL
+		SELECT content,title ,coment.id AS id,nickname,coment.coment_time FROM
+		coment LEFT JOIN seek ON seek_id = seek.id 
+		LEFT JOIN customer ON
+		coment.customer_id =customer.id 
+		WHERE
+		seek.customer_id=#{customerId}
+		)LIST
+	</select>
+	
+	<delete id="deleteTopComent" parameterType="Integer">
+	delete from top_coment WHERE id=#{id};
+	</delete>
+	
+</mapper>

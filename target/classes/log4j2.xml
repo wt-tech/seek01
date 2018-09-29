@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configuration 的属性
+	status="error"	该属性可以不设置.
+	用于设置log4j2自身内部的信息输出.
+
+	monitorInterval:log4j能够自动检测是否修改了
+	配置文件并重新配置本身.该属性用于设置间隔秒数.
+	这里没有设置该属性.
+ -->
+<Configuration status="error">
+	<Properties>
+        <Property name="logPath" >${sys:catalina.home}/logs/seek</Property>
+    </Properties>
+
+  	<Appenders>
+	    <Console name="console" target="SYSTEM_OUT">
+	      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [daryl] %-5level %logger{36} - %msg%n"/>
+	    </Console>
+    
+    <!-- 测试专用,每次启动都会清空上次的 -->
+	    <File name="test" fileName="${logPath}/test.log" append="false">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+	    </File> 
+		<RollingFile name="errorInfo" fileName="${logPath}/error.log" immediateFlush="true"
+			filePattern="logs/$${date:yyyy-MM-dd}/error-%d{MM-dd-yyyy}.log.zip">
+			<PatternLayout>
+				<Pattern>%d{HH:mm:ss} %p %c{1.} %t %m%n</Pattern>
+			</PatternLayout>
+			<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="1 KB" />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+	 <Loggers>
+	   <Root level="TRACE">
+	  		<AppenderRef ref="test"/>
+	   </Root>
+	   <Logger level="ALL" name="com.wt.seek.exception.handler.GloblalExceptionHandler">
+	  		<AppenderRef ref="errorInfo"/>
+	   </Logger>
+	 </Loggers>
+</Configuration>
