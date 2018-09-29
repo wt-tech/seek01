@@ -13,16 +13,6 @@
     </Properties>
 
   	<Appenders>
-<<<<<<< HEAD
-	    <Console name="console" target="SYSTEM_OUT">
-	      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [daryl] %-5level %logger{36} - %msg%n"/>
-	    </Console>
-    
-    <!-- 测试专用,每次启动都会清空上次的 -->
-	    <File name="test" fileName="${logPath}/test.log" append="false">
-			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
-	    </File> 
-=======
 	    <!-- <Console name="console" target="SYSTEM_OUT">
 	      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [daryl] %-5level %logger{36} - %msg%n"/>
 	    </Console> -->
@@ -31,7 +21,6 @@
 	   <!--  <File name="test" fileName="${logPath}/test.log" append="false">
 			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
 	    </File>  -->
->>>>>>> 04b535099ae8f956d170c1de801c454b9ef8af0a
 		<RollingFile name="errorInfo" fileName="${logPath}/error.log" immediateFlush="true"
 			filePattern="logs/$${date:yyyy-MM-dd}/error-%d{MM-dd-yyyy}.log.zip">
 			<PatternLayout>
@@ -40,11 +29,7 @@
 			<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
 			<Policies>
 				<TimeBasedTriggeringPolicy />
-<<<<<<< HEAD
-				<SizeBasedTriggeringPolicy size="1 KB" />
-=======
 				<SizeBasedTriggeringPolicy size="50 MB" />
->>>>>>> 04b535099ae8f956d170c1de801c454b9ef8af0a
 			</Policies>
 		</RollingFile>
 	</Appenders>
