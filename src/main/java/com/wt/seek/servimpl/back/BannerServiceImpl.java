@@ -105,4 +105,10 @@ public class BannerServiceImpl implements IBannerService {
 		return bannerMapper.countBanner();
 	}
 
+	@Override
+	public boolean updateBanner(Banner banner) throws Exception {
+		// TODO Auto-generated method stub
+		return bannerMapper.updateBanner(banner)>0;
+	}
+
 }
