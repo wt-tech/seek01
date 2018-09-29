@@ -64,7 +64,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="positiveIdentityUrl != null">
 				positive_identity_url=#{positiveIdentityUrl},
 			</if>
+<<<<<<< HEAD
+			<if test="address != null"> 
+=======
 			<if test="address != null">
+>>>>>>> 04b535099ae8f956d170c1de801c454b9ef8af0a
 				address=#{address},
 			</if>
 			<if test="tel != null">

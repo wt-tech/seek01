@@ -88,7 +88,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values(#{customer.id},#{customerName},#{identityNO},#{address},#{tel},#{sequence});
 
 	</insert>
-
+    
+    <insert id="saveVolunteerAddress" parameterType="Volunteer">
+		insert into volunteer_areas
+		(volunteer_id,province_id,city_id,county_id)
+		values(#{id},#{volunteerarea.provinceId},#{volunteerarea.cityId},#{volunteerarea.countyId});
+	</insert>
+	
 	<select id="countVolunteer" resultType="Integer">
 		SELECT COUNT(*) FROM
 		volunteer;

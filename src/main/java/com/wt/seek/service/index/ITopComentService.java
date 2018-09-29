@@ -20,4 +20,6 @@ public interface ITopComentService {
 	Integer countTopComentByCustomerId(Integer customerId);
 	
 	Integer countComentByCustomerId(Integer customerId);
+	
+	boolean deleteTopComent(Integer id);
 }

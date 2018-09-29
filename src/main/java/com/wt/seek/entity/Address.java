@@ -2,7 +2,6 @@ package com.wt.seek.entity;
 
 public class Address {
 	private int id;
-
 	private Integer birthProvinceId;
 	private String birthProvinceName;// 出生省份
 	private Integer birthCityId;

@@ -300,4 +300,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		seek.customer_id=#{customerId}
 		)LIST
 	</select>
+	
+	<delete id="deleteTopComent" parameterType="Integer">
+	delete from top_coment WHERE id=#{id};
+	</delete>
+	
 </mapper>

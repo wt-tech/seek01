@@ -35,6 +35,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</resultMap>
 
+<<<<<<< HEAD
+	<select id="listTopComent" resultMap="topcoment">
+		SELECT
+	customer.nickname,
+	customer.id AS customer1_id,
+	top.content,
+	top.id AS id,
+	customer2.nickname AS replyname,
+	customer2.id AS customer2_id,
+	coment2.content AS reply_content,
+	coment2.id AS coment_id
+	
+	FROM
+		seek 
+	LEFT JOIN (SELECT * FROM top_coment WHERE seek_id = #{id} ORDER BY top_coment.coment_time desc LIMIT ${(currentPageNo-1)*pageSize},${pageSize}) AS top ON seek.id = top.seek_id
+	LEFT JOIN coment ON top.id = coment.top_coment_id
+	LEFT JOIN coment coment2 ON coment.id = coment2.coment_id 
+	LEFT JOIN customer ON coment.customer_id = customer.id -- 在后
+	LEFT JOIN customer customer2 ON coment2.customer_id = customer2.id -- 在前
+	WHERE
+		 top.seek_id=#{id}
+=======
 	<resultMap type="com.wt.seek.entity.TopComents" id="TopComents">
 		<id column="id" property="id" />
 		<result column="seekId" property="seekId" />
@@ -109,6 +131,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 		top.seek_id = #{id}
 		order by replyTime ASC;
+>>>>>>> 04b535099ae8f956d170c1de801c454b9ef8af0a
 	</select>
 
 	<select id="listTopComentByCustomerId" resultMap="topcoment">
@@ -300,4 +323,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		seek.customer_id=#{customerId}
 		)LIST
 	</select>
+<<<<<<< HEAD
+	
+	<delete id="deleteTopComent" parameterType="Integer">
+	delete from top_coment WHERE id=#{id};
+	</delete>
+	
+=======
+>>>>>>> 04b535099ae8f956d170c1de801c454b9ef8af0a
 </mapper>
