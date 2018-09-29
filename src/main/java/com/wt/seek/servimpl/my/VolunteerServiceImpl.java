@@ -78,10 +78,10 @@ public class VolunteerServiceImpl implements IVolunteerService {
 							if (null != positiveIdentityUrl)
 								volunteer.setPositiveIdentityUrl(url);
 							// 更新认证的图片
-							flag = volunteerMapper.updateVolunteer(volunteer) > 0;
 						}
 					}
 				}
+				flag = volunteerMapper.updateVolunteer(volunteer) > 0;
 
 				return flag;
 			}

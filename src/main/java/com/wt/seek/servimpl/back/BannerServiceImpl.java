@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.wt.seek.dao.back.IBannersMapper;
 import com.wt.seek.entity.Banner;
+import com.wt.seek.exception.BusinessException;
 import com.wt.seek.service.back.IBannerService;
 import com.wt.seek.tool.Constants;
 import com.wt.seek.tool.ImageUtils;
@@ -32,11 +33,11 @@ public class BannerServiceImpl implements IBannerService {
 			// 获取文件名
 			String suffix = ImageUtils.getImageTypeWithDot(file);
 			// 根据传递的公共路径（前半部分）+表名+id+文件名生成存储路径
-			String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.BANNER_IMG, 1, suffix);
+			String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.BANNER_IMG, banner.getId(), suffix);
 			// 上传图片
 			flag = ImageUtils.saveImage(file, absolutePath);
 			// 生成网络访问的路径
-			String url = ImageUtils.genrateVirtualImgPath(Constants.BANNER_IMG, 1, suffix);
+			String url = ImageUtils.genrateVirtualImgPath(Constants.BANNER_IMG, banner.getId(), suffix);
 			if (flag) {
 				banner.setUrl(url);
 				flag = bannerMapper.updateBanner(banner)>0;
@@ -55,22 +56,28 @@ public class BannerServiceImpl implements IBannerService {
 			for (int i = 0; i < file.length; i++) {
 				MultipartFile attach = file[i];
 				if (!attach.isEmpty()) {
-					// 获取文件名
-					String suffix = ImageUtils.getImageTypeWithDot(attach);
-					// 根据传递的公共路径（前半部分）+表名+id+文件名生成存储路径
-					String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.BANNER_IMG, 1,
-							suffix);
-					// 上传图片
-					flag = ImageUtils.saveImage(attach, absolutePath);
-					// 生成网络访问的路径
-					String url = ImageUtils.genrateVirtualImgPath(Constants.BANNER_IMG, 1, suffix);
+					Banner banner = new Banner();
+					banner.setImgName(imgName);
+					banner.setOnUse(true);
+					flag = bannerMapper.saveBanner(banner)>0;
 					if (flag) {
-						Banner banner = new Banner();
-						banner.setImgName(imgName);
+						// 获取文件名
+						String suffix = ImageUtils.getImageTypeWithDot(attach);
+						// 根据传递的公共路径（前半部分）+表名+id+文件名生成存储路径
+						String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.BANNER_IMG, banner.getId(),
+								suffix);
+						// 上传图片
+						flag = ImageUtils.saveImage(attach, absolutePath);
+						// 生成网络访问的路径
+						String url = ImageUtils.genrateVirtualImgPath(Constants.BANNER_IMG, banner.getId(), suffix);
 						banner.setUrl(url);
-						banner.setOnUse(true);
-						flag = bannerMapper.saveBanner(banner)>0;
-						if(flag) continue;
+						flag = updateBanner(banner);
+						if(!flag) {
+							throw new BusinessException("轮播图上传失败");
+						}
+						
+					}else {//保存失败
+						throw new BusinessException("轮播图上传失败");
 					}
 				}
 			}
@@ -99,6 +106,11 @@ public class BannerServiceImpl implements IBannerService {
 	public Integer countBanner() {
 		// TODO Auto-generated method stub
 		return bannerMapper.countBanner();
+	}
+
+	@Override
+	public boolean updateBanner(Banner banner) throws Exception {
+		return bannerMapper.updateBanner(banner)>0;
 	}
 
 }

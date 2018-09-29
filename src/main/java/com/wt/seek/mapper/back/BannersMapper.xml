@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE id = #{id};
 	</update>
 
-	<insert id="saveBanner" parameterType="Banner">
+	<insert id="saveBanner" parameterType="Banner" useGeneratedKeys="true" keyProperty="id">
 		insert into banner
 		(img_name,url,on_use,upload_time)
 		values(#{imgName},#{url},#{onUse},NOW());

@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- namespace指向mapper接口 -->
 <mapper namespace="com.wt.seek.dao.back.ILoginMapper">
+	
+	<select id="listAllUsers" resultType="Login">
+		select * from login;
+	</select>
+
 	<select id="getLoginUser" resultType="Login">
 		select * from login l
 		<trim prefix="where" prefixOverrides="and | or">
@@ -15,4 +21,44 @@
 	<update id="updatePwd" parameterType="Integer">
 		update login l set user_password=#{userPassword} where l.id = #{id}
 	</update>
+	
+	
+	
+	<select id="getAllPermissionByUserCode" resultMap="userRolesAndPermissions">
+		SELECT
+			login.id,
+			login.user_code,
+			login.user_name,
+			role.id AS 'role.id',
+			role.role_name AS 'role.role_name',
+			role.description As 'role.description',
+			permission.id AS 'role.permission.id',
+			permission.url AS 'role.permission.url',
+			permission.description AS 'role.permission.description',
+			menu.id AS 'role.menu.id',
+			menu.menu_name AS  'role.menu.menu_name',
+			menu.description AS 'role.menu.description'
+		FROM
+			login
+		LEFT JOIN login_role ON login.user_code = login_role.user_code
+		LEFT JOIN role ON login_role.role_id = role.id
+		LEFT JOIN role_permission ON role.id = role_permission.role_id
+		LEFT JOIN permission ON role_permission.permission_id = permission.id
+		LEFT JOIN	role_menu ON role.id = role_menu.role_id
+		LEFT JOIN menu ON role_menu.menu_id = menu.id
+		WHERE login.user_code = #{userCode};
+	</select>
+	
+	<resultMap type="com.wt.seek.entity.Login" id="userRolesAndPermissions" autoMapping="true">
+		<id property="id" column="id"></id>
+		<collection property="roles" ofType="com.wt.seek.entity.Role" columnPrefix="role." autoMapping="true">
+			<id property="id" column="id"></id>
+			<collection property="permissions" ofType="com.wt.seek.entity.Permission" columnPrefix="permission." autoMapping="true">
+				<id property="id" column="id"></id>
+			</collection>
+			<collection property="menus" ofType="com.wt.seek.entity.Menu" columnPrefix="menu." autoMapping="true">
+				<id property="id" column="id"></id>
+			</collection>
+		</collection>
+	</resultMap>
 </mapper>

@@ -79,10 +79,10 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 					if (null != positiveIdentityUrl)
 						authentication.setPositiveIdentityUrl(url);
 					// 更新认证的图片
-					flag = authenticationMapper.updateAuthentication(authentication) > 0;
 				}
 			}
 		}
+		flag = authenticationMapper.updateAuthentication(authentication) > 0;
 
 		return flag;
 	}

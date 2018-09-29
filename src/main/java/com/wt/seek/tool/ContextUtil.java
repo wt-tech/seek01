@@ -1,10 +1,24 @@
 package com.wt.seek.tool;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+import com.wt.seek.entity.Permission;
+
 public class ContextUtil {
+
 
 	private static final String getContextRealPath(HttpServletRequest request) {
 		if (request != null)
@@ -60,4 +74,30 @@ public class ContextUtil {
 		return ip;
 	}
 
+	/**
+	 * 获取后台管理所有的uri,并封装成Permission
+	 * @param addedPermissions
+	 * @param request
+	 * @return
+	 */
+	public static Set<Permission> getAllPermission(List<Permission> addedPermissions,HttpServletRequest request){
+		Set<Permission> totalPermissions = new HashSet<Permission>();
+		WebApplicationContext webCtx = (WebApplicationContext) request.getAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		RequestMappingHandlerMapping handlerMapping = webCtx.getBean(RequestMappingHandlerMapping.class);
+		Map<RequestMappingInfo, HandlerMethod> handlerMethods = handlerMapping.getHandlerMethods();
+		for(RequestMappingInfo mappingInfo : handlerMethods.keySet()) {
+			PatternsRequestCondition requestCondition = mappingInfo.getPatternsCondition();
+            Set<String> uris = requestCondition.getPatterns();
+            for(String uri : uris) {
+            	if(isBackEndUri(uri)) {
+            		totalPermissions.add(new Permission(uri));
+            	}
+            }
+		}
+		totalPermissions.addAll(addedPermissions);
+		return totalPermissions;
+	}
+	private static boolean isBackEndUri(String uri) {
+		return null == uri ? false : uri.contains("back");
+	}
 }

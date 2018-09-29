@@ -1,5 +1,7 @@
 package com.wt.seek.servimpl.back;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,16 @@ public class LoginServiceImpl implements ILoginService {
 			flag = true;
 		}
 		return flag;
+	}
+
+	@Override
+	public Login getAllPermissionByUserCode(String userCode) {
+		return loginMapper.getAllPermissionByUserCode(userCode);
+	}
+
+	@Override
+	public List<Login> listAllUsers() {
+		return loginMapper.listAllUsers();
 	}
 
 }

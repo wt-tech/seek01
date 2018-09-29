@@ -1,12 +1,19 @@
 package com.wt.seek.tool;
 
 public class Constants {
+	
+	//session相关
 	public final static String USER_SESSION = "userSession";
+	public final static String USER_PERMISSIONS = "userPermissions";
+	public final static String USER_MENUS = "userMenus";
+	
+	//状态相关
 	public final static String SYS_MESSAGE = "message";
 	public final static String SUCCESS = "success";
 	public final static String STATUS = "status";
 	public final static String FAIL = "fail";
-
+	public final static int HTTP_STATUS_302 = 302;
+	
 	
 	//异常同一处理相关
 	public final static String EXCEPTION_CLASS = "exception";
@@ -17,7 +24,8 @@ public class Constants {
 	public final static String BUSINESS_DESCRIPTION = "业务逻辑错误";
 	public final static String ARGUMENT_ILLEGAL = "参数不合法";
 	
-	
+	//权限相关
+	public final static String PERMISSIONS_TO_ADD = "等待添加至权限表";
 	
 	
 	//申请的腾讯地图的KEY

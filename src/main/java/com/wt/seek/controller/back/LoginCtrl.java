@@ -15,11 +15,13 @@ import com.wt.seek.entity.Login;
 import com.wt.seek.service.back.ILoginService;
 import com.wt.seek.tool.Constants;
 import com.wt.seek.tool.MapUtils;
+import com.wt.seek.tool.RBACUtil;
 
 @RestController()
 public class LoginCtrl {
 	@Autowired
 	private ILoginService loginService;
+	
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Map<String, Object> doLogin(@RequestParam String userCode, @RequestParam String userPassword,
@@ -29,8 +31,12 @@ public class LoginCtrl {
 		Login user = loginService.getLoginUser(userCode, userPassword);
 		map.put(Constants.STATUS, Constants.FAIL);
 		if (null != user) {// 登录成功
+			//查询该用户的所有角色权限.
+			user = loginService.getAllPermissionByUserCode(user.getUserCode());
 			// 放入session
 			session.setAttribute(Constants.USER_SESSION, user);
+			session.setAttribute(Constants.USER_PERMISSIONS, RBACUtil.getPermissions(user));
+			session.setAttribute(Constants.USER_MENUS, RBACUtil.getMenus(user));
 			map.put(Constants.STATUS, Constants.SUCCESS);
 		}
 		return map;
@@ -54,5 +60,12 @@ public class LoginCtrl {
 		map.put(Constants.TIPS, "请先登录!");
 		return map;
 	}
-
+	
+	@RequestMapping("back/logins")
+	public Map<String, Object> listAllUsers(HttpServletResponse response) {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		map.put(Constants.STATUS, Constants.SUCCESS);
+		map.put("users", loginService.listAllUsers());
+		return map;
+	}
 }

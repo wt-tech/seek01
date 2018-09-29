@@ -1,5 +1,7 @@
 package com.wt.seek.entity;
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.wt.seek.inface.Get;
@@ -13,6 +15,16 @@ public class Login {
 	private String userName; // 用户名称
 	@NotBlank(message="{login.password}",groups= {Get.class,Update.class})
 	private String userPassword; // 用户密码
+	private List<Role> roles;
+	
+	
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 
 	public Login() {
 		super();
@@ -58,4 +70,11 @@ public class Login {
 		this.userPassword = userPassword;
 	}
 
+	@Override
+	public String toString() {
+		return "Login [id=" + id + ", userCode=" + userCode + ", userName=" + userName + ", userPassword="
+				+ userPassword + ", roles=" + roles + "]";
+	}
+
+	
 }
