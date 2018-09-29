@@ -12,7 +12,7 @@ public interface IBannerService {
 
 	boolean updateBanner(Banner banner,MultipartFile file, String staticsPath) throws Exception;
 
-	boolean saveBanner(MultipartFile[] file,String staticsPath) throws Exception;
+	boolean saveBanner(MultipartFile[] file,String staticsPath,String imgName) throws Exception;
 
 	boolean removeBanner(int id) throws Exception;
 	

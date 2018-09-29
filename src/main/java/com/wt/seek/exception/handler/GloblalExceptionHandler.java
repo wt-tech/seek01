@@ -142,7 +142,7 @@ public class GloblalExceptionHandler {
      */
     private void commonInfoAssemble(Map<String,Object> map,Exception e) {
     	map.put(Constants.STATUS, Constants.FAIL);
-		map.put(Constants.EXCEPTION_CLASS, e.getClass().toString());
+//		map.put(Constants.EXCEPTION_CLASS, e.getClass().toString());
 		e.printStackTrace();
     }
 }

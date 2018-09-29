@@ -31,9 +31,9 @@ public class Constants {
 	public final static int KEYNUMBERS = 5;
 	
 	//小程序APPID
-	private final static String APPID = "wx9de6ddb653af7d42";
+	private final static String APPID = "wx28e3c37b96cf1939";
 	//小程序SECRET
-	private final static String SECRET = "ee68f59176b3508763f4d62f04aa62d3";
+	private final static String SECRET = "f5d09d752f39521508ee34cec8d2abb8";
 	
 	//小程序官方提供的code转openID接口
 	public final static String CODE2OPENIDURL = "https://api.weixin.qq.com/sns/jscode2session"
@@ -60,16 +60,17 @@ public class Constants {
 	//DOCBASEPATH指Tomcat的server.xml配置文件中host下的context的docBase属性
 	public static final String IMGBASEPATH = "statics";
 	//ContextPath指当前Web应用的名称
-	public static final String ContextPath = "seek01";
+	public static final String ContextPath = "seek";
 	
 	//等部署到服务器上后,再修改
-	//public static final String imgServerDomain = "https://www.qghls.com/statics/";
+	public static final String imgServerDomain = "https://www.qghls.com/statics/";
 	//public static final String imgServerDomain = "http://192.168.0.102:8080/statics/";
-	public static final String imgServerDomain = "http://192.168.0.177:8888/statics/";
-//	public static final String LOGIN_URL = "http://www.qghls.com/seek-back/login.html";
-	public static final String LOGIN_URL = "http://192.168.0.177:8848/seek-back/login.html";
+//	public static final String imgServerDomain = "http://192.168.0.177:8888/statics/";
 
 	public static final double REPEATPUBLISHTHRESHOLD = 80; 
+	public static final String NOT_SOLVED = "'未结案'";
+	public static final String HAS_SOLVED = "'已结案'";
+	
 	
 	//相互匹配阈值
 	public static final double MATCHS = 40; 

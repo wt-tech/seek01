@@ -34,8 +34,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(customer_id,seek_id,top_coment_id,coment_id,content,coment_time)
 		values(#{customer.id},#{seek.id},#{topComent.id},#{coment.id},#{content},NOW());
 	</insert>
+<<<<<<< HEAD
 	
 	<delete id="deleteComent" parameterType="Integer">
 	     delete from coment where id=#{id}
 	</delete>
+=======
+>>>>>>> 04b535099ae8f956d170c1de801c454b9ef8af0a
 </mapper>

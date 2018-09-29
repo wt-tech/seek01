@@ -103,7 +103,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if
 			test="seek.missName != '' and seek.missName != null and seek.missName != 'null'">
 			AND miss_name =#{seek.missName}
+<<<<<<< HEAD
 			AND miss_name like %${seek.missName}%
+=======
+>>>>>>> 04b535099ae8f956d170c1de801c454b9ef8af0a
 		</if>
 		<if
 			test="seek.gender != '' and seek.gender != null and seek.gender != 'null'">
@@ -178,12 +181,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		miss_province_name,
 		miss_city_name,
 		miss_county_name
+<<<<<<< HEAD
 		<!-- <if test="seek.pubdate !=null"> -->
 		ORDER BY pubdate desc
 		<!-- </if>
 		<if test="seek.sequence !=null">
 		ORDER BY sequence desc
 		</if> -->
+=======
+		ORDER BY
+		pubdate desc
+>>>>>>> 04b535099ae8f956d170c1de801c454b9ef8af0a
 		LIMIT ${(currentPageNo-1)*pageSize},${pageSize}
 	</select>
 
@@ -410,7 +418,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		test="birthdate != null">
 		birthdate=#{birthdate},
 	</if>
+<<<<<<< HEAD
 	<if
+=======
+	 <if
+>>>>>>> 04b535099ae8f956d170c1de801c454b9ef8af0a
 		test="missDate != null">
 		miss_date=#{missDate},
 	</if>
@@ -462,6 +474,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		test="title != null">
 		title=#{title},
 	</if>
+<<<<<<< HEAD
+=======
+	 <if
+		test="pubdate != null">
+		pubdate=#{pubdate},
+	</if>
+>>>>>>> 04b535099ae8f956d170c1de801c454b9ef8af0a
 	<if
 		test="otherInformation != null">
 		other_information=#{otherInformation},
@@ -580,6 +599,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		OR
 		seek.miss_province_id = #{seek.address.missProvinceId}
 		)
+<<<<<<< HEAD
+=======
+		AND seek.seek_status = ${@com.wt.seek.tool.Constants@NOT_SOLVED}
+>>>>>>> 04b535099ae8f956d170c1de801c454b9ef8af0a
 		GROUP BY seek.id,
 		sequence,
 		seek_type,

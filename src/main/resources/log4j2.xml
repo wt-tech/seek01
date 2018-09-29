@@ -13,14 +13,14 @@
     </Properties>
 
   	<Appenders>
-	    <Console name="console" target="SYSTEM_OUT">
+	    <!-- <Console name="console" target="SYSTEM_OUT">
 	      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [daryl] %-5level %logger{36} - %msg%n"/>
-	    </Console>
+	    </Console> -->
     
     <!-- 测试专用,每次启动都会清空上次的 -->
-	    <File name="test" fileName="${logPath}/test.log" append="false">
+	   <!--  <File name="test" fileName="${logPath}/test.log" append="false">
 			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
-	    </File> 
+	    </File>  -->
 		<RollingFile name="errorInfo" fileName="${logPath}/error.log" immediateFlush="true"
 			filePattern="logs/$${date:yyyy-MM-dd}/error-%d{MM-dd-yyyy}.log.zip">
 			<PatternLayout>
@@ -29,7 +29,7 @@
 			<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
 			<Policies>
 				<TimeBasedTriggeringPolicy />
-				<SizeBasedTriggeringPolicy size="1 KB" />
+				<SizeBasedTriggeringPolicy size="50 MB" />
 			</Policies>
 		</RollingFile>
 	</Appenders>

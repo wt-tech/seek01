@@ -62,7 +62,7 @@ public class CustomerCtrl {
 		return map;
 	}
 	
-	@RequestMapping(value="customer",method = RequestMethod.POST)
+	@RequestMapping(value="customer",method = {RequestMethod.PUT,RequestMethod.POST})
 	public Map<String,Object> updateCustomer(	
 												@ModelAttribute("customer")
 												@Validated(value=Update.class) 

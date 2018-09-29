@@ -16,8 +16,15 @@
 
 	<!-- 数据库配置文件-->
 	
+<<<<<<< HEAD
 	<!-- <context:property-placeholder file-encoding="utf-8" location="classpath:client.database.properties"/>
 	 --><context:property-placeholder file-encoding="utf-8" location="classpath:server.database.properties"/>
+=======
+	<context:property-placeholder file-encoding="utf-8" location="classpath:server.database.properties"/>
+	<!--
+	<context:property-placeholder file-encoding="utf-8" location="classpath:server.local.database.properties"/>
+	 -->
+>>>>>>> 04b535099ae8f956d170c1de801c454b9ef8af0a
 	
 	<!-- JNDI获取数据源(使用dbcp连接池) 这里用了dbcp2 同dbcp 还是有点差别的-->  
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" scope="singleton">
@@ -74,4 +81,8 @@
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
          <property name="basePackage" value="com.wt.seek.dao" />  
     </bean>
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 04b535099ae8f956d170c1de801c454b9ef8af0a
 </beans>

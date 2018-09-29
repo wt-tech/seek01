@@ -35,26 +35,80 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</resultMap>
 
-	<select id="listTopComent" resultMap="topcoment">
+	<resultMap type="com.wt.seek.entity.TopComents" id="TopComents">
+		<id column="id" property="id" />
+		<result column="seekId" property="seekId" />
+		<result column="top_content" property="content" />
+
+		<association javaType="com.wt.seek.entity.Customer"
+			property="customer">
+			<id property="id" column="top_customer_id"/>
+			<result property="nickname" column="top_nickname" />
+		</association>
+		
+		<collection  property="talks" ofType="com.wt.seek.entity.Talks" autoMapping="true">
+			<id property="replyId" column="replyId"/>
+			<result property="replyContent" column="replyContent"/>
+			<result property="replyTime" column="replyTime"/>
+			<result property="replyCustomerName" column="replyCustomerName"/>
+			<result property="comentCustomerName" column="comentCustomerName"/>
+		</collection>
+		
+	</resultMap>
+
+
+
+	<select id="listTopComent" resultMap="TopComents">
 		SELECT
-	customer.nickname,
-	customer.id AS customer1_id,
-	top.content,
-	top.id AS id,
-	customer2.nickname AS replyname,
-	customer2.id AS customer2_id,
-	coment2.content AS reply_content,
-	coment2.id AS coment_id
-	
-	FROM
-		seek 
-	LEFT JOIN (SELECT * FROM top_coment WHERE seek_id = #{id} ORDER BY top_coment.coment_time desc LIMIT ${(currentPageNo-1)*pageSize},${pageSize}) AS top ON seek.id = top.seek_id
-	LEFT JOIN coment ON top.id = coment.top_coment_id
-	LEFT JOIN coment coment2 ON coment.id = coment2.coment_id 
-	LEFT JOIN customer ON coment.customer_id = customer.id -- 在后
-	LEFT JOIN customer customer2 ON coment2.customer_id = customer2.id -- 在前
-	WHERE
-		 top.seek_id=#{id}
+			seek.id AS seekId,
+			top.content AS top_content,
+			top.id AS id,
+			top_customer.id AS top_customer_id,
+			top_customer.nickname AS top_nickname,
+			
+			replyId,
+			replyContent,
+			replyTime,
+			replyCustomerName,
+			comentCustomerName
+		FROM
+			seek
+			LEFT JOIN ( SELECT * FROM top_coment WHERE seek_id = #{id} ORDER BY top_coment.coment_time DESC LIMIT ${(currentPageNo-1)*pageSize},${pageSize} ) AS top ON seek.id = top.seek_id
+			LEFT JOIN customer top_customer ON top.customer_id = top_customer.id
+			LEFT JOIN (
+				SELECT
+					talk.*,
+					replyCustomer.nickname AS replyCustomerName,
+					comentCustomer.nickname AS comentCustomerName 
+					FROM
+						(
+						SELECT
+					reply.id AS replyId,
+					reply.customer_id AS replyCustomerId,
+					reply.content AS replyContent,
+					reply.coment_time AS replyTime,
+					reply.top_coment_id,
+					coment.customer_id AS comentCustomerId 
+				FROM
+					coment AS reply
+					INNER JOIN coment ON reply.coment_id = coment.id UNION ALL
+				SELECT 
+					coment.id AS replyId,
+					coment.customer_id AS replyCustomerId,
+					coment.content AS replyContent,
+					coment.coment_time AS replyTime,
+					coment.top_coment_id,
+					NULL AS comentCustomerId 
+				FROM
+					coment
+					WHERE coment.coment_id is null
+				) talk
+				LEFT JOIN customer AS replyCustomer ON talk.replyCustomerId = replyCustomer.id
+				LEFT JOIN customer AS comentCustomer ON talk.comentCustomerId = comentCustomer.id 
+			) temp ON top.id = temp.top_coment_id 
+		WHERE
+		top.seek_id = #{id}
+		order by replyTime ASC;
 	</select>
 
 	<select id="listTopComentByCustomerId" resultMap="topcoment">
