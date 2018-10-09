@@ -16,9 +16,9 @@
 
 	<!-- 数据库配置文件-->
 	
-	<context:property-placeholder file-encoding="utf-8" location="classpath:server.local.database.properties"/>
-	<!--
 	<context:property-placeholder file-encoding="utf-8" location="classpath:server.database.properties"/>
+	<!--
+	<context:property-placeholder file-encoding="utf-8" location="classpath:server.local.database.properties"/>
 	 -->
 	
 	<!-- JNDI获取数据源(使用dbcp连接池) 这里用了dbcp2 同dbcp 还是有点差别的-->  

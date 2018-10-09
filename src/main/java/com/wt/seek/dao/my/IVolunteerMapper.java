@@ -39,7 +39,11 @@ public interface IVolunteerMapper {
 	Volunteer getVolunteer(@Param("customerId") int customerId) throws Exception;
 	
 	Volunteer getBackVolunteer(@Param("id") int id) throws Exception;
-
+	
+	/**
+	 * 根据志愿者的姓名,身份证号做匹配
+	 */
+	Volunteer getVolunteerByIDAndName(@Param("ID") String ID, @Param("realName") String realName);
 	/**
 	 * 修改用户的志愿者信息
 	 * 

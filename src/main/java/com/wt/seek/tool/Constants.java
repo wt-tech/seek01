@@ -26,6 +26,7 @@ public class Constants {
 	
 	//权限相关
 	public final static String PERMISSIONS_TO_ADD = "等待添加至权限表";
+	public final static String VOLUNTEER_APPROVED = "审核通过";
 	
 	
 	//申请的腾讯地图的KEY

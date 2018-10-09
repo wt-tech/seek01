@@ -76,7 +76,7 @@ public class ContextUtil {
 
 	/**
 	 * 获取后台管理所有的uri,并封装成Permission
-	 * @param addedPermissions
+	 * @param addedPermissions 已经保存在数据库中的permission记录
 	 * @param request
 	 * @return
 	 */

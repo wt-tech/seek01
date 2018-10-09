@@ -48,4 +48,17 @@ public class LoginServiceImpl implements ILoginService {
 		return loginMapper.listAllUsers();
 	}
 
+	@Override
+	public boolean saveLoginUser(String userCode, String password, String nickname) {
+		return loginMapper.saveLoginUser(userCode, password, nickname);
+	}
+
+	@Override
+	public boolean checkIfUserCodeAvaliable(String userCode) throws Exception {
+		// TODO Auto-generated method stub
+		return loginMapper.getLoginUser(userCode) == null;
+	}
+	
+
+
 }

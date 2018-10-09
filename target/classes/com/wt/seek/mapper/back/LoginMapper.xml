@@ -22,7 +22,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update login l set user_password=#{userPassword} where l.id = #{id}
 	</update>
 	
-	
+	<insert id="saveLoginUser">
+		INSERT INTO login (user_code,user_name,user_password)
+		VALUES
+			(#{userCode},#{nickname},#{password});
+	</insert>
 	
 	<select id="getAllPermissionByUserCode" resultMap="userRolesAndPermissions">
 		SELECT

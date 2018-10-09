@@ -43,6 +43,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where customer_id=#{customerId};
 	</select>
 	
+	<select id="getVolunteerByIDAndName" resultType="Volunteer">
+		select * from
+		volunteer
+		where customer_name=#{realName} AND identityNO = #{ID};
+	</select>
+	
 	<select id="getBackVolunteer" resultType="Volunteer">
 		select * from
 		volunteer

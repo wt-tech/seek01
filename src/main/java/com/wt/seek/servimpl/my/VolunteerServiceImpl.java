@@ -93,4 +93,10 @@ public class VolunteerServiceImpl implements IVolunteerService {
 		flag = volunteerMapper.updateVolunteer(volunteer) > 0;
 		return flag;
 	}
+
+	@Override
+	public Volunteer getVolunteerByIDAndName(String ID, String realName) {
+		return volunteerMapper.getVolunteerByIDAndName(ID, realName);
+	}
+
 }

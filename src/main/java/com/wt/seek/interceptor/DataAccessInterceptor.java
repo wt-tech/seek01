@@ -23,8 +23,8 @@ public class DataAccessInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		
 		//检测用户是否登录
-		if(!this.hasLogin(request, response)) 
-			return false;
+//		if(!this.hasLogin(request, response)) 
+//			return false;
 		//检测用户是否有权限
 		return true;// this.hasPermission(request, response);
 	}

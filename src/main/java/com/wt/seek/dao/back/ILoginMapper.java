@@ -28,4 +28,11 @@ public interface ILoginMapper {
 	public Login getAllPermissionByUserCode(@Param("userCode") String userCode);
 	
 	public List<Login> listAllUsers();
+	
+	
+	public boolean saveLoginUser(
+			@Param("userCode") String userCode,
+			@Param("password") String password,
+			@Param("nickname") String nickname
+			);
 }
