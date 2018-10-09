@@ -26,7 +26,8 @@ public class DataAccessInterceptor extends HandlerInterceptorAdapter {
 //		if(!this.hasLogin(request, response)) 
 //			return false;
 		//检测用户是否有权限
-		return true;// this.hasPermission(request, response);
+		return true;
+//		 return this.hasPermission(request, response);
 	}
 	
 	private boolean hasLogin(HttpServletRequest request, HttpServletResponse response) {

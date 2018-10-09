@@ -40,7 +40,6 @@ public class RBACtrl {
 	}
 	
 	//===========================查询后台所有的URI====================================
-	//TODO cg那边要改一下
 	@RequestMapping(value="back/uri/permissions",method=RequestMethod.GET)
 	public Map<String, Object> listBackendAllPermissionsURI(HttpServletRequest request) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
