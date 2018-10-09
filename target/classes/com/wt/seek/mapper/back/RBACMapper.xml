@@ -30,17 +30,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listAllPermissions" resultType="Permission">
 		select * from permission;
 	</select>
-<<<<<<< HEAD
+	
 	<update id="updatePermissions" parameterType="Permission">
 	    update permission set description=#{description} where id=#{id}
 	</update>
+	
 	<insert id="savePermissions" parameterType="Permission" 
 	useGeneratedKeys="true" keyProperty="id">
 	    insert into permission(url,description) values(#{url},#{description})
 	</insert>
-=======
-	
-	
->>>>>>> bf7e92491e800526aea0d3629f6646b829f08133
 	
 </mapper>

@@ -42,7 +42,6 @@ public class RBACServiceImpl implements IRBACService {
 		return rbacMapper.listAllMenus();
 	}
 
-<<<<<<< HEAD
 	@Override
 	public boolean updatePermissions(Permission permission) {
 		// TODO Auto-generated method stub
@@ -55,6 +54,4 @@ public class RBACServiceImpl implements IRBACService {
 		return rbacMapper.savePermissions(permission)>0;
 	}
 
-=======
->>>>>>> bf7e92491e800526aea0d3629f6646b829f08133
 }
