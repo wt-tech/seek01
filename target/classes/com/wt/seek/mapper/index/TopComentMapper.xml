@@ -166,6 +166,75 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="listComentByCustomerId" resultMap="topcoment">
+		SELECT
+			* 
+			FROM
+				(
+			SELECT
+				top_coment.id,
+				top_coment.content,
+				top_coment.coment_time,
+				IFNULL( coment_customer.nickname, coment_customer.realname ) AS nickname 
+			FROM
+				customer
+				INNER JOIN seek ON customer.id = seek.customer_id
+				INNER JOIN top_coment ON seek.id = top_coment.seek_id
+				LEFT JOIN customer AS coment_customer ON top_coment.customer_id = coment_customer.id 
+			WHERE
+				customer.id = #{customerId}
+				
+				AND coment_customer.id != #{customerId}
+			UNION ALL
+			SELECT
+				coment.id,
+				coment.content,
+				coment.coment_time,
+				IFNULL( customer.nickname, customer.realname ) AS nickname 
+			FROM
+				(
+				SELECT
+					* 
+				FROM
+					(-- coment 评论 top_coment
+					SELECT
+						coment.id AS coment_id,
+						customer.id AS customer_id 
+					FROM
+						customer
+						INNER JOIN top_coment ON customer.id = top_coment.customer_id
+						INNER JOIN coment ON top_coment.id = coment.top_coment_id UNION ALL-- comment 评论 seek
+					SELECT
+						coment.id AS coment_id,
+						customer.id AS customer_id 
+					FROM
+						customer
+						INNER JOIN seek ON customer.id = seek.customer_id
+						INNER JOIN coment ON seek.id = coment.seek_id UNION ALL-- 子comment 评论 父comment
+					SELECT
+						sub_comment.id AS coment_id,
+						customer.id AS customer_id 
+					FROM
+						customer
+						INNER JOIN coment ON customer.id = coment.customer_id
+						INNER JOIN coment AS sub_comment ON coment.id = sub_comment.coment_id 
+					) temp 
+				WHERE
+					customer_id = #{customerId}
+					
+				GROUP BY
+					coment_id 
+				) temp_coment
+				LEFT JOIN coment ON temp_coment.coment_id = coment.id
+				LEFT JOIN customer ON coment.customer_id = customer.id 
+			WHERE
+				customer.id != #{customerId}
+				
+				) comments 
+		ORDER BY
+		comments.coment_time DESC 
+		LIMIT ${(currentPageNo - 1) * pageSize},${pageSize};
+	</select>
+	<!-- <select id="listComentByCustomerId" resultMap="topcoment">
 		SELECT * FROM (
 		SELECT coment2.content AS content , coment1.content title ,coment1.id
 		AS id,nickname,coment2.coment_time FROM coment coment1
@@ -197,7 +266,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)LIST ORDER BY coment_time DESC
 		LIMIT
 		${(currentPageNo-1)*pageSize},${pageSize}
-	</select>
+	</select> -->
 	
 	<select id="countComentByCustomerId" resultType="Integer">
 		SELECT

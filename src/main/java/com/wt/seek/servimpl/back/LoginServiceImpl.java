@@ -1,5 +1,7 @@
 package com.wt.seek.servimpl.back;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +30,17 @@ public class LoginServiceImpl implements ILoginService {
 	@Override
 	public boolean updatePwd(Login login) throws Exception {
 		// TODO Auto-generated method stub
-		boolean flag = false;
-		int num = loginMapper.updatePwd(login);
-		if (num > 0) {
-			flag = true;
-		}
-		return flag;
+		return loginMapper.updatePwd(login)>0;
+	}
+
+	@Override
+	public Login getAllPermissionByUserCode(String userCode) {
+		return loginMapper.getAllPermissionByUserCode(userCode);
+	}
+
+	@Override
+	public List<Login> listAllUsers(Integer currentPageNo,Integer pageSize) {
+		return loginMapper.listAllUsers(currentPageNo,pageSize);
 	}
 
 }
