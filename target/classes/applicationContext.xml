@@ -16,11 +16,6 @@
 
 	<!-- 数据库配置文件-->
 	
-<<<<<<< HEAD
-	<context:property-placeholder file-encoding="utf-8" location="classpath:server.database.properties"/>
-	<!--
-=======
->>>>>>> bf7e92491e800526aea0d3629f6646b829f08133
 	<context:property-placeholder file-encoding="utf-8" location="classpath:server.local.database.properties"/>
 	<!--
 	<context:property-placeholder file-encoding="utf-8" location="classpath:server.database.properties"/>

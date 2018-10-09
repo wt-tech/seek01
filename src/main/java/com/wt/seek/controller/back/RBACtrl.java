@@ -9,15 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-<<<<<<< HEAD
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wt.seek.entity.Permission;
-=======
-import org.springframework.web.bind.annotation.RestController;
-
->>>>>>> bf7e92491e800526aea0d3629f6646b829f08133
 import com.wt.seek.service.back.IRBACService;
 import com.wt.seek.tool.Constants;
 import com.wt.seek.tool.ContextUtil;
@@ -82,7 +76,6 @@ public class RBACtrl {
 		return map;
 	}
 	
-<<<<<<< HEAD
 	@RequestMapping("back/updatepermission")
 	public Map<String, Object> updatePermissions(Permission permission) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
@@ -99,6 +92,4 @@ public class RBACtrl {
 		map.put("id", permission.getId());
 		return map;
 	}
-=======
->>>>>>> bf7e92491e800526aea0d3629f6646b829f08133
 }
