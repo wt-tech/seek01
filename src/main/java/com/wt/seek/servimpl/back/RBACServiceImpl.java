@@ -123,4 +123,16 @@ public class RBACServiceImpl implements IRBACService {
 		return flag;
 	}
 
+	@Override
+	public boolean updatePermissions(Permission permission) {
+		// TODO Auto-generated method stub
+		return rbacMapper.updatePermissions(permission)>0;
+	}
+
+	@Override
+	public boolean savePermissions(Permission permission) {
+		// TODO Auto-generated method stub
+		return rbacMapper.savePermissions(permission)>0;
+	}
+
 }

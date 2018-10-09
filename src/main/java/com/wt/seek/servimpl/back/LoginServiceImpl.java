@@ -30,12 +30,7 @@ public class LoginServiceImpl implements ILoginService {
 	@Override
 	public boolean updatePwd(Login login) throws Exception {
 		// TODO Auto-generated method stub
-		boolean flag = false;
-		int num = loginMapper.updatePwd(login);
-		if (num > 0) {
-			flag = true;
-		}
-		return flag;
+		return loginMapper.updatePwd(login)>0;
 	}
 
 	@Override
@@ -44,8 +39,8 @@ public class LoginServiceImpl implements ILoginService {
 	}
 
 	@Override
-	public List<Login> listAllUsers() {
-		return loginMapper.listAllUsers();
+	public List<Login> listAllUsers(Integer currentPageNo,Integer pageSize) {
+		return loginMapper.listAllUsers(currentPageNo,pageSize);
 	}
 
 	@Override
@@ -58,7 +53,7 @@ public class LoginServiceImpl implements ILoginService {
 		// TODO Auto-generated method stub
 		return loginMapper.getLoginUser(userCode) == null;
 	}
-	
+
 
 
 }

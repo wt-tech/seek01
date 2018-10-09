@@ -27,8 +27,10 @@ public interface ILoginMapper {
 	
 	public Login getAllPermissionByUserCode(@Param("userCode") String userCode);
 	
-	public List<Login> listAllUsers();
-	
+
+	public List<Login> listAllUsers(@Param("currentPageNo") Integer currentPageNo,
+			@Param("pageSize") Integer pageSize);
+
 	
 	public boolean saveLoginUser(
 			@Param("userCode") String userCode,

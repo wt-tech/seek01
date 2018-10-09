@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
-	<display-name>seek01</display-name>
+	<display-name>seek</display-name>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
@@ -12,7 +11,7 @@
 	<!-- 实际运行环境中,需要给每个项目添加一个webAppRootKey,否则会出现多个项目公用root的情况 -->
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>seek01.root</param-value>
+		<param-value>seek.root</param-value>
 	</context-param>
 
 	<!-- 配置log4j2 log4jConfiguration,如果文件放在classpath下,可以不用配置,下面的log4jConfiguration配置事實上可以省略. -->
@@ -21,14 +20,6 @@
 		<param-value>classpath:log4j2.xml</param-value>
 	</context-param>
 
-	<!-- <context-param>
-        <param-name>log4jContextName</param-name>
-        <param-value>star</param-value>
-    </context-param> -->
-	<!-- 配置log4j2 listener -->
-	<!-- <listener>
-		<listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>
-	</listener> -->
 
 	<!-- applicationContext的配置文件 -->
 	<context-param>
@@ -67,15 +58,6 @@
 	</filter-mapping>
 	
 
-	<!-- 配置跨域请求 -->
-	<!-- <filter>
-		<filter-name>corsFilter</filter-name>
-		<filter-class>com.wt.seek.filter.CorsFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>corsFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping> -->
 	
 	
 	<!-- cors-filter2.6 jar包的跨域请求处理-->

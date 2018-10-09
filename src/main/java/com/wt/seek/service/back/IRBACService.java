@@ -33,12 +33,19 @@ public interface IRBACService {
 	boolean updateRolePermissionsInBulk(Integer roelId,Integer[] permissionIds);
 	
 	
+
 	//======================用户角色相关======================
 	List<Role> listAllRoles();
 	List<Menu> listRolesByUserId(String userCode);
 	boolean removeRolesByUserId(String userCode);
 	boolean saveUserRolesInBulk(String userCode,Integer[] roleIds);
 	boolean updateUserRolesInBulk(String userCode,Integer[] roleIds);
+	
+
+
+	boolean updatePermissions(Permission permission);
+	
+	boolean savePermissions(Permission permission);
 	
 
 }

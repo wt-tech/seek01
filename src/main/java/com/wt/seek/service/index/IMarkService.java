@@ -2,8 +2,6 @@ package com.wt.seek.service.index;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.wt.seek.entity.Mark;
 
 public interface IMarkService {

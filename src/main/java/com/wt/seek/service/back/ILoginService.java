@@ -23,11 +23,15 @@ public interface ILoginService {
 	 * 获取系统中所有用户信息
 	 * @return
 	 */
-	public List<Login> listAllUsers();
+
+	public List<Login> listAllUsers(Integer currentPageNo,Integer pageSize);
+
+
 	
 	public boolean saveLoginUser(
 			String userCode,
 			String password,
 			String nickname
 			);
+
 }

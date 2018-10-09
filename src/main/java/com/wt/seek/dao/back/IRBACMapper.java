@@ -23,6 +23,7 @@ public interface IRBACMapper {
 	List<Menu> listPermissionsByRoleId(@Param("roleId") Integer roleId);
 	List<Menu> listRolesByUserId(@Param("userCode") String userCode);
 	
+
 	
 	boolean removeMenusByRoleId(@Param("roleId") Integer roelId);
 	boolean removePermissionsByRoleId(@Param("roleId") Integer roelId);
@@ -31,4 +32,19 @@ public interface IRBACMapper {
 	boolean saveRoleMenusInBulk(@Param("roleId")Integer roelId, @Param("menuIds") Integer[] menuIds);
 	boolean saveRolePermissionsInBulk(@Param("roleId")Integer roelId, @Param("permissionIds") Integer[] permissionIds);
 	boolean saveUserRolesInBulk(@Param("userCode")String userCode, @Param("roleIds") Integer[] roleIds);
+
+	
+	/**
+	 * 修改说明
+	 * @param permission
+	 * @return
+	 */
+	Integer updatePermissions(Permission permission);
+	/**
+	 * 
+	 * @param permission
+	 * @return
+	 */
+	Integer savePermissions(Permission permission);
+
 }

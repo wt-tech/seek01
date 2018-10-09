@@ -7,7 +7,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.wt.seek.dao.back.ILoginMapper">
 	
 	<select id="listAllUsers" resultType="Login">
-		select * from login;
+		select * from login LIMIT
+		${(currentPageNo-1)*pageSize},${pageSize};
+
 	</select>
 
 	<select id="getLoginUser" resultType="Login">
@@ -18,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</trim>
 	</select>
+
 	<update id="updatePwd" parameterType="Integer">
 		update login l set user_password=#{userPassword} where l.id = #{id}
 	</update>
@@ -27,7 +30,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES
 			(#{userCode},#{nickname},#{password});
 	</insert>
+
 	
+	<update id="updatePwd" parameterType="String">
+		update login set user_password=#{userPassword} where user_code = #{userCode}
+	</update>
+
 	<select id="getAllPermissionByUserCode" resultMap="userRolesAndPermissions">
 		SELECT
 			login.id,

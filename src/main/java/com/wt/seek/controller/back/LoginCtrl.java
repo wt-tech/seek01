@@ -2,6 +2,7 @@ package com.wt.seek.controller.back;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -67,7 +68,6 @@ public class LoginCtrl {
 		return map;
 	}
 
-
 	@RequestMapping("authorization")
 	public Map<String, Object> accessDenied(HttpServletResponse response) {
 
@@ -76,12 +76,31 @@ public class LoginCtrl {
 		map.put(Constants.TIPS, "请先登录!");
 		return map;
 	}
-	
+
 	@RequestMapping("back/logins")
-	public Map<String, Object> listAllUsers(HttpServletResponse response) {
+	public Map<String, Object> listAllUsers(HttpServletResponse response,@RequestParam("currentPageNo") Integer currentPageNo) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		map.put(Constants.STATUS, Constants.SUCCESS);
-		map.put("users", loginService.listAllUsers());
+		map.put("users", loginService.listAllUsers(currentPageNo,Constants.pageSize));
+		return map;
+	}
+
+	@RequestMapping("back/updatepwd")
+	public Map<String, Object> updatePwd(@RequestParam("userPassword") String userPassword,HttpServletRequest request) throws Exception {
+		Object o = request.getSession().getAttribute(Constants.USER_SESSION);
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		String userCode = ((Login) o).getUserCode();
+		System.err.println(userCode);
+		Login login=new Login();
+		login.setUserCode(userCode);
+		login.setUserPassword(userPassword);
+		boolean flag = loginService.updatePwd(login);
+		if (flag) {
+			map.put(Constants.STATUS, Constants.SUCCESS);
+			request.getSession().removeAttribute(Constants.USER_SESSION);
+		} else {
+			map.put(Constants.STATUS, Constants.FAIL);
+		}
 		return map;
 	}
 	

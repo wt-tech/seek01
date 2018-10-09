@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wt.seek.entity.Permission;
 import com.wt.seek.service.back.IRBACService;
 import com.wt.seek.tool.Constants;
 import com.wt.seek.tool.ContextUtil;
@@ -124,6 +125,7 @@ public class RBACtrl {
 		return map;
 	}
 	
+
 	@RequestMapping(value="back/user/roles",method=RequestMethod.PUT)
 	public Map<String, Object> updateUserRolesInBulk(@RequestBody() Object obj) {
 		JSONObject jsonObj = (JSONObject)obj;
@@ -131,6 +133,22 @@ public class RBACtrl {
 		Integer[] roleIds = jsonObj.getObject("roleIds", Integer[].class);
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		map.put(Constants.STATUS, rbacServiceImpl.updateUserRolesInBulk(userCode, roleIds)?Constants.SUCCESS:Constants.FAIL);
+		return map;
+	}
+	@RequestMapping("back/updatepermission")
+	public Map<String, Object> updatePermissions(Permission permission) {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		boolean flag=rbacServiceImpl.updatePermissions(permission);
+		map.put(Constants.STATUS, flag ? Constants.SUCCESS : Constants.FAIL);
+		return map;
+	}
+	
+	@RequestMapping("back/savepermission")
+	public Map<String, Object> savePermissions(Permission permission) {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		boolean flag=rbacServiceImpl.savePermissions(permission);
+		map.put(Constants.STATUS, flag ? Constants.SUCCESS : Constants.FAIL);
+		map.put("id", permission.getId());
 		return map;
 	}
 }
