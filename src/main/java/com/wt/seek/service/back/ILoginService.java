@@ -21,5 +21,9 @@ public interface ILoginService {
 	 * 获取系统中所有用户信息
 	 * @return
 	 */
+<<<<<<< HEAD
 	public List<Login> listAllUsers(Integer currentPageNo,Integer pageSize);
+=======
+	public List<Login> listAllUsers();
+>>>>>>> bf7e92491e800526aea0d3629f6646b829f08133
 }

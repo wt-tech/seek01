@@ -43,4 +43,14 @@ public class LoginServiceImpl implements ILoginService {
 		return loginMapper.listAllUsers(currentPageNo,pageSize);
 	}
 
+	@Override
+	public Login getAllPermissionByUserCode(String userCode) {
+		return loginMapper.getAllPermissionByUserCode(userCode);
+	}
+
+	@Override
+	public List<Login> listAllUsers() {
+		return loginMapper.listAllUsers();
+	}
+
 }

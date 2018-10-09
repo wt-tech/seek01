@@ -22,6 +22,7 @@ import com.wt.seek.tool.RBACUtil;
 public class LoginCtrl {
 	@Autowired
 	private ILoginService loginService;
+	
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Map<String, Object> doLogin(@RequestParam String userCode, @RequestParam String userPassword,
@@ -31,7 +32,11 @@ public class LoginCtrl {
 		Login user = loginService.getLoginUser(userCode, userPassword);
 		map.put(Constants.STATUS, Constants.FAIL);
 		if (null != user) {// 登录成功
+<<<<<<< HEAD
 			// 查询该用户的所有角色权限.
+=======
+			//查询该用户的所有角色权限.
+>>>>>>> bf7e92491e800526aea0d3629f6646b829f08133
 			user = loginService.getAllPermissionByUserCode(user.getUserCode());
 			// 放入session
 			session.setAttribute(Constants.USER_SESSION, user);
@@ -59,6 +64,7 @@ public class LoginCtrl {
 		map.put(Constants.TIPS, "请先登录!");
 		return map;
 	}
+<<<<<<< HEAD
 
 	@RequestMapping("back/logins")
 	public Map<String, Object> listAllUsers(HttpServletResponse response,@RequestParam("currentPageNo") Integer currentPageNo) {
@@ -84,6 +90,14 @@ public class LoginCtrl {
 		} else {
 			map.put(Constants.STATUS, Constants.FAIL);
 		}
+=======
+	
+	@RequestMapping("back/logins")
+	public Map<String, Object> listAllUsers(HttpServletResponse response) {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		map.put(Constants.STATUS, Constants.SUCCESS);
+		map.put("users", loginService.listAllUsers());
+>>>>>>> bf7e92491e800526aea0d3629f6646b829f08133
 		return map;
 	}
 }

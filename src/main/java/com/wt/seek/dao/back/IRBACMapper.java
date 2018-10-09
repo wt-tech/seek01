@@ -19,6 +19,7 @@ public interface IRBACMapper {
 	List<Menu> listMenusByRoleId(@Param("roleId") Integer roleId);
 	
 	List<Menu> listAllMenus();
+<<<<<<< HEAD
 	
 	/**
 	 * 修改说明
@@ -32,4 +33,6 @@ public interface IRBACMapper {
 	 * @return
 	 */
 	Integer savePermissions(Permission permission);
+=======
+>>>>>>> bf7e92491e800526aea0d3629f6646b829f08133
 }

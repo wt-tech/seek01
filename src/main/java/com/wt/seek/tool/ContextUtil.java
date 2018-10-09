@@ -94,9 +94,14 @@ public class ContextUtil {
             	}
             }
 		}
+<<<<<<< HEAD
 		Set<Permission> addedSet = new HashSet<Permission>(addedPermissions);
 		addedSet.addAll(totalPermissions);
 		return addedSet;
+=======
+		totalPermissions.addAll(addedPermissions);
+		return totalPermissions;
+>>>>>>> bf7e92491e800526aea0d3629f6646b829f08133
 	}
 	private static boolean isBackEndUri(String uri) {
 		return null == uri ? false : uri.contains("back");

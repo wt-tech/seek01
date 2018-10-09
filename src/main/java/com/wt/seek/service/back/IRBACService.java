@@ -31,8 +31,11 @@ public interface IRBACService {
 	 */
 	List<Menu> listAllMenus();
 	
+<<<<<<< HEAD
 	boolean updatePermissions(Permission permission);
 	
 	boolean savePermissions(Permission permission);
 	
+=======
+>>>>>>> bf7e92491e800526aea0d3629f6646b829f08133
 }

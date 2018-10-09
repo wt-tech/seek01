@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
+=======
+
+>>>>>>> bf7e92491e800526aea0d3629f6646b829f08133
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
@@ -138,4 +142,9 @@
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
+<<<<<<< HEAD
 </web-app>
+=======
+</web-app>
+
+>>>>>>> bf7e92491e800526aea0d3629f6646b829f08133

@@ -107,7 +107,11 @@ public class BannerServiceImpl implements IBannerService {
 	@Override
 	public boolean updateBanner(Banner banner) throws Exception {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 		return false;
+=======
+		return bannerMapper.updateBanner(banner)>0;
+>>>>>>> bf7e92491e800526aea0d3629f6646b829f08133
 	}
 
 }
