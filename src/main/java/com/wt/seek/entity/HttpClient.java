@@ -1,6 +1,7 @@
 package com.wt.seek.entity;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,6 +15,7 @@ public class HttpClient {
 	private String url;
 	private String resultJson;
 	private HttpURLConnection con = null;
+	
 	
 	public HttpClient(String url){
 		this.url = url;
@@ -68,33 +70,36 @@ public class HttpClient {
 	}
 
 	
-	public String doPost(String param) {
-
+	public Object doPost(String param,String contentType) {
         InputStream is = null;
         OutputStream os = null;
-        BufferedReader br = null;
+        ByteArrayOutputStream baos = null;
+        byte[] finalBytes = null;
         try {
             this.connect("POST");
             
             con.setDoOutput(true);
+            if(null != contentType && contentType.length() > 0) {
+            	con.setRequestProperty("Content-type", contentType);
+            }
             os = con.getOutputStream();
             os.write(param.getBytes());
             is = con.getInputStream();
-            br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            StringBuffer sbf = new StringBuffer();
-            String temp = null;
-            while ((temp = br.readLine()) != null) {
-                sbf.append(new String(temp.getBytes(),"utf-8"));
+            baos = new ByteArrayOutputStream(2048);
+            byte[] bytes = new byte[2048];
+            int len = -1;
+            while((len= is.read(bytes)) != -1) {
+            	baos.write(bytes, 0, len);
             }
-            this.resultJson = sbf.toString();
+            finalBytes = baos.toByteArray();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (null != br) {
+            if (null != baos) {
                 try {
-                    br.close();
+                	baos.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -116,7 +121,6 @@ public class HttpClient {
             // 断开与远程地址url的连接
             con.disconnect();
         }
-        System.out.println(resultJson);
-        return resultJson;
+        return finalBytes;
     }
 }

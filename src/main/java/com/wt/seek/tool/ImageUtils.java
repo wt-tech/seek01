@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.wt.seek.entity.MiniProgramCodeParam;
+
 public class ImageUtils {
 
 	public static String getImageTypeWithDot(MultipartFile image) {
@@ -59,4 +61,22 @@ public class ImageUtils {
 		return true;
 	}
 
+	
+	/**
+	 * 返回小程序码的路径
+	 * @return
+	 */
+	public static String getMiniQRAbsoluteURI(MiniProgramCodeParam param) {
+		return Constants.ContextPath + File.separator + Constants.MINIQRCODE 
+				+ File.separator + param.getPath().replace('/', '-') + File.separator 
+				+ param.getScene() + Constants.MINIQRCODESUFFIX;
+	}
+	
+	/**
+	 * 返回小程序码的网络访问路径
+	 * @return
+	 */
+	public static String getMiniQRVirtualURI(MiniProgramCodeParam param) {
+		return getMiniQRAbsoluteURI(param).replace(File.separator, "/");
+	}
 }

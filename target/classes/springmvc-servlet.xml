@@ -20,7 +20,7 @@
                 <property name="supportedMediaTypes">
                     <list>
                     	<!-- 网上总说必须要添加text/html,并且要把他放在首位,我注释掉,也没发现有什么问题 -->
-                        <value>text/html;charset=UTF-8</value>
+                        <!-- <value>text/html;charset=UTF-8</value> -->
                         <value>application/json;charset=UTF-8</value>
                         <!-- <value>multipart/form-data;charset=UTF-8</value> -->
                     </list>
