@@ -42,10 +42,8 @@ public interface IRBACService {
 	boolean updateUserRolesInBulk(String userCode,Integer[] roleIds);
 	
 
-
 	boolean updatePermissions(Permission permission);
 	
 	boolean savePermissions(Permission permission);
 	
-
 }

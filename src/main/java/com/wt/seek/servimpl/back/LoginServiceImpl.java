@@ -42,10 +42,16 @@ public class LoginServiceImpl implements ILoginService {
 	public List<Login> listAllUsers(Integer currentPageNo,Integer pageSize) {
 		return loginMapper.listAllUsers(currentPageNo,pageSize);
 	}
-
+    
 	@Override
-	public boolean saveLoginUser(String userCode, String password, String nickname) {
-		return loginMapper.saveLoginUser(userCode, password, nickname);
+	public Integer countUsers() {
+		return loginMapper.countUsers();
+	}
+	
+	@Override
+	public int saveLoginUser(Login login) {
+		 loginMapper.saveLoginUser(login);
+		return login.getId();
 	}
 
 	@Override
@@ -54,6 +60,9 @@ public class LoginServiceImpl implements ILoginService {
 		return loginMapper.getLoginUser(userCode) == null;
 	}
 
-
-
+	@Override
+	public boolean saveLoginAndVolunteer(Integer loginId, Integer volunteerId) {
+		// TODO Auto-generated method stub
+		return loginMapper.saveLoginAndVolunteer(loginId, volunteerId)>0;
+	}
 }

@@ -35,7 +35,7 @@ public class AuthenticationCtrl {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		// 总数量（表）
 		int totalCount = authenticationService.countAuthentication();
-		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
+		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo,Constants.pageSize);
 		List<Authentication> authentications = authenticationService.listAuthentication(currentPageNos,
 				Constants.pageSize);
 		map.put(Constants.STATUS, Constants.SUCCESS);

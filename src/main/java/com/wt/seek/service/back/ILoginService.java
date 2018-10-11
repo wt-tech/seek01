@@ -26,12 +26,10 @@ public interface ILoginService {
 
 	public List<Login> listAllUsers(Integer currentPageNo,Integer pageSize);
 
-
+	Integer countUsers();
 	
-	public boolean saveLoginUser(
-			String userCode,
-			String password,
-			String nickname
-			);
+	public int saveLoginUser(Login login);
+	
+	public boolean saveLoginAndVolunteer(Integer loginId,Integer volunteerId);
 
 }

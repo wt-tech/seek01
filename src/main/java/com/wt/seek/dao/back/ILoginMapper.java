@@ -30,11 +30,13 @@ public interface ILoginMapper {
 
 	public List<Login> listAllUsers(@Param("currentPageNo") Integer currentPageNo,
 			@Param("pageSize") Integer pageSize);
-
 	
-	public boolean saveLoginUser(
-			@Param("userCode") String userCode,
-			@Param("password") String password,
-			@Param("nickname") String nickname
+	Integer countUsers();
+	
+	public int saveLoginUser(Login login);
+	
+	public int saveLoginAndVolunteer(
+			@Param("loginId") Integer loginId,
+			@Param("volunteerId") Integer volunteerId
 			);
 }

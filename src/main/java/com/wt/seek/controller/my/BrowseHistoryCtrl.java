@@ -31,7 +31,7 @@ public class BrowseHistoryCtrl {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		// 总数量（表）
 		int totalCount = browsehistoryService.countBrowseHistory(customerId);
-		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
+		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo, Constants.pageSizes);
 		List<BrowseHistory> browsehistorys = browsehistoryService.listBrowseHistory(customerId, currentPageNos, Constants.pageSizes);
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("browsehistorys", browsehistorys);

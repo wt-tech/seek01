@@ -12,6 +12,7 @@ import com.wt.seek.entity.County;
 import com.wt.seek.entity.Province;
 import com.wt.seek.entity.Seek;
 import com.wt.seek.entity.SeekImg;
+import com.wt.seek.entity.VolunteerArea;
 import com.wt.seek.service.index.ISeekService;
 import com.wt.seek.tool.Constants;
 import com.wt.seek.tool.ImageUtils;
@@ -135,6 +136,12 @@ public class SeekServiceImpl implements ISeekService {
 	public List<County> listCounty(Integer id) {
 		// TODO Auto-generated method stub
 		return seekMapper.listCounty(id);
+	}
+
+	@Override
+	public VolunteerArea getVolunteerArea(Integer loginid) {
+		// TODO Auto-generated method stub
+		return seekMapper.getVolunteerArea(loginid);
 	}
 
 }

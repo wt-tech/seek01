@@ -9,6 +9,7 @@ import com.wt.seek.entity.County;
 import com.wt.seek.entity.Province;
 import com.wt.seek.entity.Seek;
 import com.wt.seek.entity.SeekImg;
+import com.wt.seek.entity.VolunteerArea;
 
 public interface ISeekMapper {
 
@@ -118,5 +119,12 @@ public interface ISeekMapper {
 	 * @return
 	 */
 	public List<County> listCounty(@Param("id") Integer id);
-
+	
+    /**
+     * loginid为用户id，在确定该用户为志愿者后，
+     * 根据用户id查询志愿者id，再根据志愿者id查询所在的省市县
+     * @param loginid
+     * @return
+     */
+	VolunteerArea getVolunteerArea(@Param("loginid") Integer loginid);
 }

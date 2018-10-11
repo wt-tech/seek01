@@ -15,11 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wt.seek.entity.Address;
 import com.wt.seek.entity.City;
 import com.wt.seek.entity.County;
+import com.wt.seek.entity.Login;
 import com.wt.seek.entity.Province;
+import com.wt.seek.entity.Role;
 import com.wt.seek.entity.Seek;
 import com.wt.seek.entity.TopComent;
+import com.wt.seek.entity.VolunteerArea;
 import com.wt.seek.service.index.ISeekService;
 import com.wt.seek.service.index.ITopComentService;
 import com.wt.seek.tool.Constants;
@@ -48,11 +52,9 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value= {"/listseek","/back/listseek"})
-	public Map<String, Object> listSeek(@RequestBody Object seek/*,@RequestBody String hadBrowsed,@RequestBody Integer currentPageNo*/) throws Exception {
+	@RequestMapping(value = { "/listseek", "/back/listseek" })
+	public Map<String, Object> listSeek(@RequestBody Object seek, HttpServletRequest request) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
-		// System.err.println(seek);
-		// System.err.println(seek.getClass());
 		JSONObject json = (JSONObject) seek;
 		String hadBrowsed = json.getString("hadBrowsed");
 		json.remove("hadBrowsed");
@@ -61,20 +63,42 @@ public class SeekCtrl {
 
 		Seek seekObj = JSONObject.parseObject(json.toString(), Seek.class);
 
-		// System.err.println(hadBrowsed);
+		Object o = request.getSession().getAttribute(Constants.USER_SESSION);
+		//获取当前用户的所有角色
+		List<Role> allRole = ((Login) o).getRoles();
+		Integer loginId = null;
+		for (Role role : allRole) {
+			//如果该用户的角色为volunteer且只有一个
+			if ("volunteer".equals(role.getRoleName()) && allRole.size() == 1)
+				loginId = ((Login) o).getId();
+		}
+		//如果该用户的id不为空
+		if (loginId != null) {
+			//根据用户的id去查询志愿者的id，再查询志愿者的地址
+			VolunteerArea volunteerarea = seekService.getVolunteerArea(loginId);
+			if (volunteerarea != null) {
+				Address address = new Address();
+				address.setMissProvinceId(volunteerarea.getProvinceId());
+				address.setMissCityId(volunteerarea.getCityId());
+				//如果地址的区县不为空
+				if (volunteerarea.getCountyId() != null) {
+					address.setMissCountyId(volunteerarea.getCountyId());
+				}
+				seekObj.setAddress(address);
+			}
+		}
 		// 总数量（表）
-		int totalCount = seekService.countSeek(seekObj,hadBrowsed);
-//		List<Seek> seklist = new ArrayList<Seek>();
-		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
+		int totalCount = seekService.countSeek(seekObj, hadBrowsed);
+		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo,Constants.pageSizes);
 		List<Seek> seeks = seekService.listSeek(seekObj, hadBrowsed, currentPageNos, Constants.pageSizes);
 		for (Seek sek : seeks) {
-			String img = sek.getSeekimgs()==null?"":sek.getSeekimgs();
+			String img = sek.getSeekimgs() == null ? "" : sek.getSeekimgs();
 			String firstImg = img;
-			if(img.length()>0) {
+			if (img.length() > 0) {
 				firstImg = img.split(",")[0];
 			}
 			sek.setSeekimgs(firstImg);
-//			seklist.add(sek);
+			// seklist.add(sek);
 		}
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("seeks", seeks);
@@ -144,9 +168,9 @@ public class SeekCtrl {
 		Map<String, Object> resultMap = MapUtils.getHashMapInstance();
 		List<Seek> list = seekService.listSimilarSeek(seek);
 		for (Seek sek : list) {
-			String img = sek.getSeekimgs()==null?"":sek.getSeekimgs();
+			String img = sek.getSeekimgs() == null ? "" : sek.getSeekimgs();
 			String firstImg = img;
-			if(img.length()>0) {
+			if (img.length() > 0) {
 				firstImg = img.split(",")[0];
 			}
 			sek.setSeekimgs(firstImg);
@@ -168,34 +192,35 @@ public class SeekCtrl {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		// 总数量（表）
 		int totalCount = topComentService.countTopComent(seek);
-		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
+		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo, Constants.pageSize);
 		// 根据传递的id查询单条寻亲记录的详情内容
 		Seek seekcontent = seekService.getSeek(seek.getId());
 		// 根据传递的id查询单条寻亲记录的第一级评论内容（包括分页）
 		List<TopComent> topComents = topComentService.listTopComent(seek.getId(), currentPageNos, Constants.pageSize);
 		// 根据查询出来的第一级评论内容，查询下面所有的子评论
-		//List<Coment> coments = comentService.listComent(seek.getId(), currentPageNo, Constants.pageSize);
+		// List<Coment> coments = comentService.listComent(seek.getId(), currentPageNo,
+		// Constants.pageSize);
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("seekcontent", seekcontent);
 		map.put("topComents", topComents);
-		//map.put("coments", coments);
+		// map.put("coments", coments);
 		map.put("totalCount", totalCount);
+		map.put("pageSize", Constants.pageSize);
 		return map;
 	}
 
 	@RequestMapping("/back/getseek")
-	public Map<String, Object> getBackSeek(@RequestParam("id") Integer id)
-			throws Exception {
+	public Map<String, Object> getBackSeek(@RequestParam("id") Integer id) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		// 根据传递的id查询单条寻亲记录的详情内容
 		Seek seekcontent = seekService.getSeek(id);
-		List<Province> listprovince=seekService.listProvince();
+		List<Province> listprovince = seekService.listProvince();
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("seekcontent", seekcontent);
 		map.put("listprovince", listprovince);
 		return map;
 	}
-	
+
 	/**
 	 * 查询我的发布
 	 * 
@@ -204,16 +229,17 @@ public class SeekCtrl {
 	 * @throws Exception
 	 */
 	@RequestMapping("/listseekbycustomerid")
-	public Map<String, Object> listSeekByCustomerId(@RequestParam("customerId") Integer customerId,@RequestParam("currentPageNo") Integer currentPageNo) throws Exception {
+	public Map<String, Object> listSeekByCustomerId(@RequestParam("customerId") Integer customerId,
+			@RequestParam("currentPageNo") Integer currentPageNo) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		int totalCount = seekService.countSeekByCustomerId(customerId);
-		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
-		List<Seek> seeks = seekService.listSeekByCustomerId(customerId,currentPageNos,Constants.pageSizes);
+		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo, Constants.pageSizes);
+		List<Seek> seeks = seekService.listSeekByCustomerId(customerId, currentPageNos, Constants.pageSizes);
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("seeks", seeks);
 		return map;
 	}
-	
+
 	/**
 	 * 修改发布
 	 * 
@@ -221,15 +247,15 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value={"/updateseek","/back/updateseek"})
-	public Map<String, Object> updateSeek(Seek seek,HttpServletRequest request,
+	@RequestMapping(value = { "/updateseek", "/back/updateseek" })
+	public Map<String, Object> updateSeek(Seek seek, HttpServletRequest request,
 			@RequestParam(value = "seekImg", required = false) MultipartFile[] file) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		boolean flag = seekService.updateSeek(seek);
-		map.put(Constants.STATUS, flag?Constants.SUCCESS:Constants.FAIL);
+		map.put(Constants.STATUS, flag ? Constants.SUCCESS : Constants.FAIL);
 		return map;
 	}
-	
+
 	/**
 	 * 删除发布
 	 * 
@@ -237,24 +263,24 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value={"/removeseek","/back/removeseek"})
+	@RequestMapping(value = { "/removeseek", "/back/removeseek" })
 	public Map<String, Object> removeSeek(@RequestParam("id") Integer id) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		boolean flag = seekService.deleteSeek(id);
-		map.put(Constants.STATUS, flag?Constants.SUCCESS:Constants.FAIL);
+		map.put(Constants.STATUS, flag ? Constants.SUCCESS : Constants.FAIL);
 		return map;
 	}
-	
-	@RequestMapping(value={"/countseek","/back/countseek"})
+
+	@RequestMapping(value = { "/countseek", "/back/countseek" })
 	public Map<String, Object> countSeek(@RequestParam(value = "seek", required = false) Seek seek,
 			@RequestParam(value = "hadBrowsed", required = false) String hadBrowsed) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
-		int totalCount = seekService.countSeek(seek,hadBrowsed);
-		map.put("totalCount",totalCount);
-		map.put(Constants.STATUS,Constants.SUCCESS);
+		int totalCount = seekService.countSeek(seek, hadBrowsed);
+		map.put("totalCount", totalCount);
+		map.put(Constants.STATUS, Constants.SUCCESS);
 		return map;
 	}
-	
+
 	@RequestMapping("/back/city")
 	public Map<String, Object> listCityByProvinceID(@RequestParam("id") int id) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();

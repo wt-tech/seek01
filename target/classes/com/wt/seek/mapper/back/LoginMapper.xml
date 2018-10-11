@@ -9,7 +9,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listAllUsers" resultType="Login">
 		select * from login LIMIT
 		${(currentPageNo-1)*pageSize},${pageSize};
-
+	</select>
+	
+	<select id="countUsers" resultType="Integer">
+		select count(*) from login;
 	</select>
 
 	<select id="getLoginUser" resultType="Login">
@@ -21,13 +24,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</trim>
 	</select>
 
-	<insert id="saveLoginUser">
+	<insert id="saveLoginUser" keyProperty="id" useGeneratedKeys="true">
 		INSERT INTO login (user_code,user_name,user_password)
 		VALUES
-			(#{userCode},#{nickname},#{password});
+			(#{userCode},#{userName},#{userPassword});
 	</insert>
-
-	
+     
+     <insert id="saveLoginAndVolunteer">
+		INSERT INTO login_volunteer (login_id,volunteer_id)
+		VALUES
+			(#{loginId},#{volunteerId});
+	</insert>
+     
 	<update id="updatePwd" parameterType="String">
 		update login set user_password=#{userPassword} where user_code = #{userCode}
 	</update>

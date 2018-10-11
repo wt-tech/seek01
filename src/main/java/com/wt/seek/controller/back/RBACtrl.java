@@ -40,7 +40,7 @@ public class RBACtrl {
 	}
 	
 	//===========================查询后台所有的URI====================================
-	@RequestMapping(value="back/uri/permissions",method=RequestMethod.GET)
+	@RequestMapping(value="back/permissions",method=RequestMethod.GET)
 	public Map<String, Object> listBackendAllPermissionsURI(HttpServletRequest request) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		map.put(Constants.STATUS, Constants.SUCCESS);
@@ -84,7 +84,7 @@ public class RBACtrl {
 	}
 	
 	//=========================角色数据权限相关==============================
-	@RequestMapping(value="back/permissions",method=RequestMethod.GET)
+	@RequestMapping(value="back/uri/permissions",method=RequestMethod.GET)
 	public Map<String, Object> listAllPermissions() {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		map.put(Constants.STATUS, Constants.SUCCESS);

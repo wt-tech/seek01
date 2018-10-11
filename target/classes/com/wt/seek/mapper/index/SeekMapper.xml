@@ -100,10 +100,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LEFT JOIN county my ON
 		seek.miss_county_id=my.id
 		WHERE 1=1
+		<if test="seek !=null">
 		<if
 			test="seek.missName != '' and seek.missName != null and seek.missName != 'null'">
-			AND miss_name =#{seek.missName}
-			AND miss_name like %${seek.missName}%
+			AND miss_name like "%${seek.missName}%"
 		</if>
 		<if
 			test="seek.gender != '' and seek.gender != null and seek.gender != 'null'">
@@ -144,6 +144,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND miss_county_id =#{seek.address.missCountyId}
 		</if>
 		</if>
+		</if>
 		<choose>
 			<when test="hadBrowsed =='true'">
 				AND seek.id NOT IN(SELECT seek_id FROM browse_history
@@ -178,12 +179,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		miss_province_name,
 		miss_city_name,
 		miss_county_name
-		<!-- <if test="seek.pubdate !=null"> -->
+		<if test="seek.pubdate !=null"> 
 		ORDER BY pubdate desc
-		<!-- </if>
+		</if>
 		<if test="seek.sequence !=null">
 		ORDER BY sequence desc
-		</if> -->
+		</if> 
 		LIMIT ${(currentPageNo-1)*pageSize},${pageSize}
 	</select>
 
@@ -479,7 +480,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE 1=1
 		<if
 			test="seek.missName != '' and seek.missName != null and seek.missName != 'null'">
-			AND miss_name =#{seek.missName}
+			AND miss_name like "%${seek.missName}%"
 		</if>
 		<if
 			test="seek.gender != '' and seek.gender != null and seek.gender != 'null'">
@@ -619,5 +620,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listCounty" parameterType="Integer" resultType="County">
 		SELECT county.id,county_name AS NAME FROM `county` WHERE city_id=#{id}
 		ORDER BY id ;
+	</select>
+	
+	<select id="getVolunteerArea" resultType="VolunteerArea">
+		SELECT province_id,city_id,county_id FROM volunteer_areas
+		LEFT JOIN login_volunteer ON login_volunteer.volunteer_id=volunteer_areas.volunteer_id
+		WHERE login_id=#{loginid}
 	</select>
 </mapper>
