@@ -5,9 +5,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <mapper namespace="com.wt.seek.dao.back.IRBACMapper">
-<!--	List<Menu> listMenusByRoleId(@Param("roleId") Integer roleId);
-	
-	List<Menu> listAllMenus();-->
 	
 	<select id="listMenusByRoleId" resultType="Menu">
 		SELECT
@@ -18,19 +15,88 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			role_menu.role_id = #{roleId};
 	</select>
+	<select id="listPermissionsByRoleId" resultType="Permission">
+		SELECT
+			permission.* 
+		FROM
+			role_permission
+		LEFT JOIN permission ON role_permission.permission_id = permission.id 
+		WHERE
+			role_permission.role_id = #{roleId};
+	</select>
 	
+	<select id="listRolesByUserId" resultType="Role">
+		SELECT
+			role.* 
+		FROM
+			login_role
+		LEFT JOIN role ON login_role.role_id = role.id 
+		WHERE
+			login_role.user_code = #{userCode};
+	</select>
 	
 	<select id="listAllMenus" resultType="Menu">
 		select * from menu;
 	</select>
-	
-	<select id="listAllRoles" resultType="Role">
-		select * from role;
-	</select>
 	<select id="listAllPermissions" resultType="Permission">
 		select * from permission;
 	</select>
+	<select id="listAllRoles" resultType="Role">
+		select * from role;
+	</select>
 	
+	<delete id="removeMenusByRoleId">
+		DELETE 
+		FROM
+			role_menu 
+		WHERE
+			role_id = #{roleId};
+	</delete>
+	
+	<delete id="removePermissionsByRoleId">
+		DELETE 
+		FROM
+			role_permission 
+		WHERE
+			role_id = #{roleId};
+	</delete>
+	<delete id="removeRolesByUserId">
+		DELETE 
+		FROM
+			login_role 
+		WHERE
+			user_code = #{userCode};
+	</delete>
+	
+	<insert id="saveRoleMenusInBulk">
+		INSERT INTO 
+			role_menu (role_id,menu_id )
+		VALUES
+		<foreach collection="menuIds" item="menuId" separator=",">
+			(#{roleId},#{menuId})
+		</foreach>	
+	</insert>
+	
+
+	<insert id="saveRolePermissionsInBulk">
+		INSERT INTO 
+			role_permission (role_id,permission_id )
+		VALUES
+		<foreach collection="permissionIds" item="permissionId" separator=",">
+			(#{roleId},#{permissionId})
+			
+		</foreach>	
+	</insert>
+	
+	<insert id="saveUserRolesInBulk">
+		INSERT INTO 
+			login_role (user_code,role_id )
+		VALUES
+		<foreach collection="roleIds" item="roleId" separator=",">
+			(#{userCode},#{roleId})
+		</foreach>	
+	</insert>
+
 	<update id="updatePermissions" parameterType="Permission">
 	    update permission set description=#{description} where id=#{id}
 	</update>

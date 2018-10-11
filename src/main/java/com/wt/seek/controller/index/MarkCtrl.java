@@ -31,7 +31,7 @@ public class MarkCtrl {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		// 总数量（表）
 		int totalCount = markService.countMark();
-		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
+		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo, Constants.pageSizes);
 		List<Mark> marks = markService.listMark(customerId, currentPageNos, Constants.pageSizes);
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("marks", marks);

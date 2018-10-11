@@ -6,30 +6,40 @@ import com.wt.seek.entity.Menu;
 import com.wt.seek.entity.Permission;
 import com.wt.seek.entity.Role;
 
+
+/**
+ * InBulk-->批量的
+ * @author Daryl
+ *
+ */
 public interface IRBACService {
 
-	List<Role> listAllRoles();
-	
-	List<Permission> listAllPermissions();
-	
-	/**
-	 * 批量添加新的权限
-	 * @return
-	 */
 	boolean savePermissionsInBulk();
 	
-	/**
-	 * 根据角色查询可见菜单
-	 * @param roleId
-	 * @return
-	 */
-	List<Menu> listMenusByRoleId(Integer roleId);
 	
-	/**
-	 * 查询所有菜单
-	 * @return
-	 */
+	//======================角色菜单权限相关======================
 	List<Menu> listAllMenus();
+	List<Menu> listMenusByRoleId(Integer roleId);
+	boolean removeMenusByRoleId(Integer roelId);
+	boolean saveRoleMenusInBulk(Integer roelId,Integer[] menuIds);
+	boolean updateRoleMenusInBulk(Integer roelId,Integer[] menuIds);
+
+	
+	//======================角色数据权限相关======================
+	List<Permission> listAllPermissions();
+	List<Menu> listPermissionsByRoleId(Integer roleId);
+	boolean removePermissionsByRoleId(Integer roelId);
+	boolean saveRolePermissionsInBulk(Integer roelId,Integer[] permissionIds);
+	boolean updateRolePermissionsInBulk(Integer roelId,Integer[] permissionIds);
+	
+	
+
+	//======================用户角色相关======================
+	List<Role> listAllRoles();
+	List<Menu> listRolesByUserId(String userCode);
+	boolean removeRolesByUserId(String userCode);
+	boolean saveUserRolesInBulk(String userCode,Integer[] roleIds);
+	boolean updateUserRolesInBulk(String userCode,Integer[] roleIds);
 	
 
 	boolean updatePermissions(Permission permission);

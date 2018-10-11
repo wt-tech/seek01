@@ -36,7 +36,7 @@ public class VolunteerCtrl {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		// 总数量（表）
 		int totalCount = volunteerService.countVolunteer();
-		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
+		Integer currentPageNos = new PageUtil().Page(totalCount,currentPageNo,Constants.pageSize);
 		List<Volunteer> volunteers = volunteerService.listVolunteer(currentPageNos,
 				Constants.pageSize);
 		map.put(Constants.STATUS, Constants.SUCCESS);

@@ -42,5 +42,27 @@ public class LoginServiceImpl implements ILoginService {
 	public List<Login> listAllUsers(Integer currentPageNo,Integer pageSize) {
 		return loginMapper.listAllUsers(currentPageNo,pageSize);
 	}
+    
+	@Override
+	public Integer countUsers() {
+		return loginMapper.countUsers();
+	}
+	
+	@Override
+	public int saveLoginUser(Login login) {
+		 loginMapper.saveLoginUser(login);
+		return login.getId();
+	}
 
+	@Override
+	public boolean checkIfUserCodeAvaliable(String userCode) throws Exception {
+		// TODO Auto-generated method stub
+		return loginMapper.getLoginUser(userCode) == null;
+	}
+
+	@Override
+	public boolean saveLoginAndVolunteer(Integer loginId, Integer volunteerId) {
+		// TODO Auto-generated method stub
+		return loginMapper.saveLoginAndVolunteer(loginId, volunteerId)>0;
+	}
 }

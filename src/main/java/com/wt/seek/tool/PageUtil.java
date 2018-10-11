@@ -1,9 +1,9 @@
 package com.wt.seek.tool;
 
 public class PageUtil {
-	public Integer Page(Integer totalCount, Integer currentPageNo) throws Exception {
+	public Integer Page(Integer totalCount, Integer currentPageNo,Integer pageSize) throws Exception {
 		// 设置页面容量
-		int pageSize = Constants.pageSize;
+		//int pageSize = Constants.pageSize;
 		// 总数量（表）
 		// 总页数
 		PageSupport pages = new PageSupport();

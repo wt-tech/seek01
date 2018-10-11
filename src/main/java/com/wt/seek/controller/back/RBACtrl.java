@@ -7,10 +7,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wt.seek.entity.Permission;
 import com.wt.seek.service.back.IRBACService;
 import com.wt.seek.tool.Constants;
@@ -27,6 +29,7 @@ public class RBACtrl {
 	@Autowired
 	private IRBACService rbacServiceImpl;
 	
+	//==========================该请求是内部重定向请求===============================
 	@RequestMapping("permission")
 	public Map<String, Object> permissionDenied() {
 
@@ -36,19 +39,29 @@ public class RBACtrl {
 		return map;
 	}
 	
-	@RequestMapping(value="back/menus",method=RequestMethod.GET)
-	public Map<String, Object> listAllMenus(HttpSession session) {
+	//===========================查询后台所有的URI====================================
+	@RequestMapping(value="back/permissions",method=RequestMethod.GET)
+	public Map<String, Object> listBackendAllPermissionsURI(HttpServletRequest request) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		map.put(Constants.STATUS, Constants.SUCCESS);
-		map.put("menus",rbacServiceImpl.listAllMenus());
+		map.put("permissions",ContextUtil.getAllPermission(rbacServiceImpl.listAllPermissions(), request));
 		return map;
 	}
-	
+	//=======================获取当前用户可见的菜单项=========================
 	@RequestMapping(value="back/user/menus",method=RequestMethod.GET)
 	public Map<String, Object> listCurrentUserMenus(HttpSession session) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put(Constants.USER_MENUS,session.getAttribute(Constants.USER_MENUS));
+		return map;
+	}
+	
+	//=========================角色菜单权限相关================================
+	@RequestMapping(value="back/menus",method=RequestMethod.GET)
+	public Map<String, Object> listAllMenus(HttpSession session) {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		map.put(Constants.STATUS, Constants.SUCCESS);
+		map.put("menus",rbacServiceImpl.listAllMenus());
 		return map;
 	}
 	
@@ -60,6 +73,42 @@ public class RBACtrl {
 		return map;
 	}
 	
+	@RequestMapping(value="back/role/menus",method=RequestMethod.PUT)
+	public Map<String, Object> updateRoleMenusInBulk(@RequestBody() Object obj){
+		JSONObject jsonObj = (JSONObject)obj;
+		Integer roleId = jsonObj.getInteger("roleId");
+		Integer[] menuIds = jsonObj.getObject("menuIds", Integer[].class);
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		map.put(Constants.STATUS, rbacServiceImpl.updateRoleMenusInBulk(roleId, menuIds)?Constants.SUCCESS:Constants.FAIL);
+		return map;
+	}
+	
+	//=========================角色数据权限相关==============================
+	@RequestMapping(value="back/uri/permissions",method=RequestMethod.GET)
+	public Map<String, Object> listAllPermissions() {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		map.put(Constants.STATUS, Constants.SUCCESS);
+		map.put("permissions",rbacServiceImpl.listAllPermissions());
+		return map;
+	}
+	@RequestMapping(value="back/role/{id}/permissions",method=RequestMethod.GET)
+	public Map<String, Object> listPermissionsByRoleId(@PathVariable(value="id",required=true) Integer roleId) {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		map.put(Constants.STATUS, Constants.SUCCESS);
+		map.put("permissions",rbacServiceImpl.listPermissionsByRoleId(roleId));
+		return map;
+	}
+	@RequestMapping(value="back/role/permissions",method=RequestMethod.PUT)
+	public Map<String, Object> updateRolePermissionsInBulk(@RequestBody() Object obj){
+		JSONObject jsonObj = (JSONObject)obj;
+		Integer roleId = jsonObj.getInteger("roleId");
+		Integer[] permissionIds = jsonObj.getObject("permissionIds", Integer[].class);
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		map.put(Constants.STATUS, rbacServiceImpl.updateRolePermissionsInBulk(roleId, permissionIds)?Constants.SUCCESS:Constants.FAIL);
+		return map;
+	}
+	
+	//=====================用户角色管理相关=============================
 	@RequestMapping(value="back/roles",method=RequestMethod.GET)
 	public Map<String, Object> listRoles() {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
@@ -67,15 +116,24 @@ public class RBACtrl {
 		map.put("roles",rbacServiceImpl.listAllRoles());
 		return map;
 	}
-	
-	@RequestMapping(value="back/permissions",method=RequestMethod.GET)
-	public Map<String, Object> listPermissions(HttpServletRequest request) {
+	@RequestMapping(value="back/user/{id}/roles",method=RequestMethod.GET)
+	public Map<String, Object> listRolesByUserId(@PathVariable(value="id",required=true) String userCode) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		map.put(Constants.STATUS, Constants.SUCCESS);
-		map.put("permissions",ContextUtil.getAllPermission(rbacServiceImpl.listAllPermissions(), request));
+		map.put("roles",rbacServiceImpl.listRolesByUserId(userCode));
 		return map;
 	}
 	
+
+	@RequestMapping(value="back/user/roles",method=RequestMethod.PUT)
+	public Map<String, Object> updateUserRolesInBulk(@RequestBody() Object obj) {
+		JSONObject jsonObj = (JSONObject)obj;
+		String userCode = jsonObj.getString("userCode");
+		Integer[] roleIds = jsonObj.getObject("roleIds", Integer[].class);
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		map.put(Constants.STATUS, rbacServiceImpl.updateUserRolesInBulk(userCode, roleIds)?Constants.SUCCESS:Constants.FAIL);
+		return map;
+	}
 	@RequestMapping("back/updatepermission")
 	public Map<String, Object> updatePermissions(Permission permission) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();

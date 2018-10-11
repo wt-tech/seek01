@@ -35,7 +35,7 @@ public class TopComentCtrl {
 			throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		int totalCount = topComentService.countTopComent(seek);
-		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
+		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo, Constants.pageSize);
 		List<TopComent> topComents = topComentService.listTopComent(seek.getId(), currentPageNos, Constants.pageSize);
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("TopComents", topComents);
@@ -55,7 +55,7 @@ public class TopComentCtrl {
 			@RequestParam("currentPageNo") Integer currentPageNo) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		int totalCount = topComentService.countTopComentByCustomerId(customerId);
-		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
+		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo,Constants.pageSizess);
 		List<TopComent> allComents = topComentService.listTopComentByCustomerId(customerId, currentPageNos,
 				Constants.pageSizess);
 		map.put(Constants.STATUS, Constants.SUCCESS);
@@ -76,7 +76,7 @@ public class TopComentCtrl {
 			@RequestParam("currentPageNo") Integer currentPageNo) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		int totalCount = topComentService.countComentByCustomerId(customerId);
-		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo);
+		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo,Constants.pageSizess);
 		List<TopComent> allComents = topComentService.listComentByCustomerId(customerId, currentPageNos,
 				Constants.pageSizess);
 		map.put(Constants.STATUS, Constants.SUCCESS);

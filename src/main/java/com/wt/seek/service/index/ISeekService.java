@@ -2,12 +2,14 @@ package com.wt.seek.service.index;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wt.seek.entity.City;
 import com.wt.seek.entity.County;
 import com.wt.seek.entity.Province;
 import com.wt.seek.entity.Seek;
+import com.wt.seek.entity.VolunteerArea;
 
 public interface ISeekService {
 	
@@ -61,4 +63,12 @@ public interface ISeekService {
 	 * @return
 	 */
 	public List<County> listCounty(Integer id);
+	
+	 /**
+     * loginid为用户id，在确定该用户为志愿者后，
+     * 根据用户id查询志愿者id，再根据志愿者id查询所在的省市县
+     * loginid
+     * @return
+     */
+	VolunteerArea getVolunteerArea(Integer loginid);
 }

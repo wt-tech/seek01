@@ -8,6 +8,8 @@ public interface ILoginService {
 
 	public Login getLoginUser(String userCode, String userPassword) throws Exception;
 
+	public boolean checkIfUserCodeAvaliable(String userCode) throws Exception;
+	
 	public boolean updatePwd(Login login) throws Exception;
 	
 	/**
@@ -23,5 +25,11 @@ public interface ILoginService {
 	 */
 
 	public List<Login> listAllUsers(Integer currentPageNo,Integer pageSize);
+
+	Integer countUsers();
+	
+	public int saveLoginUser(Login login);
+	
+	public boolean saveLoginAndVolunteer(Integer loginId,Integer volunteerId);
 
 }

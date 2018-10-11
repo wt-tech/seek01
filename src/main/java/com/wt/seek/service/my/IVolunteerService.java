@@ -52,6 +52,9 @@ public interface IVolunteerService {
 			MultipartFile positiveIdentityUrl, String staticsPath) throws Exception;
 
 
+	Volunteer getVolunteerByIDAndName(String ID,String realName);
+	
+	
 	/**
 	 * 
 	 * 查询所有的记录
