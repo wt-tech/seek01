@@ -52,8 +52,41 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/listseek", "/back/listseek" })
-	public Map<String, Object> listSeek(@RequestBody Object seek, HttpServletRequest request) throws Exception {
+	@RequestMapping("/listseek")
+	public Map<String, Object> listSeek(@RequestBody Object seek) throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		JSONObject json = (JSONObject) seek;
+		String hadBrowsed = json.getString("hadBrowsed");
+		json.remove("hadBrowsed");
+		Integer currentPageNo = json.getInteger("currentPageNo");
+		json.remove("currentPageNo");
+
+		Seek seekObj = JSONObject.parseObject(json.toString(), Seek.class);
+
+		// 总数量（表）
+		int totalCount = seekService.countSeek(seekObj, hadBrowsed);
+		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo,Constants.pageSizes);
+		//默认按发表时间降序排序(详情见SeekMapper.xml文件)
+		seekObj.setContactWechat("0");
+		List<Seek> seeks = seekService.listSeek(seekObj, hadBrowsed, currentPageNos, Constants.pageSizes);
+		for (Seek sek : seeks) {
+			String img = sek.getSeekimgs() == null ? "" : sek.getSeekimgs();
+			String firstImg = img;
+			if (img.length() > 0) {
+				firstImg = img.split(",")[0];
+			}
+			sek.setSeekimgs(firstImg);
+			// seklist.add(sek);
+		}
+		map.put(Constants.STATUS, Constants.SUCCESS);
+		map.put("seeks", seeks);
+		map.put("totalCount", totalCount);
+		map.put("pageSize", Constants.pageSizes);
+		return map;
+	}
+     
+	@RequestMapping("/back/listseek")
+	public Map<String, Object> listBackSeek(@RequestBody Object seek, HttpServletRequest request) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		JSONObject json = (JSONObject) seek;
 		String hadBrowsed = json.getString("hadBrowsed");
@@ -91,22 +124,13 @@ public class SeekCtrl {
 		int totalCount = seekService.countSeek(seekObj, hadBrowsed);
 		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo,Constants.pageSizes);
 		List<Seek> seeks = seekService.listSeek(seekObj, hadBrowsed, currentPageNos, Constants.pageSizes);
-		for (Seek sek : seeks) {
-			String img = sek.getSeekimgs() == null ? "" : sek.getSeekimgs();
-			String firstImg = img;
-			if (img.length() > 0) {
-				firstImg = img.split(",")[0];
-			}
-			sek.setSeekimgs(firstImg);
-			// seklist.add(sek);
-		}
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		map.put("seeks", seeks);
 		map.put("totalCount", totalCount);
 		map.put("pageSize", Constants.pageSizes);
 		return map;
 	}
-
+	
 	/**
 	 * 插入寻亲记录
 	 * 
@@ -186,7 +210,7 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/getseek")
+	@RequestMapping(value = {"/getseek", "/back/getseeks"})
 	public Map<String, Object> getSeek(Seek seek, @RequestParam("currentPageNo") Integer currentPageNo)
 			throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
