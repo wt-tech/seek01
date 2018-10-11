@@ -56,6 +56,17 @@ public class Constants {
 	public final static int pageSizess = 12;
 	public static final String DOT = ".";
 	
+	//小程序官方提供的 获取小程序Access_token
+	public final static  String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token"
+			+ "?grant_type=client_credential"
+			+ "&appid="+APPID
+			+ "&secret="+SECRET;
+	
+	//小程序官方提供的 获取小程序码URL
+	public static String MINI_PROGRAM_URL = "https://api.weixin.qq.com/wxa/getwxacodeunlimit"
+			+ "?access_token="; 
+	
+	
 	//服务端存放相应表中图片的文件夹名称
 	public static final String SEEK_IMG = "seek-img";
 	public static final String BANNER_IMG = "banner-img";
@@ -64,6 +75,10 @@ public class Constants {
 	
 	public static final String VOLUNTEER = "volunteer-img";
 	public static final String DETAIL_IMG = "banner-detail-img";
+	
+	//存放小程序码的路径
+	public static final String MINIQRCODE = "mini-program-code";
+	public static final String MINIQRCODESUFFIX = ".jpeg";
 
 	
 	//DOCBASEPATH指Tomcat的server.xml配置文件中host下的context的docBase属性
