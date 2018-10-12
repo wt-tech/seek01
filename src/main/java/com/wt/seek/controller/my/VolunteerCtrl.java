@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.wt.seek.entity.Province;
 import com.wt.seek.entity.Volunteer;
+import com.wt.seek.entity.VolunteerArea;
+import com.wt.seek.service.index.ISeekService;
 import com.wt.seek.service.my.IVolunteerService;
 import com.wt.seek.tool.Constants;
 import com.wt.seek.tool.ContextUtil;
@@ -27,6 +30,9 @@ import com.wt.seek.tool.PageUtil;
 public class VolunteerCtrl {
 	@Autowired
 	private IVolunteerService volunteerService;
+	
+	@Autowired
+	private ISeekService seekService;
 
 	private Logger logger = LogManager.getLogger();
 
@@ -143,5 +149,42 @@ public class VolunteerCtrl {
 		map.put(Constants.STATUS, flag ? Constants.SUCCESS : Constants.FAIL);
 		return map;
 	}
-
+    /**
+     * 查询单个志愿者负责的区域
+     * @param volunteerId
+     * @return
+     * @throws Exception
+     */
+	@RequestMapping(value = "/back/listvolunteerarea",method=RequestMethod.GET)
+	public Map<String, Object> listVolunteerArea(@RequestParam("volunteerId") Integer volunteerId)throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		List<VolunteerArea> volunteerareas = volunteerService.listVolunteerAreaById(volunteerId);
+		List<Province> listprovince = seekService.listProvince();
+		map.put(Constants.STATUS,Constants.SUCCESS);
+		map.put("volunteerareas", volunteerareas);
+		map.put("listprovince", listprovince);
+		return map;
+	}
+	
+	@RequestMapping(value = "/back/savevolunteerarea",method=RequestMethod.POST)
+	public Map<String, Object> saveVolunteerArea(
+			@RequestParam(value = "volunteerId", required = true) Integer volunteerId,
+			@RequestParam(value = "provinceId", required = true) Integer[] provinceId,
+			@RequestParam(value = "cityId", required = true) Integer[] cityId,
+			@RequestParam(value = "countyId", required = true) Integer[] countyId)
+			throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		boolean flag = volunteerService.saveVolunteerAddress(volunteerId,provinceId,cityId,countyId);
+		map.put(Constants.STATUS, flag ? Constants.SUCCESS : Constants.FAIL);
+		return map;
+	}
+	
+	@RequestMapping(value = "/back/deletevolunteerarea",method=RequestMethod.DELETE)
+	public Map<String, Object> deleteVolunteerArea(@RequestParam(value = "id", required = true) Integer[] id)
+			throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		boolean flag = volunteerService.deleteVolunteerArea(id);
+		map.put(Constants.STATUS, flag ? Constants.SUCCESS : Constants.FAIL);
+		return map;
+	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.wt.seek.entity.Volunteer;
+import com.wt.seek.entity.VolunteerArea;
 
 public interface IVolunteerMapper {
 
@@ -59,5 +60,19 @@ public interface IVolunteerMapper {
 	 * 查询所有的记录
 	 */
 	Integer countVolunteer();
-
+	
+	/**
+	 * 查询单个志愿者负责的区域
+	 * @param volunteerId
+	 * @return
+	 */
+	List<VolunteerArea> listVolunteerAreaById(@Param("volunteerId") Integer volunteerId);
+	
+	/**
+	 * 删除单个志愿者负责的区域
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	Integer deleteVolunteerArea(@Param("id") Integer id) throws Exception;
 }

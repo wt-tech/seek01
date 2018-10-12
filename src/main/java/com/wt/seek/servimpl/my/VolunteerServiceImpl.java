@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.wt.seek.dao.my.IVolunteerMapper;
 import com.wt.seek.entity.Volunteer;
+import com.wt.seek.entity.VolunteerArea;
 import com.wt.seek.service.my.IVolunteerService;
 import com.wt.seek.tool.Constants;
 import com.wt.seek.tool.ImageUtils;
@@ -37,6 +38,35 @@ public class VolunteerServiceImpl implements IVolunteerService {
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public boolean saveVolunteerAddress(Integer volunteerId, Integer[] provinceId, Integer[] cityId, Integer[] countyId)
+			throws Exception {
+		// TODO Auto-generated method stub
+		boolean flag = false;
+		Volunteer volunteer = new Volunteer();
+		VolunteerArea volunteerarea = new VolunteerArea();
+		if (null != provinceId && provinceId.length > 0 && null != cityId && cityId.length > 0 && null != countyId
+				&& countyId.length > 0) {
+			for (int i = 0; i < provinceId.length; i++) {
+				volunteer = new Volunteer();
+				volunteerarea = new VolunteerArea();
+				volunteer.setId(volunteerId);
+				volunteerarea.setProvinceId(provinceId[i]);
+				volunteerarea.setCityId(cityId[i]);
+				if (countyId[i] == 0) {
+					volunteerarea.setCountyId(null);
+				} else {
+					volunteerarea.setCountyId(countyId[i]);
+				}
+				volunteer.setVolunteerarea(volunteerarea);
+				flag = volunteerMapper.saveVolunteerAddress(volunteer) > 0;
+				if (!flag)
+					break;
+			}
+		}
+		return flag;
 	}
 
 	@Override
@@ -71,13 +101,12 @@ public class VolunteerServiceImpl implements IVolunteerService {
 		// MultipartFile[] file = { negativIdentityUrl, positiveIdentityUrl };
 		if (volunteer.getId() > 0) { // 保存成功
 			if (null != file) {
-				int id=(int)new Date().getTime();
+				int id = (int) new Date().getTime();
 				// for (int i = 0; i < file.length; i++) {
 				// 存储图片
 				String suffix = ImageUtils.getImageTypeWithDot(file);
 				// 根据传递的公共路径（前半部分）+表名+id+文件名生成存储路径
-				String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.VOLUNTEER,
-						id, suffix);
+				String absolutePath = ImageUtils.generateAbsoluteImgPath(staticsPath, Constants.VOLUNTEER, id, suffix);
 				// 上传图片
 				flag = ImageUtils.saveImage(file, absolutePath);
 				String url = ImageUtils.genrateVirtualImgPath(Constants.VOLUNTEER, id, suffix);
@@ -97,6 +126,26 @@ public class VolunteerServiceImpl implements IVolunteerService {
 	@Override
 	public Volunteer getVolunteerByIDAndName(String ID, String realName) {
 		return volunteerMapper.getVolunteerByIDAndName(ID, realName);
+	}
+
+	@Override
+	public List<VolunteerArea> listVolunteerAreaById(Integer volunteerId) {
+		// TODO Auto-generated method stub
+		return volunteerMapper.listVolunteerAreaById(volunteerId);
+	}
+
+	@Override
+	public boolean deleteVolunteerArea(Integer[] id) throws Exception {
+		// TODO Auto-generated method stub
+		boolean flag = false;
+		if (null != id && id.length > 0) {
+			for (int i = 0; i < id.length; i++) {
+				flag = volunteerMapper.deleteVolunteerArea(id[i]) > 0;
+				if (!flag)
+					break;
+			}
+		}
+		return flag;
 	}
 
 }

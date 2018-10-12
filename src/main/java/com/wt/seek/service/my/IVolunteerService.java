@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wt.seek.entity.Volunteer;
+import com.wt.seek.entity.VolunteerArea;
 
 public interface IVolunteerService {
 
@@ -29,6 +30,8 @@ public interface IVolunteerService {
 
 	Integer saveVolunteer(Volunteer volunteer) throws Exception;
 	
+	boolean saveVolunteerAddress(Integer volunteerId,Integer[] provinceId,Integer[] cityId,Integer[] countyId) throws Exception;
+
 	/**
 	 * 查询每个用户的志愿者记录
 	 * 
@@ -60,4 +63,13 @@ public interface IVolunteerService {
 	 * 查询所有的记录
 	 */
 	Integer countVolunteer();
+	
+	/**
+	 * 查询单个志愿者负责的区域
+	 * @param volunteerId
+	 * @return
+	 */
+	List<VolunteerArea> listVolunteerAreaById(Integer volunteerId);
+	
+	boolean deleteVolunteerArea(Integer[] id) throws Exception;
 }

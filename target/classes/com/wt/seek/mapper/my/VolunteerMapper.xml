@@ -105,4 +105,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT COUNT(*) FROM
 		volunteer;
 	</select>
+	
+	<select id="listVolunteerAreaById" resultType="VolunteerArea">
+		SELECT volunteer_areas.id,province_name,city_name,county_name FROM 
+		volunteer_areas
+		LEFT JOIN province ON province.id=volunteer_areas.province_id
+		LEFT JOIN city ON city.id=volunteer_areas.city_id
+		LEFT JOIN county ON county.id=volunteer_areas.county_id
+		WHERE volunteer_id=#{volunteerId}
+	</select>
+	
+	<delete id="deleteVolunteerArea" parameterType="Integer">
+	    delete from volunteer_areas where id=#{id}
+	</delete>
 </mapper>
