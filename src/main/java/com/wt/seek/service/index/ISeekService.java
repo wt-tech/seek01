@@ -2,7 +2,6 @@ package com.wt.seek.service.index;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wt.seek.entity.City;
