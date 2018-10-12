@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class HttpClient {
@@ -71,56 +70,29 @@ public class HttpClient {
 
 	
 	public Object doPost(String param,String contentType) {
-        InputStream is = null;
-        OutputStream os = null;
-        ByteArrayOutputStream baos = null;
-        byte[] finalBytes = null;
-        try {
-            this.connect("POST");
-            
-            con.setDoOutput(true);
-            if(null != contentType && contentType.length() > 0) {
-            	con.setRequestProperty("Content-type", contentType);
-            }
-            os = con.getOutputStream();
+        
+		byte[] finalBytes = null;
+		this.connect("POST");
+		con.setDoOutput(true);
+		if(null != contentType && contentType.length() > 0) {
+			con.setRequestProperty("Content-type", contentType);
+		}
+        try (InputStream is = con.getInputStream();
+            OutputStream os = con.getOutputStream();
+        	ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);){
             os.write(param.getBytes());
-            is = con.getInputStream();
-            baos = new ByteArrayOutputStream(2048);
             byte[] bytes = new byte[2048];
             int len = -1;
             while((len= is.read(bytes)) != -1) {
             	baos.write(bytes, 0, len);
             }
             finalBytes = baos.toByteArray();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (null != baos) {
-                try {
-                	baos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (null != os) {
-                try {
-                    os.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (null != is) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            // 断开与远程地址url的连接
-            con.disconnect();
-        }
+        } 
+        // 断开与远程地址url的连接
+        con.disconnect();
+        
         return finalBytes;
     }
 }

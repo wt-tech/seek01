@@ -25,7 +25,6 @@ public class MiniProgramCodeServImpl implements IMiniProgramCodeServ {
 		HttpClient hc = new HttpClient(Constants.ACCESS_TOKEN_URL);
 		hc.connect("GET");
 		String resString = hc.fetchResponseContentInfo();
-		System.err.println(resString);
 		return resString;
 	}
 	
@@ -46,28 +45,18 @@ public class MiniProgramCodeServImpl implements IMiniProgramCodeServ {
 		JSONObject jsonObj = (JSONObject) JSON.toJSON(param);
 		jsonObj.remove("access_token");
 		String finalParams = JSON.toJSONString(jsonObj);
-		System.out.println(finalParams);
 		return finalParams.toString();
 	}
 	
 	private boolean saveBytes2Image(byte[] bytes,String path) {
 		File file = new File(path);
 		if(!this.checkFileAvaliable(file)) return false;
-		FileImageOutputStream imgOS = null;
-		try {
-			imgOS = new FileImageOutputStream(file);
+		
+		try(FileImageOutputStream imgOS = new FileImageOutputStream(file)) {
 			imgOS.write(bytes);
 			imgOS.flush();
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
-			BusinessUtils.throwNewBusinessException("保存图片错误");
-		}finally {
-			try {
-				if(null != imgOS)
-					imgOS.close();
-			} catch (IOException e) {
-				//说明os已经关闭了,所以没什么需要处理
-			}
+			BusinessUtils.throwNewBusinessException("将小程序码二进制流保存成图片发生错误 : "+e.getMessage());
 		}
 		return true;
 	}
