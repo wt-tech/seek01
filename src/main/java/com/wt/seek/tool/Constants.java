@@ -87,9 +87,9 @@ public class Constants {
 	public static final String ContextPath = "seek";
 	
 	//等部署到服务器上后,再修改
-	public static final String imgServerDomain = "https://www.qghls.com/statics/";
-	//public static final String imgServerDomain = "http://192.168.0.102:8080/statics/";
-//	public static final String imgServerDomain = "http://192.168.0.177:8888/statics/";
+	//public static final String imgServerDomain = "https://www.qghls.com/statics/";
+	public static final String imgServerDomain = "http://192.168.0.109:8080/statics/";
+    //public static final String imgServerDomain = "http://192.168.0.177:8888/statics/";
 
 	public static final double REPEATPUBLISHTHRESHOLD = 80; 
 	public static final String NOT_SOLVED = "'未结案'";
