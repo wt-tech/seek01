@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.wt.seek.tool.BusinessUtils;
+
 public class HttpClient {
 
 	private String url;
@@ -77,10 +79,15 @@ public class HttpClient {
 		if(null != contentType && contentType.length() > 0) {
 			con.setRequestProperty("Content-type", contentType);
 		}
-        try (InputStream is = con.getInputStream();
-            OutputStream os = con.getOutputStream();
-        	ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);){
-            os.write(param.getBytes());
+		
+		try(OutputStream os = con.getOutputStream();){
+			 os.write(param.getBytes());
+		} catch (IOException e) {
+            BusinessUtils.throwNewBusinessException("POST传参失败" + e.getMessage());
+        } 
+		
+        try (InputStream is = con.getInputStream();ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);)
+        {
             byte[] bytes = new byte[2048];
             int len = -1;
             while((len= is.read(bytes)) != -1) {
@@ -88,11 +95,10 @@ public class HttpClient {
             }
             finalBytes = baos.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
+        	BusinessUtils.throwNewBusinessException("获取小程序码二进制流失败" + e.getMessage());
         } 
         // 断开与远程地址url的连接
         con.disconnect();
-        
         return finalBytes;
     }
 }
