@@ -27,7 +27,7 @@ public interface IRBACService {
 	
 	//======================角色数据权限相关======================
 	List<Permission> listAllPermissions();
-	List<Menu> listPermissionsByRoleId(Integer roleId);
+	List<Permission> listPermissionsByRoleId(Integer roleId);
 	boolean removePermissionsByRoleId(Integer roelId);
 	boolean saveRolePermissionsInBulk(Integer roelId,Integer[] permissionIds);
 	boolean updateRolePermissionsInBulk(Integer roelId,Integer[] permissionIds);

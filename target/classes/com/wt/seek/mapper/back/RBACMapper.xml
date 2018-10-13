@@ -31,8 +31,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM
 			login_role
 		LEFT JOIN role ON login_role.role_id = role.id 
+		LEFT JOIN login ON login_role.user_code = login.user_code
 		WHERE
-			login_role.id = #{id};
+			login.id = #{id};
 	</select>
 	
 	<select id="listAllMenus" resultType="Menu">

@@ -68,7 +68,7 @@ public class RBACServiceImpl implements IRBACService {
 
 	
 	@Override
-	public List<Menu> listPermissionsByRoleId(Integer roleId) {
+	public List<Permission> listPermissionsByRoleId(Integer roleId) {
 		return rbacMapper.listPermissionsByRoleId(roleId);
 	}
 
