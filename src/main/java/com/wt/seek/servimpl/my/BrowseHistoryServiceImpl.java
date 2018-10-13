@@ -43,7 +43,7 @@ public class BrowseHistoryServiceImpl implements IBrowseHistoryService {
 	}
 
 	@Override
-	public boolean deleteBrowseHistory(int id) throws Exception {
+	public boolean deleteBrowseHistory(Integer id) throws Exception {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		int num = browsehistoryMapper.deleteBrowseHistory(id);

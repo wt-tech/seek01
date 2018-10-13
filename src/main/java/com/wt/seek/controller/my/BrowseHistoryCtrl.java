@@ -76,7 +76,6 @@ public class BrowseHistoryCtrl {
 		} else {
 			map.put(Constants.STATUS, Constants.FAIL);
 		}
-		map.put(Constants.STATUS, Constants.SUCCESS);
 		return map;
 
 	}

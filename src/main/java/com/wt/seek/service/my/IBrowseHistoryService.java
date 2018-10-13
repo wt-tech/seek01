@@ -32,7 +32,7 @@ public interface IBrowseHistoryService {
 	 * @return
 	 * @throws Exception
 	 */
-	boolean deleteBrowseHistory(int id) throws Exception;
+	boolean deleteBrowseHistory(Integer id) throws Exception;
 	
 	/**
 	 * 查询表中所有的记录

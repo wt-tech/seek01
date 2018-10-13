@@ -36,7 +36,7 @@ public interface IRBACService {
 
 	//======================用户角色相关======================
 	List<Role> listAllRoles();
-	List<Menu> listRolesByUserId(String userCode);
+	List<Role> listRolesByUserId(Integer id);
 	boolean removeRolesByUserId(String userCode);
 	boolean saveUserRolesInBulk(String userCode,Integer[] roleIds);
 	boolean updateUserRolesInBulk(String userCode,Integer[] roleIds);

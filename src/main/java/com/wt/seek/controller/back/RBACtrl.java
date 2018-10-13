@@ -131,10 +131,10 @@ public class RBACtrl {
 		return map;
 	}
 	@RequestMapping(value="back/user/{id}/roles",method=RequestMethod.GET)
-	public Map<String, Object> listRolesByUserId(@PathVariable(value="id",required=true) String userCode) {
+	public Map<String, Object> listRolesByUserId(@PathVariable(value="id",required=true) Integer id) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		map.put(Constants.STATUS, Constants.SUCCESS);
-		map.put("roles",rbacServiceImpl.listRolesByUserId(userCode));
+		map.put("roles",rbacServiceImpl.listRolesByUserId(id));
 		return map;
 	}
 	

@@ -96,8 +96,8 @@ public class RBACServiceImpl implements IRBACService {
 	}
 
 	@Override
-	public List<Menu> listRolesByUserId(String userCode) {
-		return rbacMapper.listRolesByUserId(userCode);
+	public List<Role> listRolesByUserId(Integer id) {
+		return rbacMapper.listRolesByUserId(id);
 	}
 
 	@Override
