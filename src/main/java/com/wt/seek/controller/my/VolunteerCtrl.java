@@ -179,7 +179,7 @@ public class VolunteerCtrl {
 		return map;
 	}
 	
-	@RequestMapping(value = "/back/deletevolunteerarea",method=RequestMethod.DELETE)
+	@RequestMapping(value = "/back/deletevolunteerarea",method=RequestMethod.POST)
 	public Map<String, Object> deleteVolunteerArea(@RequestParam(value = "id", required = true) Integer[] id)
 			throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();

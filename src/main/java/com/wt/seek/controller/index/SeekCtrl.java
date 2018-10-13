@@ -310,6 +310,7 @@ public class SeekCtrl {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		List<City> citylist = seekService.listCity(id);
 		map.put("citylist", citylist);
+		map.put(Constants.STATUS, Constants.SUCCESS);
 		return map;
 	}
 
@@ -318,6 +319,7 @@ public class SeekCtrl {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		List<County> countylist = seekService.listCounty(id);
 		map.put("countylist", countylist);
+		map.put(Constants.STATUS, Constants.SUCCESS);
 		return map;
 	}
 }

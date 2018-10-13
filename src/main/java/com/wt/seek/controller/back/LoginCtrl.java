@@ -55,7 +55,8 @@ public class LoginCtrl {
 			session.setAttribute(Constants.USER_PERMISSIONS, RBACUtil.getPermissions(user));
 			session.setAttribute(Constants.USER_MENUS, RBACUtil.getMenus(user));
 			map.put(Constants.STATUS, Constants.SUCCESS);
-		}
+		}else
+			BusinessUtils.throwNewBusinessException("账号密码不匹配");
 		return map;
 	}
 
@@ -64,7 +65,10 @@ public class LoginCtrl {
 	public Map<String, Object> logout(HttpSession session) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		// 清除session
-		session.removeAttribute(Constants.USER_SESSION);
+		//session.removeAttribute(Constants.USER_SESSION);
+		if(session != null) {
+			session.invalidate();
+		}
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		return map;
 	}
