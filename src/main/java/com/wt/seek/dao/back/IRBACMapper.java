@@ -21,7 +21,7 @@ public interface IRBACMapper {
 	
 	List<Menu> listMenusByRoleId(@Param("roleId") Integer roleId);
 	List<Menu> listPermissionsByRoleId(@Param("roleId") Integer roleId);
-	List<Menu> listRolesByUserId(@Param("userCode") String userCode);
+	List<Role> listRolesByUserId(@Param("id") Integer id);
 	
 	boolean removeMenusByRoleId(@Param("roleId") Integer roelId);
 	boolean removePermissionsByRoleId(@Param("roleId") Integer roelId);

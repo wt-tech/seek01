@@ -34,7 +34,7 @@ public interface IBrowseHistoryMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	Integer deleteBrowseHistory(@Param("id") int id) throws Exception;
+	Integer deleteBrowseHistory(@Param("id") Integer id) throws Exception;
 
 	/**
 	 * 查询是否有浏览记录

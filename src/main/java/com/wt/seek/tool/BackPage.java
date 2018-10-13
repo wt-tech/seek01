@@ -37,7 +37,7 @@ public class BackPage {
 	public static Map<String, Object> page(List<Seek> result, Integer currentPageNo, Integer totalcount,
 			Integer pagesize) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<Seek> listSeeks=null;
+		List<Seek> listSeeks = null;
 		int pagecount = 0;
 		int m = totalcount % pagesize;
 		if (m > 0) {
@@ -47,9 +47,10 @@ public class BackPage {
 		}
 		if (m == 0) {
 			if (totalcount < pagesize) {
-				listSeeks = result.subList((currentPageNo - 1) * pagesize,totalcount);
-			}else
-			 listSeeks = result.subList((currentPageNo - 1) * pagesize, pagesize * (currentPageNo));
+				listSeeks = result.subList((currentPageNo - 1) * pagesize, totalcount);
+			} else {
+				listSeeks = result.subList((currentPageNo - 1) * pagesize, pagesize * (currentPageNo));
+			}
 			map.put("seeks", listSeeks);
 			return map;
 		} else {
