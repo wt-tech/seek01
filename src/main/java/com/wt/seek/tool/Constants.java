@@ -6,6 +6,9 @@ public class Constants {
 	public final static String USER_SESSION = "userSession";
 	public final static String USER_PERMISSIONS = "userPermissions";
 	public final static String USER_MENUS = "userMenus";
+	public final static String VOLUNTEER_SEEKS = "volunteerSeeks";
+	public static final String VOLUNTEER_SEEKS_LENGTH = "totalLength";
+	public final static String ALL_PERMISSIONS = "allPermissions";
 	
 	//状态相关
 	public final static String SYS_MESSAGE = "message";
@@ -103,6 +106,7 @@ public class Constants {
 	
 	public static final int BELOW_ZERO_3 = -3;
 	public static final double ONE_THIRD = 1.0/3;
+	
 	
 	
 }

@@ -48,7 +48,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<result column="miss_province_id" property="missProvinceId" />
 			<result column="miss_city_id" property="missCityId" />
 			<result column="miss_county_id" property="missCountyId" />
-
 		</association>
 
 	</resultMap>
@@ -652,7 +651,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY id ;
 	</select>
 
-	<select id="getVolunteerArea" resultType="VolunteerArea">
+	<select id="listVolunteerArea" resultType="VolunteerArea">
 		SELECT
 		province_id,city_id,county_id FROM volunteer_areas
 		LEFT JOIN

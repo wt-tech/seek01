@@ -84,7 +84,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES
 		<foreach collection="permissionIds" item="permissionId" separator=",">
 			(#{roleId},#{permissionId})
-			
 		</foreach>	
 	</insert>
 	

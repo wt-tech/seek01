@@ -95,10 +95,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</insert>
     
-    <insert id="saveVolunteerAddress" parameterType="Volunteer">
+    <insert id="saveVolunteerAddress">
 		insert into volunteer_areas
 		(volunteer_id,province_id,city_id,county_id)
-		values(#{id},#{volunteerarea.provinceId},#{volunteerarea.cityId},#{volunteerarea.countyId});
+		values
+    	<foreach collection="volunteers" item="volunteer" separator=",">
+		     (#{volunteer.id},#{volunteer.volunteerarea.provinceId},#{volunteer.volunteerarea.cityId},#{volunteer.volunteerarea.countyId})
+		</foreach>
 	</insert>
 	
 	<select id="countVolunteer" resultType="Integer">
@@ -115,7 +118,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE volunteer_id=#{volunteerId}
 	</select>
 	
-	<delete id="deleteVolunteerArea" parameterType="Integer">
-	    delete from volunteer_areas where id=#{id}
+	<delete id="deleteVolunteerArea">
+	    delete from volunteer_areas
+   		<foreach collection="ids" item="id" open="where id in(" close=")" separator=",">
+   		#{id}
+   		</foreach>
 	</delete>
+	
+	<select id="getVolunteerCustomerId" resultType="Integer">
+		SELECT
+		customer_id FROM volunteer
+		LEFT JOIN
+		login_volunteer ON
+		login_volunteer.volunteer_id=volunteer.id
+		WHERE
+		login_id=#{loginId}
+	</select>
 </mapper>

@@ -69,5 +69,5 @@ public interface ISeekService {
      * loginid
      * @return
      */
-	VolunteerArea getVolunteerArea(Integer loginid);
+	List<VolunteerArea> listVolunteerArea(Integer loginid);
 }

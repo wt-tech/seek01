@@ -1,15 +1,18 @@
 package com.wt.seek.controller.index;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,10 +29,13 @@ import com.wt.seek.entity.TopComent;
 import com.wt.seek.entity.VolunteerArea;
 import com.wt.seek.service.index.ISeekService;
 import com.wt.seek.service.index.ITopComentService;
+import com.wt.seek.service.my.IVolunteerService;
 import com.wt.seek.tool.Constants;
 import com.wt.seek.tool.ContextUtil;
 import com.wt.seek.tool.MapUtils;
 import com.wt.seek.tool.PageUtil;
+import com.wt.seek.tool.RBACUtil;
+import com.wt.seek.tool.BackPage;
 import com.wt.seek.tool.SeekSimilarityCalculation;
 
 @RestController("")
@@ -40,6 +46,9 @@ public class SeekCtrl {
 
 	@Autowired
 	private ITopComentService topComentService;
+	
+	@Autowired
+	private IVolunteerService volunteerService;
 
 	private Logger logger = LogManager.getLogger();
 
@@ -65,8 +74,8 @@ public class SeekCtrl {
 
 		// 总数量（表）
 		int totalCount = seekService.countSeek(seekObj, hadBrowsed);
-		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo,Constants.pageSizes);
-		//默认按发表时间降序排序(详情见SeekMapper.xml文件)
+		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo, Constants.pageSizes);
+		// 默认按发表时间降序排序(详情见SeekMapper.xml文件)
 		seekObj.setContactWechat("0");
 		List<Seek> seeks = seekService.listSeek(seekObj, hadBrowsed, currentPageNos, Constants.pageSizes);
 		for (Seek sek : seeks) {
@@ -84,10 +93,13 @@ public class SeekCtrl {
 		map.put("pageSize", Constants.pageSizes);
 		return map;
 	}
-     
+
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/back/listseek")
-	public Map<String, Object> listBackSeek(@RequestBody Object seek, HttpServletRequest request) throws Exception {
+	public Map<String, Object> listBackSeek(@RequestBody Object seek, HttpServletRequest request,HttpSession session) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
+		map.put(Constants.STATUS, Constants.FAIL);
+		int sumtotalCount = 0;
 		JSONObject json = (JSONObject) seek;
 		String hadBrowsed = json.getString("hadBrowsed");
 		json.remove("hadBrowsed");
@@ -95,42 +107,70 @@ public class SeekCtrl {
 		json.remove("currentPageNo");
 
 		Seek seekObj = JSONObject.parseObject(json.toString(), Seek.class);
-
-		Object o = request.getSession().getAttribute(Constants.USER_SESSION);
-		//获取当前用户的所有角色
-		List<Role> allRole = ((Login) o).getRoles();
+        
 		Integer loginId = null;
-		for (Role role : allRole) {
-			//如果该用户的角色为volunteer且只有一个
-			if ("volunteer".equals(role.getRoleName()) && allRole.size() == 1)
-				loginId = ((Login) o).getId();
-		}
-		//如果该用户的id不为空
-		if (loginId != null) {
-			//根据用户的id去查询志愿者的id，再查询志愿者的地址
-			VolunteerArea volunteerarea = seekService.getVolunteerArea(loginId);
-			if (volunteerarea != null) {
-				Address address = new Address();
-				address.setMissProvinceId(volunteerarea.getProvinceId());
-				address.setMissCityId(volunteerarea.getCityId());
-				//如果地址的区县不为空
-				if (volunteerarea.getCountyId() != null) {
-					address.setMissCountyId(volunteerarea.getCountyId());
-				}
-				seekObj.setAddress(address);
+		Object o = request.getSession().getAttribute(Constants.USER_SESSION);
+		List<Seek> list = (List<Seek>) request.getSession().getAttribute(Constants.VOLUNTEER_SEEKS);
+
+		if(null !=o) {
+			// 获取当前用户的所有角色
+			List<Role> allRole = ((Login) o).getRoles();
+			for (Role role : allRole) {
+				// 如果该用户的角色为volunteer且只有一个
+				if ("volunteer".equals(role.getRoleName()) && allRole.size() == 1)
+					loginId = ((Login) o).getId();
 			}
+		}else {
+			return map;
 		}
-		// 总数量（表）
-		int totalCount = seekService.countSeek(seekObj, hadBrowsed);
-		Integer currentPageNos = new PageUtil().Page(totalCount, currentPageNo,Constants.pageSizes);
-		List<Seek> seeks = seekService.listSeek(seekObj, hadBrowsed, currentPageNos, Constants.pageSizes);
+		// 如果该用户的id不为空
+		if (loginId != null) {
+			
+			if( null == list) {//志愿者首次查询，从数据库中取数据
+				// 根据用户的id去查询志愿者的id，再查询志愿者的地址
+				List<VolunteerArea> volunteerarea = seekService.listVolunteerArea(loginId);
+				if (null != volunteerarea && volunteerarea.size() > 0) {
+					List<List<Seek>> listSeek = new ArrayList<List<Seek>>();
+					for (int i = 0; i < volunteerarea.size(); i++) {
+						Address address = new Address();
+						address.setMissProvinceId(volunteerarea.get(i).getProvinceId());
+						address.setMissCityId(volunteerarea.get(i).getCityId());
+						// 如果地址的区县不为空
+						if (volunteerarea.get(i).getCountyId() != null) {
+							address.setMissCountyId(volunteerarea.get(i).getCountyId());
+						}
+						seekObj.setAddress(address);
+						// 总数量（表）
+						int totalCount = seekService.countSeek(seekObj, hadBrowsed);
+						List<Seek> seeks = seekService.listSeek(seekObj, hadBrowsed, 1, totalCount);
+						sumtotalCount +=totalCount;
+						listSeek.add(seeks);
+					}
+					Integer currentPageNos = new PageUtil().Page(sumtotalCount, currentPageNo, Constants.pageSizes);
+					list = BackPage.MergeSeek(listSeek);
+					session.setAttribute(Constants.VOLUNTEER_SEEKS_LENGTH,sumtotalCount);
+					session.setAttribute(Constants.VOLUNTEER_SEEKS,list);
+					map = BackPage.page(list, currentPageNos, sumtotalCount, Constants.pageSizes);
+				}
+			}else {//志愿者查询下一页，从session中取
+				sumtotalCount =  (Integer) session.getAttribute(Constants.VOLUNTEER_SEEKS_LENGTH);
+				Integer currentPageNos = new PageUtil().Page(sumtotalCount, currentPageNo, Constants.pageSizes);
+				map = BackPage.page(list, currentPageNos, sumtotalCount, Constants.pageSizes);
+			}
+			
+		} else {//管理员查询，直接从数据库查
+			// 总数量（表）
+			sumtotalCount = seekService.countSeek(seekObj, hadBrowsed);
+			Integer currentPageNos = new PageUtil().Page(sumtotalCount, currentPageNo, Constants.pageSizes);
+			List<Seek> seeks = seekService.listSeek(seekObj, hadBrowsed, currentPageNos, Constants.pageSizes);
+			map.put("seeks", seeks);
+		}
 		map.put(Constants.STATUS, Constants.SUCCESS);
-		map.put("seeks", seeks);
-		map.put("totalCount", totalCount);
+		map.put("totalCount", sumtotalCount);
 		map.put("pageSize", Constants.pageSizes);
 		return map;
 	}
-	
+
 	/**
 	 * 插入寻亲记录
 	 * 
@@ -138,7 +178,7 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/saveseek")
+	@RequestMapping(value = {"/saveseek", "/back/saveseek"},method=RequestMethod.POST)
 	public Map<String, Object> saveSeek(@RequestBody Seek seek) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		map.put(Constants.STATUS, Constants.FAIL);
@@ -167,7 +207,7 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/saveseekImg")
+	@RequestMapping(value = {"/saveseekImg", "/back/saveseekImg"},method=RequestMethod.POST)
 	public Map<String, Object> saveSeekImg(HttpServletRequest request, @RequestParam("seekId") Integer seekId,
 			@RequestParam(value = "seekImg", required = false) MultipartFile file) throws Exception {
 		Map<String, Object> resultMap = MapUtils.getHashMapInstance();
@@ -210,7 +250,7 @@ public class SeekCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = {"/getseek", "/back/getseeks"})
+	@RequestMapping(value = { "/getseek", "/back/getseeks" })
 	public Map<String, Object> getSeek(Seek seek, @RequestParam("currentPageNo") Integer currentPageNo)
 			throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
@@ -304,20 +344,40 @@ public class SeekCtrl {
 		map.put(Constants.STATUS, Constants.SUCCESS);
 		return map;
 	}
-
-	@RequestMapping("/back/city")
+    
+	@RequestMapping(value = "/back/province", method = RequestMethod.GET)
+	public Map<String, Object> listProvince(HttpServletRequest request) throws Exception {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		Integer loginId=null;
+		Object o = request.getSession().getAttribute(Constants.USER_SESSION);
+		if(null !=o) {
+			loginId= ((Login) o).getId();
+		}
+		// 如果该用户的id不为空
+		if (loginId != null) {
+			map.put("volunteercustomerId", volunteerService.getVolunteerCustomerId(loginId));
+		}
+		List<Province> listprovince = seekService.listProvince();
+		map.put(Constants.STATUS, Constants.SUCCESS);
+		map.put("listprovince", listprovince);
+		return map;
+	}
+	
+	@RequestMapping(value = "/back/city", method = RequestMethod.GET)
 	public Map<String, Object> listCityByProvinceID(@RequestParam("id") int id) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		List<City> citylist = seekService.listCity(id);
 		map.put("citylist", citylist);
+		map.put(Constants.STATUS, Constants.SUCCESS);
 		return map;
 	}
 
-	@RequestMapping("/back/county")
+	@RequestMapping(value = "/back/county", method = RequestMethod.GET)
 	public Map<String, Object> listCountyByCityID(@RequestParam("id") int id) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		List<County> countylist = seekService.listCounty(id);
 		map.put("countylist", countylist);
+		map.put(Constants.STATUS, Constants.SUCCESS);
 		return map;
 	}
 }

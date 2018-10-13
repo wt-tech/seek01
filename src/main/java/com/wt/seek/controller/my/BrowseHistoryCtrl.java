@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,7 +67,7 @@ public class BrowseHistoryCtrl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/deletebrowsehistory")
+	@RequestMapping(value = "/deletebrowsehistory", method = RequestMethod.GET)
 	public Map<String, Object> deleteBrowseHistory(@RequestParam("id") Integer id) throws Exception {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		boolean flag = browsehistoryService.deleteBrowseHistory(id);

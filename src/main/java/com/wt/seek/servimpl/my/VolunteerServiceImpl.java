@@ -1,5 +1,6 @@
 package com.wt.seek.servimpl.my;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +33,9 @@ public class VolunteerServiceImpl implements IVolunteerService {
 		// 保存除了图片之外的其它信息
 		volunteerMapper.saveVolunteer(volunteer);
 		if (volunteer.getId() > 0) {
-			int num = volunteerMapper.saveVolunteerAddress(volunteer);
+			List<Volunteer> volunteers=new ArrayList<Volunteer>();
+			volunteers.add(volunteer);
+			int num = volunteerMapper.saveVolunteerAddress(volunteers);
 			if (num > 0) {
 				return volunteer.getId();
 			}
@@ -46,6 +49,7 @@ public class VolunteerServiceImpl implements IVolunteerService {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		Volunteer volunteer = new Volunteer();
+		List<Volunteer> volunteers=new ArrayList<Volunteer>();
 		VolunteerArea volunteerarea = new VolunteerArea();
 		if (null != provinceId && provinceId.length > 0 && null != cityId && cityId.length > 0 && null != countyId
 				&& countyId.length > 0) {
@@ -61,10 +65,9 @@ public class VolunteerServiceImpl implements IVolunteerService {
 					volunteerarea.setCountyId(countyId[i]);
 				}
 				volunteer.setVolunteerarea(volunteerarea);
-				flag = volunteerMapper.saveVolunteerAddress(volunteer) > 0;
-				if (!flag)
-					break;
+				volunteers.add(volunteer);
 			}
+			flag = volunteerMapper.saveVolunteerAddress(volunteers) > 0;
 		}
 		return flag;
 	}
@@ -137,15 +140,13 @@ public class VolunteerServiceImpl implements IVolunteerService {
 	@Override
 	public boolean deleteVolunteerArea(Integer[] id) throws Exception {
 		// TODO Auto-generated method stub
-		boolean flag = false;
-		if (null != id && id.length > 0) {
-			for (int i = 0; i < id.length; i++) {
-				flag = volunteerMapper.deleteVolunteerArea(id[i]) > 0;
-				if (!flag)
-					break;
-			}
-		}
-		return flag;
+		return volunteerMapper.deleteVolunteerArea(id) > 0;
+	}
+
+	@Override
+	public Integer getVolunteerCustomerId(Integer loginId) throws Exception {
+		// TODO Auto-generated method stub
+		return volunteerMapper.getVolunteerCustomerId(loginId);
 	}
 
 }

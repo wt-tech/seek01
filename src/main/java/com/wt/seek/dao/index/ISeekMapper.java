@@ -126,5 +126,5 @@ public interface ISeekMapper {
      * @param loginid
      * @return
      */
-	VolunteerArea getVolunteerArea(@Param("loginid") Integer loginid);
+	List<VolunteerArea> listVolunteerArea(@Param("loginid") Integer loginid);
 }

@@ -1,5 +1,7 @@
 package com.wt.seek.controller.back;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,14 +12,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wt.seek.entity.Permission;
 import com.wt.seek.service.back.IRBACService;
+import com.wt.seek.tool.BackPage;
 import com.wt.seek.tool.Constants;
 import com.wt.seek.tool.ContextUtil;
 import com.wt.seek.tool.MapUtils;
+import com.wt.seek.tool.PageUtil;
 
 /**
  * 后台所有的角色,权限管理都在这里
@@ -40,11 +45,20 @@ public class RBACtrl {
 	}
 	
 	//===========================查询后台所有的URI====================================
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="back/uri/permissions",method=RequestMethod.GET)
-	public Map<String, Object> listBackendAllPermissionsURI(HttpServletRequest request) {
-		Map<String, Object> map = MapUtils.getHashMapInstance();
+	public Map<String, Object> listBackendAllPermissionsURI(HttpSession session,
+			HttpServletRequest request,@RequestParam("currentPageNo") Integer currentPageNo) throws Exception {
+		Map<String, Object> map = null;
+		List<Object> allPermissionList = (List<Object>) session.getAttribute(Constants.ALL_PERMISSIONS);
+		if(null == allPermissionList) {
+			allPermissionList = new ArrayList<Object>(ContextUtil.getAllPermission(rbacServiceImpl.listAllPermissions(), request));
+			session.setAttribute(Constants.ALL_PERMISSIONS, allPermissionList);
+		}
+		Integer currentPageNos = new PageUtil().Page(allPermissionList.size(), currentPageNo, Constants.pageSizes);
+		map = BackPage.commonPage(allPermissionList, currentPageNos, allPermissionList.size(), Constants.pageSizes,"permissions");
 		map.put(Constants.STATUS, Constants.SUCCESS);
-		map.put("permissions",ContextUtil.getAllPermission(rbacServiceImpl.listAllPermissions(), request));
+		map.put("allPermissionLength", allPermissionList.size());
 		return map;
 	}
 	//=======================获取当前用户可见的菜单项=========================

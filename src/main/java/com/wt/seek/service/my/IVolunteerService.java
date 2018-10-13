@@ -72,4 +72,6 @@ public interface IVolunteerService {
 	List<VolunteerArea> listVolunteerAreaById(Integer volunteerId);
 	
 	boolean deleteVolunteerArea(Integer[] id) throws Exception;
+	
+	Integer getVolunteerCustomerId(Integer loginId) throws Exception;
 }

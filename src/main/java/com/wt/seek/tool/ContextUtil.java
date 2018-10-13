@@ -80,8 +80,8 @@ public class ContextUtil {
 	 * @param request
 	 * @return
 	 */
-	public static Set<Permission> getAllPermission(List<Permission> addedPermissions,HttpServletRequest request){
-		Set<Permission> totalPermissions = new HashSet<Permission>();
+	public static Set<Object> getAllPermission(List<Permission> addedPermissions,HttpServletRequest request){
+		Set<Object> totalPermissions = new HashSet<Object>();
 		WebApplicationContext webCtx = (WebApplicationContext) request.getAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		RequestMappingHandlerMapping handlerMapping = webCtx.getBean(RequestMappingHandlerMapping.class);
 		Map<RequestMappingInfo, HandlerMethod> handlerMethods = handlerMapping.getHandlerMethods();
@@ -94,7 +94,7 @@ public class ContextUtil {
             	}
             }
 		}
-		Set<Permission> addedSet = new HashSet<Permission>(addedPermissions);
+		Set<Object> addedSet = new HashSet<Object>(addedPermissions);
 		addedSet.addAll(totalPermissions);
 		return addedSet;
 	}

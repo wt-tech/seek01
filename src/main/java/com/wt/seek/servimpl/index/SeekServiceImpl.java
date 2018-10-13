@@ -139,9 +139,9 @@ public class SeekServiceImpl implements ISeekService {
 	}
 
 	@Override
-	public VolunteerArea getVolunteerArea(Integer loginid) {
+	public List<VolunteerArea> listVolunteerArea(Integer loginid) {
 		// TODO Auto-generated method stub
-		return seekMapper.getVolunteerArea(loginid);
+		return seekMapper.listVolunteerArea(loginid);
 	}
 
 }
