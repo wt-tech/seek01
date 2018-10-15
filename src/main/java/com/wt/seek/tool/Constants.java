@@ -26,7 +26,7 @@ public class Constants {
 	public final static String EXCEPTION_DESCRIPTION = "未知错误";
 	public final static String BUSINESS_DESCRIPTION = "业务逻辑错误";
 	public final static String ARGUMENT_ILLEGAL = "参数不合法";
-	
+	public final static String DEFAULT_ERROR_INFO = "服务器错误,请联系后台管理员";
 	//权限相关
 	public final static String PERMISSIONS_TO_ADD = "等待添加至权限表";
 	public final static String VOLUNTEER_APPROVED = "审核通过";
