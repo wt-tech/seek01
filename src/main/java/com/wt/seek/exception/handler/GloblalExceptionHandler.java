@@ -42,7 +42,8 @@ public class GloblalExceptionHandler {
 	Map<String,Object> DataAccessExceptionHandler(DataAccessException e){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		this.commonInfoAssemble(map, e);
-		map.put(Constants.ERRORS, e.getMessage());
+//		map.put(Constants.ERRORS, e.getMessage());
+		map.put(Constants.ERRORS,Constants.DEFAULT_ERROR_INFO);
 		map.put(Constants.TIPS, Constants.DATA_ACCESS_DESCRIPTION);
 		logger.error(Constants.DATA_ACCESS_DESCRIPTION + ":" +e.getMessage());
 		return map;
@@ -58,7 +59,7 @@ public class GloblalExceptionHandler {
 	Map<String,Object> defaultHandler(Exception e) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		this.commonInfoAssemble(map, e);
-		map.put(Constants.ERRORS, e.getMessage());
+		map.put(Constants.ERRORS, Constants.DEFAULT_ERROR_INFO);
 		map.put(Constants.TIPS, Constants.EXCEPTION_DESCRIPTION);
 		logger.error(Constants.EXCEPTION_DESCRIPTION + ":" +e.getMessage());
 		return map;
