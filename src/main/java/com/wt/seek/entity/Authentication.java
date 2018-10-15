@@ -7,6 +7,9 @@ public class Authentication {
 	private String identityNO;// 身份证号
 	private String negativeIdentityUrl;// 反面照
 	private String positiveIdentityUrl;// 正面照
+	private Integer provinceId;
+	private Integer cityId;
+	private Integer countyId;
 	private String address;// 住址
 	private String tel;// 手机号
 	private String authResult;// 认证结果
@@ -57,6 +60,30 @@ public class Authentication {
 
 	public void setPositiveIdentityUrl(String positiveIdentityUrl) {
 		this.positiveIdentityUrl = positiveIdentityUrl;
+	}
+
+	public Integer getProvinceId() {
+		return provinceId;
+	}
+
+	public void setProvinceId(Integer provinceId) {
+		this.provinceId = provinceId;
+	}
+
+	public Integer getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(Integer cityId) {
+		this.cityId = cityId;
+	}
+
+	public Integer getCountyId() {
+		return countyId;
+	}
+
+	public void setCountyId(Integer countyId) {
+		this.countyId = countyId;
 	}
 
 	public String getAddress() {

@@ -80,8 +80,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="saveAuthentication" useGeneratedKeys="true"
 		keyProperty="id" parameterType="Authentication">
 		insert into authentication
-		(customer_id,customer_name,identityNO,address,tel,auth_result)
-		values(#{customer.id},#{customerName},#{identityNO},#{address},#{tel},"等待认证");
+		(customer_id,customer_name,identityNO,province_id,city_id,county_id,address,tel,auth_result)
+		values(#{customer.id},#{customerName},#{identityNO},#{provinceId},#{cityId},#{countyId},#{address},#{tel},"等待认证");
 
 	</insert>
 
